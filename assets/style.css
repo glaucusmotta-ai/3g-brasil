@@ -126,3 +126,17 @@ footer .container{
   margin:0;
   padding:0;
 }
+/* ==== Hard cap do logo em todas as páginas ==== */
+header .site-logo{
+  height: 72px !important;     /* ajuste fino (64–100px) */
+  max-height: 72px !important;
+  width: auto;
+  margin: 8px auto !important; /* pouco respiro */
+  object-fit: contain;
+}
+
+/* Garante cabeçalho baixo */
+header{
+  padding: 0 !important;
+}
+
