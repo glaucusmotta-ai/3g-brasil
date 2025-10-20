@@ -1,4 +1,4 @@
-:root {
+:root{
   --bg:#0b132b;
   --fg:#e8eaed;
   --muted:#9aa0a6;
@@ -13,23 +13,36 @@ html,body{
   background:#fff; color:#111;
 }
 
-/* ===== Cabeçalho + navegação (logo acima do menu, tudo centralizado) ===== */
+/* ===== CABEÇALHO (tarja preta enxuta) ===== */
 header{
   background:var(--bg);
   color:var(--fg);
-  padding:8px 16px 16px;     /* leve respiro embaixo do logo */
+  padding:8px 16px;               /* tarja baixa */
   display:flex;
-  flex-direction:column;      /* empilha logo acima do menu */
-  align-items:center;         /* centraliza tudo */
+  flex-direction:column;
+  align-items:center;
 }
 
 header .container{
   max-width:980px;
   width:100%;
   margin:0 auto;
-  padding:0;                  /* sem padding adicional no header */
+  padding:0;                      /* sem padding extra no header */
 }
 
+/* Logo centralizado e com altura controlada */
+.site-logo{
+  display:block;
+  height:72px;                    /* ajuste fino: 72–100px se quiser maior */
+  width:auto;
+  margin:6px auto;                /* sem grandes espaços */
+  object-fit:contain;
+}
+@media (max-width:640px){
+  .site-logo{ height:60px; }
+}
+
+/* Navegação centralizada */
 nav{
   display:flex;
   gap:16px;
@@ -63,10 +76,12 @@ nav a:hover{ text-decoration:underline; }
 
 section h2{ margin-top:32px; }
 .card{ border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin:12px 0; }
+
 ul{ padding-left:18px; }
 small.muted{ color:#666; }
 kbd{ background:#f3f4f6; border:1px solid #e5e7eb; border-radius:6px; padding:1px 6px; }
 code{ background:#f6f8fa; border:1px solid #e5e7eb; border-radius:6px; padding:2px 6px; }
+
 table{ width:100%; border-collapse:collapse; }
 th,td{ border:1px solid #e5e7eb; padding:8px; text-align:left; }
 
@@ -81,6 +96,7 @@ th,td{ border:1px solid #e5e7eb; padding:8px; text-align:left; }
   margin-left:8px;
 }
 
+/* (se ainda existir algum aviso) */
 .notice{
   background:#fffbea;
   border:1px solid #fde68a;
@@ -90,42 +106,28 @@ th,td{ border:1px solid #e5e7eb; padding:8px; text-align:left; }
   color:#92400e;
 }
 
-/* ===== Logo no topo (centralizado) ===== */
-.site-logo{
-  display:block;
-  margin:12px auto;   /* centraliza horizontalmente */
-  height:160px;       /* ajuste aqui se quiser maior/menor (ex.: 180px) */
-  width:auto;
-  max-width:90%;
-  object-fit:contain;
-}
-
-@media (max-width: 640px){
-  .site-logo{ height:120px; }
-}
-
-/* ===== Rodapé ===== */
+/* ===== RODAPÉ ===== */
 footer{
   border-top:1px solid #e5e7eb;
   padding:16px;
   color:#555;
 }
 
-/* Alinha todo o conteúdo do footer à direita */
+/* Alinha ambos (CNPJ e copyright) à direita, um embaixo do outro */
 footer .container{
-  max-width:980px;
-  margin:0 auto;
-  padding:0 16px;
-  text-align:right;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;      /* borda direita */
+  gap:4px;                   /* espaço entre as linhas */
 }
 
-/* Duas linhas idênticas: uma embaixo da outra, mesma fonte/tamanho */
-footer .footer-legal,
-footer .footer-copy{
-  display:block;
-  font-size:10px;     /* MESMO tamanho nas duas */
-  line-height:1.2;
-  color:#98a2b3;      /* MESMA cor nas duas */
+/* Mesma tipografia para as duas linhas */
+.footer-legal,      /* CNPJ */
+.footer-copy{       /* © 2025 3G Brasil — 3g-brasil.com */
+  font-size:12px;
+  line-height:1.4;
+  color:#667085;
+  text-align:right;
   margin:0;
+  padding:0;
 }
-footer .footer-copy{ margin-top:4px; }
