@@ -20,3 +20,19 @@ table{width:100%;border-collapse:collapse}
 th,td{border:1px solid #e5e7eb;padding:8px;text-align:left}
 .badge{display:inline-block;background:#eef2ff;color:#3730a3;font-weight:600;border-radius:999px;padding:4px 10px;font-size:12px;margin-left:8px}
 .notice{background:#fffbea;border:1px solid #fde68a;border-radius:10px;padding:12px;margin:16px 0;color:#92400e}
+/* ==== Logo no topo ==== */
+.site-logo {
+  display: block;
+  margin: 24px auto 12px auto; /* centralizado */
+  max-height: 72px;            /* ajuste se quiser maior/menor */
+  width: auto;
+}
+
+/* ==== Texto legal do rodapé (bem miúdo) ==== */
+.footer-legal {
+  font-size: 10px;    /* bem pequeno */
+  line-height: 1.2;
+  color: #98a2b3;     /* cinza suave */
+  text-align: center;
+  margin-top: 16px;
+}
