@@ -13,48 +13,53 @@ html,body{
   background:#fff; color:#111;
 }
 
-/* ===== CABEÇALHO (tarja preta enxuta) ===== */
+/* ===== CABEÇALHO ===== */
+/* Deixa o header sem fundo e sem “altura” extra */
 header{
-  background:var(--bg);
+  background:transparent;          /* <<< sem tarja preta no header */
   color:var(--fg);
-  padding:8px 16px;               /* tarja baixa */
+  padding:0;                       /* remove preenchimento que aumentava a tarja */
   display:flex;
   flex-direction:column;
   align-items:center;
 }
 
+/* Container do header sem padding extra */
 header .container{
   max-width:980px;
   width:100%;
   margin:0 auto;
-  padding:0;                      /* sem padding extra no header */
+  padding:0;
 }
 
-/* Logo centralizado e com altura controlada */
+/* Logo centralizado; altura controlada */
 .site-logo{
   display:block;
-  height:72px;                    /* ajuste fino: 72–100px se quiser maior */
+  height:72px;                     /* ajuste fino: 64–100px conforme quiser */
   width:auto;
-  margin:6px auto;                /* sem grandes espaços */
+  margin:12px auto;                /* espaço pequeno acima/abaixo */
   object-fit:contain;
 }
 @media (max-width:640px){
   .site-logo{ height:60px; }
 }
 
-/* Navegação centralizada */
-nav{
+/* ===== TARJA PRETA APENAS NO MENU ===== */
+header nav{
+  background:var(--bg);            /* <<< a tarja preta agora fica só no nav */
+  padding:8px 16px;                /* altura baixinha */
   display:flex;
   gap:16px;
   justify-content:center;
   flex-wrap:wrap;
+  width:100%;
 }
-nav a{
+header nav a{
   color:var(--fg);
   text-decoration:none;
   font-weight:600;
 }
-nav a:hover{ text-decoration:underline; }
+header nav a:hover{ text-decoration:underline; }
 
 /* ===== Layout geral ===== */
 .container{ max-width:980px; margin:0 auto; padding:24px 16px; }
@@ -96,16 +101,6 @@ th,td{ border:1px solid #e5e7eb; padding:8px; text-align:left; }
   margin-left:8px;
 }
 
-/* (se ainda existir algum aviso) */
-.notice{
-  background:#fffbea;
-  border:1px solid #fde68a;
-  border-radius:10px;
-  padding:12px;
-  margin:16px 0;
-  color:#92400e;
-}
-
 /* ===== RODAPÉ ===== */
 footer{
   border-top:1px solid #e5e7eb;
@@ -113,12 +108,12 @@ footer{
   color:#555;
 }
 
-/* Alinha ambos (CNPJ e copyright) à direita, um embaixo do outro */
+/* Alinha CNPJ e copyright à direita, um abaixo do outro */
 footer .container{
   display:flex;
   flex-direction:column;
   align-items:flex-end;      /* borda direita */
-  gap:4px;                   /* espaço entre as linhas */
+  gap:4px;
 }
 
 /* Mesma tipografia para as duas linhas */
