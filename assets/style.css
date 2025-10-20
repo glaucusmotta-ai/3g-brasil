@@ -89,3 +89,18 @@ th,td{border:1px solid #e5e7eb;padding:8px;text-align:left}
   text-align:center;
   margin-top:16px;
 }
+/* Alinha TUDO do bloco do footer pela mesma borda direita */
+footer .container{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;   /* encosta na direita */
+}
+
+/* Garante que as duas linhas (copyright e CNPJ) sigam o mesmo alinhamento */
+footer .footer-copy,
+footer .footer-legal{
+  display: block;
+  text-align: right;
+  width: 100%;            /* usa a mesma largura do container */
+}
+
