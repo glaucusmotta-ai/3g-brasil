@@ -1,57 +1,179 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>3G Brasil — Soluções de Conectividade</title>
-  <meta name="description" content="3G Brasil: conectividade e soluções digitais.">
-  <link rel="stylesheet" href="/assets/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3G Brasil — Conectividade e soluções digitais</title>
+
+  <!-- Estilos (pode mover para /assets/style.css se preferir) -->
+  <style>
+  :root{
+    --bg:#0b132b;
+    --fg:#e8eaed;
+    --muted:#9aa0a6;
+    --accent:#4fd1c5;
+  }
+
+  /* ===== Reset básico ===== */
+  *{ box-sizing:border-box; }
+  html,body{
+    margin:0; padding:0;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
+    background:#fff; color:#111;
+  }
+
+  /* ===== CABEÇALHO ===== */
+  /* Deixa o header sem fundo e sem “altura” extra */
+  header{
+    background:transparent;          /* sem tarja preta no header */
+    color:var(--fg);
+    padding:0;                       /* remove preenchimento que aumentava a tarja */
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  /* Container do header sem padding extra */
+  header .container{
+    max-width:980px;
+    width:100%;
+    margin:0 auto;
+    padding:0;
+  }
+
+  /* Logo centralizado; altura controlada */
+  .site-logo{
+    display:block;
+    height:72px;                     /* ajuste fino: 64–100px conforme quiser */
+    width:auto;
+    margin:12px auto;                /* espaço pequeno acima/abaixo */
+    object-fit:contain;
+  }
+  @media (max-width:640px){
+    .site-logo{ height:60px; }
+  }
+
+  /* ===== TARJA PRETA APENAS NO MENU ===== */
+  header nav{
+    background:var(--bg);            /* a tarja preta agora fica só no nav */
+    padding:8px 16px;                /* altura baixinha */
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    flex-wrap:wrap;
+    width:100%;
+  }
+  header nav a{
+    color:var(--fg);
+    text-decoration:none;
+    font-weight:600;
+  }
+  header nav a:hover{ text-decoration:underline; }
+
+  /* ===== Layout geral ===== */
+  .container{ max-width:980px; margin:0 auto; padding:24px 16px; }
+
+  .hero{ padding:32px 0; }
+  .hero h1{ margin:0 0 8px 0; font-size:32px; }
+  .hero p{ margin:0; color:#444; }
+
+  .cta{
+    margin-top:16px;
+    display:inline-block;
+    padding:10px 16px;
+    border:1px solid var(--bg);
+    border-radius:8px;
+    text-decoration:none;
+    color:var(--bg);
+    font-weight:600;
+  }
+
+  section h2{ margin-top:32px; }
+  .card{ border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin:12px 0; }
+
+  ul{ padding-left:18px; }
+  small.muted{ color:#666; }
+  kbd{ background:#f3f4f6; border:1px solid #e5e7eb; border-radius:6px; padding:1px 6px; }
+  code{ background:#f6f8fa; border:1px solid #e5e7eb; border-radius:6px; padding:2px 6px; }
+
+  table{ width:100%; border-collapse:collapse; }
+  th,td{ border:1px solid #e5e7eb; padding:8px; text-align:left; }
+
+  /* ===== RODAPÉ ===== */
+  footer{
+    border-top:1px solid #e5e7eb;
+    padding:16px;
+    color:#555;
+  }
+
+  /* Alinha CNPJ e copyright à direita, um abaixo do outro */
+  footer .container{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;      /* borda direita */
+    gap:4px;
+  }
+
+  /* Mesma tipografia para as duas linhas */
+  .footer-legal,      /* CNPJ */
+  .footer-copy{       /* © 2025 3G Brasil — 3g-brasil.com */
+    font-size:12px;
+    line-height:1.4;
+    color:#667085;
+    text-align:right;
+    margin:0;
+    padding:0;
+  }
+  </style>
 </head>
 <body>
-<header>
-  <img src="/assets/logo.png" alt="3G Brasil" class="site-logo">
-  <div class="container">
-    <nav>
-      <a href="/">3G Brasil</a>
-      <a href="/privacy.html">Política de Privacidade</a>
-      <a href="/terms.html">Termos de Uso</a>
-      <a href="/contact.html">Contato</a>
-    </nav>
-  </div>
-</header>
 
-<div class="container">
-  <div class="hero">
-    <h1>3G Brasil</h1>
-    <p>Conectividade e soluções digitais para empresas.</p>
-    <!-- Removido o botão “Fale conosco” -->
-  </div>
+  <header>
+    <!-- Logo -->
+    <img src="/assets/logo.png" alt="3G Brasil" class="site-logo" />
 
-  <section>
-    <h2>Quem somos</h2>
-    <div class="card">
-      
+    <!-- Navegação (tarja preta apenas aqui) -->
+    <div class="container">
+      <nav>
+        <a href="/">3G Brasil</a>
+        <a href="/privacy.html">Política de Privacidade</a>
+        <a href="/terms.html">Termos de Uso</a>
+        <a href="/contact.html">Contato</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <section>
-    <h2>Transparência</h2>
-    <ul>
-      <li>Política de Privacidade atualizada e acessível.</li>
-      <li>Termos de Uso claros e objetivos.</li>
-      <li>Dados de contato visíveis.</li>
-    </ul>
-  </section>
+  <main class="container">
+    <section class="hero">
+      <h1>3G Brasil</h1>
+      <p>Conectividade e soluções digitais para empresas.</p>
+      <!-- CTA removido da hero conforme solicitado -->
+      <!-- <a class="cta" href="/contact.html">Fale conosco</a> -->
+    </section>
 
-  <section class="notice">
-    <strong>Aviso:</strong> Este site segue as normas da legislação.
-  </section>
-</div>
-<footer>
-  <div class="container">
-   <small class="footer-legal">CNPJ: 30.589.513/0001-40 // 3G Brasil</small>
-   
-  </div>
-</footer>
+    <section>
+      <h2>Quem somos</h2>
+      <!-- Espaço reservado/placeholder (se quiser colocar um texto aqui depois) -->
+      <div class="card" aria-hidden="true"></div>
+    </section>
+
+    <section>
+      <h2>Transparência</h2>
+      <ul>
+        <li>Política de Privacidade atualizada e acessível.</li>
+        <li>Termos de Uso claros e objetivos.</li>
+        <li>Dados de contato visíveis.</li>
+      </ul>
+      <!-- Aviso grande foi removido conforme combinado -->
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="footer-legal">CNPJ: 30.589.513/0001-40</p>
+      <p class="footer-copy">© 2025 3G Brasil — 3g-brasil.com</p>
+    </div>
+  </footer>
+
 </body>
 </html>
