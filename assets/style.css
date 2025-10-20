@@ -1,106 +1,131 @@
-:root { --bg:#0b132b; --fg:#e8eaed; --muted:#9aa0a6; --accent:#4fd1c5; }
+:root {
+  --bg:#0b132b;
+  --fg:#e8eaed;
+  --muted:#9aa0a6;
+  --accent:#4fd1c5;
+}
 
-*{box-sizing:border-box}
+/* ===== Reset básico ===== */
+*{ box-sizing:border-box; }
 html,body{
   margin:0; padding:0;
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
-  background:#fff; color:#111
+  background:#fff; color:#111;
 }
 
-/* ===== Cabeçalho + navegação (logo centrado acima do menu) ===== */
+/* ===== Cabeçalho + navegação (logo acima do menu, tudo centralizado) ===== */
 header{
   background:var(--bg);
   color:var(--fg);
-  /* menos preenchimento lateral e um pequeno respiro abaixo do logo */
-  padding: 8px 16px 16px;
-  /* empilha logo acima do menu e centraliza tudo */
+  padding:8px 16px 16px;     /* leve respiro embaixo do logo */
   display:flex;
-  flex-direction:column;
-  align-items:center;
+  flex-direction:column;      /* empilha logo acima do menu */
+  align-items:center;         /* centraliza tudo */
 }
 
-/* o container dentro do header não precisa de padding extra */
 header .container{
   max-width:980px;
   width:100%;
   margin:0 auto;
-  padding:0;
+  padding:0;                  /* sem padding adicional no header */
 }
 
-/* navegação centralizada e com espaço uniforme */
 nav{
   display:flex;
   gap:16px;
   justify-content:center;
   flex-wrap:wrap;
 }
-
 nav a{
   color:var(--fg);
   text-decoration:none;
   font-weight:600;
 }
-nav a:hover{text-decoration:underline}
+nav a:hover{ text-decoration:underline; }
 
 /* ===== Layout geral ===== */
-.container{max-width:980px;margin:0 auto;padding:24px 16px}
-.hero{padding:32px 0}
-.hero h1{margin:0 0 8px 0;font-size:32px}
-.hero p{margin:0;color:#444}
-.cta{
-  margin-top:16px;display:inline-block;padding:10px 16px;
-  border:1px solid var(--bg);border-radius:8px;text-decoration:none;
-  color:var(--bg);font-weight:600
-}
-section h2{margin-top:32px}
-.card{border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin:12px 0}
-footer{border-top:1px solid #e5e7eb;padding:16px;color:#555}
-ul{padding-left:18px}
-small.muted{color:#666}
-kbd{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;padding:1px 6px}
-code{background:#f6f8fa;border:1px solid #e5e7eb;border-radius:6px;padding:2px 6px}
-table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #e5e7eb;padding:8px;text-align:left}
-.badge{
-  display:inline-block;background:#eef2ff;color:#3730a3;font-weight:600;
-  border-radius:999px;padding:4px 10px;font-size:12px;margin-left:8px
-}
-.notice{background:#fffbea;border:1px solid #fde68a;border-radius:10px;padding:12px;margin:16px 0;color:#92400e}
+.container{ max-width:980px; margin:0 auto; padding:24px 16px; }
 
-/* ===== Logo no topo (centralizado e GRANDE) ===== */
+.hero{ padding:32px 0; }
+.hero h1{ margin:0 0 8px 0; font-size:32px; }
+.hero p{ margin:0; color:#444; }
+
+.cta{
+  margin-top:16px;
+  display:inline-block;
+  padding:10px 16px;
+  border:1px solid var(--bg);
+  border-radius:8px;
+  text-decoration:none;
+  color:var(--bg);
+  font-weight:600;
+}
+
+section h2{ margin-top:32px; }
+.card{ border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin:12px 0; }
+ul{ padding-left:18px; }
+small.muted{ color:#666; }
+kbd{ background:#f3f4f6; border:1px solid #e5e7eb; border-radius:6px; padding:1px 6px; }
+code{ background:#f6f8fa; border:1px solid #e5e7eb; border-radius:6px; padding:2px 6px; }
+table{ width:100%; border-collapse:collapse; }
+th,td{ border:1px solid #e5e7eb; padding:8px; text-align:left; }
+
+.badge{
+  display:inline-block;
+  background:#eef2ff;
+  color:#3730a3;
+  font-weight:600;
+  border-radius:999px;
+  padding:4px 10px;
+  font-size:12px;
+  margin-left:8px;
+}
+
+.notice{
+  background:#fffbea;
+  border:1px solid #fde68a;
+  border-radius:10px;
+  padding:12px;
+  margin:16px 0;
+  color:#92400e;
+}
+
+/* ===== Logo no topo (centralizado) ===== */
 .site-logo{
   display:block;
-  height:1800px;         /* <<< ajuste aqui: 160–220px conforme desejar */
+  margin:12px auto;   /* centraliza horizontalmente */
+  height:160px;       /* ajuste aqui se quiser maior/menor (ex.: 180px) */
   width:auto;
-  margin:120px auto 80px; /* centralizado */
+  max-width:90%;
   object-fit:contain;
 }
 
-/* responsivo: reduz um pouco em telas menores */
 @media (max-width: 640px){
-  .site-logo{ height:140px; }
+  .site-logo{ height:120px; }
 }
 
-/* ===== Texto legal do rodapé (bem miúdo) ===== */
-.footer-legal{
-  font-size:10px;
-  line-height:1.2;
-  color:#98a2b3;
-  text-align:center;
-  margin-top:16px;
+/* ===== Rodapé ===== */
+footer{
+  border-top:1px solid #e5e7eb;
+  padding:16px;
+  color:#555;
 }
-/* Alinha TUDO do bloco do footer pela mesma borda direita */
+
+/* Alinha todo o conteúdo do footer à direita */
 footer .container{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;   /* encosta na direita */
+  max-width:980px;
+  margin:0 auto;
+  padding:0 16px;
+  text-align:right;
 }
 
-/* Garante que as duas linhas (copyright e CNPJ) sigam o mesmo alinhamento */
-footer .footer-copy,
-footer .footer-legal{
-  display: block;
-  text-align: right;
-  width: 100%;            /* usa a mesma largura do container */
+/* Duas linhas idênticas: uma embaixo da outra, mesma fonte/tamanho */
+footer .footer-legal,
+footer .footer-copy{
+  display:block;
+  font-size:10px;     /* MESMO tamanho nas duas */
+  line-height:1.2;
+  color:#98a2b3;      /* MESMA cor nas duas */
+  margin:0;
 }
-
+footer .footer-copy{ margin-top:4px; }
