@@ -70,9 +70,9 @@ th,td{border:1px solid #e5e7eb;padding:8px;text-align:left}
 /* ===== Logo no topo (centralizado e GRANDE) ===== */
 .site-logo{
   display:block;
-  height:180px;         /* <<< ajuste aqui: 160–220px conforme desejar */
+  height:1800px;         /* <<< ajuste aqui: 160–220px conforme desejar */
   width:auto;
-  margin:12px auto 8px; /* centralizado */
+  margin:120px auto 80px; /* centralizado */
   object-fit:contain;
 }
 
