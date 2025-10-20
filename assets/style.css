@@ -23,8 +23,8 @@ th,td{border:1px solid #e5e7eb;padding:8px;text-align:left}
 /* ==== Logo no topo ==== */
 .site-logo {
   display: block;
-  margin: 64px auto 12px auto; /* centralizado */
-  max-height: 180px;            /* ajuste se quiser maior/menor */
+  margin: 128px auto 24px auto; /* centralizado */
+  max-height: 200px;            /* ajuste se quiser maior/menor */
   width: auto;
 }
 
