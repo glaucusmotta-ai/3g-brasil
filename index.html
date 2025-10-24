@@ -18,18 +18,24 @@
     }
 
     /* Header */
-    header{ background:transparent; color:var(--fg); padding:0; display:flex; flex-direction:column; align-items:center; }
+    header{ background:transparent; color:var(--fg); padding:0; display:flex; flex-direction:column; align-items:center; width:100%; }
 
-    /* LOGO maior: ocupa a faixa branca acima do menu */
-    .site-logo{
-      display:block;
-      height:clamp(140px, 18vw, 200px); /* cresce conforme a tela, até 200px */
-      width:auto;
-      margin:12px auto;
+    /* FAIXA DO LOGO: ocupa toda a largura; altura grande como na área marcada */
+    .logo-band{
+      width:100%;
+      height:clamp(240px, 30vw, 340px); /* ajuste fino da altura da faixa */
+      display:flex; align-items:center; justify-content:center;
+      background:#fff;
+    }
+    .logo-band img{
+      height:100%;      /* preenche a altura da faixa */
+      width:auto;       /* mantém proporção */
+      max-width:100%;   /* não ultrapassa a largura da tela */
       object-fit:contain;
+      display:block;
     }
 
-    /* Navegação (tarja preta) */
+    /* Barra de navegação (tarja preta) */
     header nav{
       background:var(--bg);
       padding:8px 16px;
@@ -70,7 +76,9 @@
 <body>
 
   <header>
-    <img src="/assets/logo.png" alt="3G Brasil" class="site-logo" />
+    <div class="logo-band">
+      <img src="/assets/logo.png" alt="3G Brasil">
+    </div>
     <nav>
       <a href="/">3G Brasil</a>
       <a href="/contact.html">Contato</a>
