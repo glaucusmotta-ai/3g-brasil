@@ -17,19 +17,29 @@
       background:#fff; color:#111;
     }
 
-    header{ background:transparent !important; color:var(--fg); padding:0 !important; display:flex; flex-direction:column; align-items:center; }
-    .site-logo{ display:block !important; height:72px !important; width:auto !important; margin:12px auto !important; object-fit:contain !important; }
-    @media (max-width:880px){ .site-logo{ height:120px !important; } }
+    /* Header */
+    header{ background:transparent; color:var(--fg); padding:0; display:flex; flex-direction:column; align-items:center; }
 
-    header nav{
-      background:var(--bg) !important;
-      padding:8px 16px !important;
-      display:flex !important; gap:16px !important; justify-content:center !important; flex-wrap:wrap !important;
-      width:100% !important;
+    /* LOGO maior: ocupa a faixa branca acima do menu */
+    .site-logo{
+      display:block;
+      height:clamp(140px, 18vw, 200px); /* cresce conforme a tela, até 200px */
+      width:auto;
+      margin:12px auto;
+      object-fit:contain;
     }
-    header nav a{ color:var(--fg) !important; text-decoration:none; font-weight:600; }
+
+    /* Navegação (tarja preta) */
+    header nav{
+      background:var(--bg);
+      padding:8px 16px;
+      display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+      width:100%;
+    }
+    header nav a{ color:var(--fg); text-decoration:none; font-weight:600; }
     header nav a:hover{ text-decoration:underline; }
 
+    /* Layout geral */
     .container{ max-width:980px; margin:0 auto; padding:24px 16px; }
     .hero{ padding:32px 0; }
     .hero h1{ margin:0 0 8px 0; font-size:32px; }
@@ -40,6 +50,7 @@
     ul{ padding-left:18px; }
     li{ margin:6px 0; }
 
+    /* Rodapé em 2 colunas (suporte à esquerda, legal à direita) */
     footer{ border-top:1px solid #e5e7eb; padding:16px; color:#555; }
     footer .container{ padding:0 16px; }
     .footer-wrap{ display:flex; gap:16px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; }
@@ -51,7 +62,9 @@
     .footer-legal,.footer-copy{ margin:0; font-size:12px; line-height:1.4; color:#667085; }
     .footer-copy{ margin-top:4px; }
 
-    @media (max-width:640px){ .legal{ text-align:left; } }
+    @media (max-width:640px){
+      .legal{ text-align:left; }
+    }
   </style>
 </head>
 <body>
