@@ -56,9 +56,18 @@
     .footer-wrap{
       display:flex; gap:16px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
     }
-    .footer-support{ font-size:13px; color:#444; margin:0 0 6px; }
-    .footer-support a{ color:#0b57d0; text-decoration:none; }
-    .footer-support a:hover{ text-decoration:underline; }
+
+    /* Título dos canais (linha de cima) */
+    .footer-support-title{ margin:0; font-size:13px; color:#444; font-weight:600; }
+
+    /* Info dos canais (linha de baixo) — mesma fonte/cor do CNPJ */
+    .footer-support-info{
+      margin:4px 0 6px;
+      font-size:12px; line-height:1.4; color:#667085;
+    }
+    .footer-support-info a{ color:inherit; text-decoration:none; }
+    .footer-support-info a:hover{ text-decoration:underline; }
+
     .legal{ text-align:right; }
     .footer-legal, .footer-copy{
       margin:0; font-size:12px; line-height:1.4; color:#667085;
@@ -122,8 +131,8 @@
       <div class="footer-wrap">
         <!-- ESQUERDA: canais oficiais -->
         <div class="support">
-          <p class="footer-support">
-            <strong>Canais oficiais de suporte:</strong>
+          <p class="footer-support-title">Canais oficiais de suporte</p>
+          <p class="footer-support-info">
             <a href="mailto:contato@3g-brasil.com">contato@3g-brasil.com</a> ·
             <a href="https://wa.me/5511961704582" target="_blank" rel="noopener">+55 (11) 96170-4582</a>
           </p>
