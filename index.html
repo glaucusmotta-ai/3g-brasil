@@ -7,11 +7,8 @@
   <meta name="description" content="3G Brasil — Conectividade e soluções digitais para empresas. Atendimento responsável, consentimento para WhatsApp e conformidade com LGPD.">
   <meta name="robots" content="index,follow">
 
-  <!-- CSS inline com overrides fortes para garantir a correção visual -->
   <style>
     :root{ --bg:#0b132b; --fg:#e8eaed; --muted:#9aa0a6; --accent:#4fd1c5; }
-
-    /* Reset básico */
     *{ box-sizing:border-box; }
     html,body{
       margin:0; padding:0;
@@ -19,20 +16,10 @@
       background:#fff; color:#111;
     }
 
-    /* Header: sem fundo; tarja preta apenas no nav */
     header{ background:transparent !important; color:var(--fg); padding:0 !important; display:flex; flex-direction:column; align-items:center; }
-
-    /* Logo centralizado e controlado */
-    .site-logo{
-      display:block !important;
-      height:72px !important;       /* ajuste fino: 60–100px */
-      width:auto !important;
-      margin:12px auto !important;
-      object-fit:contain !important;
-    }
+    .site-logo{ display:block !important; height:72px !important; width:auto !important; margin:12px auto !important; object-fit:contain !important; }
     @media (max-width:880px){ .site-logo{ height:120px !important; } }
 
-    /* Tarja preta SÓ no menu (baixa) */
     header nav{
       background:var(--bg) !important;
       padding:8px 16px !important;
@@ -42,7 +29,6 @@
     header nav a{ color:var(--fg) !important; text-decoration:none; font-weight:600; }
     header nav a:hover{ text-decoration:underline; }
 
-    /* Layout geral */
     .container{ max-width:980px; margin:0 auto; padding:24px 16px; }
     .hero{ padding:32px 0; }
     .hero h1{ margin:0 0 8px 0; font-size:32px; }
@@ -50,18 +36,16 @@
 
     section h2{ margin-top:32px; }
     .card{ border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin:12px 0; }
-
-    /* Listas e detalhes */
     ul{ padding-left:18px; }
     li{ margin:6px 0; }
 
-    /* Rodapé: duas linhas iguais, à direita */
     footer{ border-top:1px solid #e5e7eb; padding:16px; color:#555; }
     footer .container{ text-align:right; padding:0 16px; }
+    .footer-support{ font-size:13px; color:#444; margin-bottom:6px; }
+    .footer-support a{ color:#0b57d0; text-decoration:none; }
+    .footer-support a:hover{ text-decoration:underline; }
     .footer-legal, .footer-copy{
-      display:block;
-      font-size:12px; line-height:1.4; color:#667085;
-      margin:0; padding:0; text-align:right;
+      display:block; font-size:12px; line-height:1.4; color:#667085; margin:0; padding:0;
     }
     .footer-copy{ margin-top:4px; }
   </style>
@@ -69,10 +53,7 @@
 <body>
 
   <header>
-    <!-- Logo -->
     <img src="/assets/logo.png" alt="3G Brasil" class="site-logo" />
-
-    <!-- Navegação (tarja preta apenas aqui) -->
     <nav>
       <a href="/">3G Brasil</a>
       <a href="/privacy.html">Política de Privacidade</a>
@@ -85,7 +66,6 @@
     <section class="hero">
       <h1>3G Brasil</h1>
       <p>Conectividade e soluções digitais para empresas.</p>
-      <!-- CTA removido conforme solicitado -->
     </section>
 
     <section>
@@ -101,13 +81,6 @@
           Respeitamos as políticas da Meta e a legislação aplicável (LGPD). Só contatamos pessoas que
           <strong>forneceram o número</strong> e <strong>autorizaram</strong> o recebimento de mensagens.
         </p>
-
-        <h3 style="margin-top:1rem;">Canais oficiais de suporte</h3>
-        <ul>
-          <li>E-mail: <a href="mailto:contato@3g-brasil.com">contato@3g-brasil.com</a></li>
-          <li>WhatsApp/Telefone comercial: <a href="tel:+5511974152712">+55 (11) 97415-2712</a></li>
-        </ul>
-
         <p style="font-size:.95rem;opacity:.85;">
           Para parar de receber mensagens, responda <strong>“PARAR”</strong> no WhatsApp ou envie
           solicitação para <a href="mailto:contato@3g-brasil.com">contato@3g-brasil.com</a>.
@@ -126,6 +99,11 @@
 
   <footer>
     <div class="container">
+      <div class="footer-support">
+        <strong>Canais oficiais de suporte:</strong>
+        <a href="mailto:contato@3g-brasil.com">contato@3g-brasil.com</a> ·
+        <a href="https://wa.me/5511961704582" target="_blank" rel="noopener">+55 (11) 96170-4582</a>
+      </div>
       <small class="footer-legal">CNPJ: 30.589.513/0001-40</small>
       <small class="footer-copy">© 2025 3G Brasil — 3g-brasil.com</small>
     </div>
