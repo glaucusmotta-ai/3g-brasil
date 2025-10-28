@@ -69,11 +69,13 @@
     .wa-btn{
       position:fixed; right:18px; bottom:18px; z-index:9999;
       display:flex; align-items:center; gap:8px;
-      background:#25D366; color:#fff; padding:12px 14px;
-      border-radius:999px; text-decoration:none; font-weight:600;
+      background:#25D366; color:#fff;         /* cor do texto/ícone */
+      padding:12px 14px; border-radius:999px; text-decoration:none; font-weight:600;
       box-shadow:0 8px 20px rgba(0,0,0,.25);
     }
-    .wa-btn svg{ width:22px; height:22px; fill:#fff; }
+    .wa-btn svg{ width:22px; height:22px; display:block; }
+    .wa-btn svg path{ fill:currentColor; }    /* ícone pega a cor branca */
+
 
     @media (max-width:640px){
       .legal{ text-align:left; }
@@ -150,9 +152,11 @@
   <a class="wa-btn"
      href="https://api.whatsapp.com/send?phone=5511961704582&text=Ol%C3%A1!%20Vim%20pelo%20site%20da%203G%20Brasil.%20Quero%20falar%20sobre%20o%20Anjo%20da%20Guarda."
      target="_blank" rel="noopener noreferrer" aria-label="Fale no WhatsApp">
-    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.1 17.5c-.3-.1-1.8-.9-2-.9s-.5-.1-.8.3-.9 1-1.1 1.2-.4.2-.7.1a7.7 7.7 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.4 0-.6.2-.8l.5-.6c.2-.2.3-.3.4-.5s0-.4 0-.5 0-.5-.2-.7c-.1-.3-.8-2-1.1-2.7s-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4s-1.2 1.1-1.2 2.6 1.2 3 1.4 3.2 2.5 3.9 6 5.5a20.2 20.2 0 0 0 2 .8 4.8 4.8 0 0 0 2.2.1c.7-.1 2.1-.9 2.4-1.8s.3-1.6.2-1.8-.3-.2-.6-.3zM16 3a13 13 0 0 0-11 19.6L3.2 29 9.6 27A13 13 0 1 0 16 3zm7.9 20.9a10.3 10.3 0 0 1-14.3 0A10.1 10.1 0 0 1 16 5.9a10.1 10.1 0 0 1 7.9 17.9z"/></svg>
-    Fale no WhatsApp
-  </a>
+   <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
+    <path fill="currentColor" d="M19.1 17.5c-.3-.1-1.8-.9-2-.9s-.5-.1-.8.3-.9 1-1.1 1.2-.4.2-.7.1a7.7 7.7 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.4 0-.6.2-.8l.5-.6c.2-.2.3-.3.4-.5s0-.4 0-.5 0-.5-.2-.7c-.1-.3-.8-2-1.1-2.7s-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4s-1.2 1.1-1.2 2.6 1.2 3 1.4 3.2 2.5 3.9 6 5.5a20.2 20.2 0 0 0 2 .8 4.8 4.8 0 0 0 2.2.1c.7-.1 2.1-.9 2.4-1.8s.3-1.6.2-1.8-.3-.2-.6-.3zM16 3a13 13 0 0 0-11 19.6L3.2 29 9.6 27A13 13 0 1 0 16 3zm7.9 20.9a10.3 10.3 0 0 1-14.3 0A10.1 10.1 0 0 1 16 5.9a10.1 10.1 0 0 1 7.9 17.9z"/>
+   </svg>
+  Fale no WhatsApp
+</a>
 
 </body>
 </html>
