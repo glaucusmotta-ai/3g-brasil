@@ -20,19 +20,16 @@
     /* Header */
     header{ background:transparent; color:var(--fg); padding:0; display:flex; flex-direction:column; align-items:center; width:100%; }
 
-    /* FAIXA DO LOGO: ocupa toda a largura; altura grande como na área marcada */
+    /* Faixa do LOGO (largura total) */
     .logo-band{
       width:100%;
-      height:clamp(240px, 30vw, 340px); /* ajuste fino da altura da faixa */
+      height:clamp(240px, 30vw, 340px);
       display:flex; align-items:center; justify-content:center;
       background:#fff;
     }
     .logo-band img{
-      height:100%;      /* preenche a altura da faixa */
-      width:auto;       /* mantém proporção */
-      max-width:100%;   /* não ultrapassa a largura da tela */
-      object-fit:contain;
-      display:block;
+      height:100%; width:auto; max-width:100%;
+      object-fit:contain; display:block;
     }
 
     /* Barra de navegação (tarja preta) */
@@ -56,7 +53,7 @@
     ul{ padding-left:18px; }
     li{ margin:6px 0; }
 
-    /* Rodapé em 2 colunas (suporte à esquerda, legal à direita) */
+    /* Rodapé em 2 colunas */
     footer{ border-top:1px solid #e5e7eb; padding:16px; color:#555; }
     footer .container{ padding:0 16px; }
     .footer-wrap{ display:flex; gap:16px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; }
@@ -68,14 +65,18 @@
     .footer-legal,.footer-copy{ margin:0; font-size:12px; line-height:1.4; color:#667085; }
     .footer-copy{ margin-top:4px; }
 
+    /* Botão WhatsApp (fora do @media) */
+    .wa-btn{
+      position:fixed; right:18px; bottom:18px; z-index:9999;
+      display:flex; align-items:center; gap:8px;
+      background:#25D366; color:#fff; padding:12px 14px;
+      border-radius:999px; text-decoration:none; font-weight:600;
+      box-shadow:0 8px 20px rgba(0,0,0,.25);
+    }
+    .wa-btn svg{ width:22px; height:22px; fill:#fff; }
+
     @media (max-width:640px){
       .legal{ text-align:left; }
-
-    .wa-btn{position:fixed;right:18px;bottom:18px;z-index:9999;display:flex;align-items:center;gap:8px;
-    background:#25D366;color:#fff;padding:12px 14px;border-radius:999px;text-decoration:none;
-    box-shadow:0 8px 20px rgba(0,0,0,.25);font-weight:600}
-    .wa-btn svg{width:22px;height:22px;fill:#fff}
-  
     }
   </style>
 </head>
@@ -83,6 +84,7 @@
 
   <header>
     <div class="logo-band">
+      <!-- ajuste o caminho se necessário: "assets/logo.png" -->
       <img src="/assets/logo.png" alt="3G Brasil">
     </div>
     <nav>
@@ -111,8 +113,8 @@
           <strong>forneceram o número</strong> e <strong>autorizaram</strong> o recebimento de mensagens.
         </p>
         <p style="font-size:.95rem;opacity:.85;">
-          Para parar de receber mensagens, responda <strong>“PARAR”</strong> no WhatsApp ou envie solicitação para contato@3g-brasil.com
-.”
+          Para parar de receber mensagens, responda <strong>“PARAR”</strong> no WhatsApp ou envie solicitação para
+          <a href="mailto:contato@3g-brasil.com">contato@3g-brasil.com</a>.
         </p>
       </div>
     </section>
@@ -144,12 +146,13 @@
     </div>
   </footer>
 
+  <!-- Botão WhatsApp -->
   <a class="wa-btn"
-   href="https://wa.me/5511961704582?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%203G%20Brasil.%20Quero%20falar%20sobre%20o%20Anjo%20da%20Guarda."
-   target="_blank" rel="noopener">
-  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.1 17.5c-.3-.1-1.8-.9-2-.9s-.5-.1-.8.3-.9 1-1.1 1.2-.4.2-.7.1a7.7 7.7 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.4 0-.6.2-.8l.5-.6c.2-.2.3-.3.4-.5s0-.4 0-.5 0-.5-.2-.7c-.1-.3-.8-2-1.1-2.7s-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4s-1.2 1.1-1.2 2.6 1.2 3 1.4 3.2 2.5 3.9 6 5.5a20.2 20.2 0 0 0 2 .8 4.8 4.8 0 0 0 2.2.1c.7-.1 2.1-.9 2.4-1.8s.3-1.6.2-1.8-.3-.2-.6-.3zM16 3a13 13 0 0 0-11 19.6L3.2 29 9.6 27A13 13 0 1 0 16 3zm7.9 20.9a10.3 10.3 0 0 1-14.3 0A10.1 10.1 0 0 1 16 5.9a10.1 10.1 0 0 1 7.9 17.9z"/></svg>
-  Fale no WhatsApp
-</a>
-  
+     href="https://api.whatsapp.com/send?phone=5511961704582&text=Ol%C3%A1!%20Vim%20pelo%20site%20da%203G%20Brasil.%20Quero%20falar%20sobre%20o%20Anjo%20da%20Guarda."
+     target="_blank" rel="noopener noreferrer" aria-label="Fale no WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.1 17.5c-.3-.1-1.8-.9-2-.9s-.5-.1-.8.3-.9 1-1.1 1.2-.4.2-.7.1a7.7 7.7 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.4 0-.6.2-.8l.5-.6c.2-.2.3-.3.4-.5s0-.4 0-.5 0-.5-.2-.7c-.1-.3-.8-2-1.1-2.7s-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4s-1.2 1.1-1.2 2.6 1.2 3 1.4 3.2 2.5 3.9 6 5.5a20.2 20.2 0 0 0 2 .8 4.8 4.8 0 0 0 2.2.1c.7-.1 2.1-.9 2.4-1.8s.3-1.6.2-1.8-.3-.2-.6-.3zM16 3a13 13 0 0 0-11 19.6L3.2 29 9.6 27A13 13 0 1 0 16 3zm7.9 20.9a10.3 10.3 0 0 1-14.3 0A10.1 10.1 0 0 1 16 5.9a10.1 10.1 0 0 1 7.9 17.9z"/></svg>
+    Fale no WhatsApp
+  </a>
+
 </body>
 </html>
