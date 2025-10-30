@@ -1,1 +1,216 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Anjo da Guarda — Planos</title>
+  <style>
+    :root{
+      /* ======= CORES DA MARCA (ajuste aqui) ======= */
+      --brand:#e11d48;          /* primária (ex.: vermelho SOS) */
+      --brand-600:#be123c;      /* hover/escuro */
+      --accent:#0ea5e9;         /* detalhe (ex.: azul link) */
+      --bg:#0b0b10;             /* fundo geral */
+      --card:#111320;           /* fundo cartões/tabela */
+      --muted:#9aa3b2;          /* texto secundário */
+      --text:#edf2f7;           /* texto principal */
+      --ok:#16a34a;             /* check */
+      --warn:#f59e0b;           /* aviso */
+      --border:rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.3);
+      --radius: 16px;
+    }
+    /* ======= RESET BÁSICO ======= */
+    *,*:before,*:after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(225,29,72,.25), transparent 60%),
+                  radial-gradient(1200px 600px at 110% 10%, rgba(14,165,233,.18), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    .adg-wrap{
+      max-width: 1100px; margin: 48px auto; padding: 0 20px;
+    }
+    .adg-header{
+      display:flex; align-items:center; gap:16px; margin-bottom: 28px;
+    }
+    .adg-logo{
+      width:56px; height:56px; border-radius:12px; object-fit:cover; box-shadow: var(--shadow);
+      background:#fff; /* remove se seu logo tiver fundo próprio */
+    }
+    .adg-title h1{
+      margin:0; font-size: clamp(22px, 3.2vw, 32px); letter-spacing:.2px;
+    }
+    .adg-title p{
+      margin:4px 0 0; color:var(--muted); font-size: 14px;
+    }
+
+    /* ======= BLOCO DA TABELA ======= */
+    .adg-card{
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .adg-table{
+      width:100%; border-collapse: collapse;
+    }
+    .adg-table thead th{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      padding:18px 16px; text-align:left; font-weight:700; font-size:14px; border-bottom:1px solid var(--border);
+    }
+    .adg-table tbody td{
+      padding:16px; border-bottom:1px solid var(--border); vertical-align: top;
+      font-size: 15px;
+    }
+    .adg-table tbody tr:hover td{ background: rgba(255,255,255,.02); }
+
+    .adg-badge{
+      display:inline-block; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700;
+      background: rgba(225,29,72,.12); color:#fff; border:1px solid rgba(225,29,72,.35);
+    }
+    .adg-badge.plus{ background: rgba(14,165,233,.12); border-color: rgba(14,165,233,.4); }
+
+    .adg-price{ font-size: 22px; font-weight:800 }
+    .adg-price small{ font-weight:600; color: var(--muted); font-size: 13px; }
+    .adg-check{ color: var(--ok); font-weight: 800; margin-right: 6px; }
+    .adg-note{ color: var(--muted); font-size: 13px; }
+    .adg-foot{ padding:14px 16px; color:var(--muted); font-size:13px; }
+
+    .adg-actions .btn{
+      display:inline-block; padding:10px 14px; border-radius:12px; font-weight:700; border:1px solid transparent;
+      background: var(--brand); color:#fff; text-decoration:none; transition:.2s;
+      box-shadow: 0 6px 18px rgba(225,29,72,.25);
+    }
+    .adg-actions .btn:hover{ background: var(--brand-600); transform: translateY(-1px); }
+
+    .adg-addons{
+      margin-top: 18px; padding:16px; border:1px dashed var(--border); border-radius: var(--radius);
+      background: rgba(255,255,255,.02);
+      font-size: 15px;
+    }
+    .adg-addons strong{ color:#fff }
+    .adg-addons code{ background: rgba(255,255,255,.06); padding:2px 6px; border-radius:6px; }
+
+    /* ======= RESPONSIVO ======= */
+    @media (max-width: 860px){
+      .hide-sm{ display:none }
+      .adg-table thead{ display:none }
+      .adg-table, .adg-table tbody, .adg-table tr, .adg-table td { display:block; width:100% }
+      .adg-table tbody tr{ margin:18px; border:1px solid var(--border); border-radius:14px; background: var(--card); overflow:hidden }
+      .adg-table tbody td{
+        border:none; border-bottom:1px solid var(--border);
+        display:flex; justify-content: space-between; gap:18px;
+      }
+      .adg-table tbody td:before{
+        content: attr(data-label);
+        color: var(--muted); font-weight:600;
+      }
+      .adg-table tbody tr td:last-child{ border-bottom:none }
+      .adg-actions{ padding-bottom:14px }
+    }
+  </style>
+</head>
+<body>
+  <main class="adg-wrap">
+    <header class="adg-header">
+      <!-- Troque o src abaixo pelo caminho do seu logo -->
+      <img class="adg-logo" src="logo.png" alt="Logo Anjo da Guarda" />
+      <div class="adg-title">
+        <h1>Planos — Anjo da Guarda</h1>
+        <p>SOS por WhatsApp, SMS e E-mail. Opção com senha de voz (offline) para disparo rápido.</p>
+      </div>
+    </header>
+
+    <section class="adg-card" aria-labelledby="tabela-planos">
+      <table class="adg-table" id="tabela-planos">
+        <thead>
+          <tr>
+            <th>Plano</th>
+            <th>Para quem</th>
+            <th class="hide-sm">Canais</th>
+            <th class="hide-sm" style="text-align:right;">Contatos</th>
+            <th class="hide-sm" style="text-align:right;">Mensagens/mês</th>
+            <th>Gatilhos</th>
+            <th class="hide-sm">Widget</th>
+            <th class="hide-sm">Suporte / Logs</th>
+            <th>Preço</th>
+            <th class="hide-sm">Excedente</th>
+            <th class="hide-sm">Assinar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- SIMPLES -->
+          <tr>
+            <td data-label="Plano">
+              <span class="adg-badge">Simples (texto)</span>
+            </td>
+            <td data-label="Para quem">Usuário individual</td>
+            <td class="hide-sm" data-label="Canais">WhatsApp + SMS + E-mail</td>
+            <td class="hide-sm" data-label="Contatos" style="text-align:right;">5</td>
+            <td class="hide-sm" data-label="Mensagens/mês" style="text-align:right;">30</td>
+            <td data-label="Gatilhos">
+              <span class="adg-check">✓</span> Botão no app
+            </td>
+            <td class="hide-sm" data-label="Widget"><span class="adg-check">✓</span> Rápido</td>
+            <td class="hide-sm" data-label="Suporte / Logs">Padrão / Básicos</td>
+            <td data-label="Preço">
+              <div class="adg-price">R$ 14,90 <small>/ mês</small></div>
+              <div class="adg-note">ou R$ 149/ano</div>
+            </td>
+            <td class="hide-sm" data-label="Excedente">repasse do canal + 20%</td>
+            <td class="hide-sm adg-actions">
+              <a class="btn" href="mailto:comercial@seu-dominio.com?subject=Assinar%20Plano%20Simples%20Anjo%20da%20Guarda">Assinar</a>
+            </td>
+          </tr>
+          <!-- PLUS -->
+          <tr>
+            <td data-label="Plano">
+              <span class="adg-badge plus">Plus (texto + áudio)</span>
+            </td>
+            <td data-label="Para quem">Quem quer ativação por voz</td>
+            <td class="hide-sm" data-label="Canais">WhatsApp + SMS + E-mail</td>
+            <td class="hide-sm" data-label="Contatos" style="text-align:right;">5</td>
+            <td class="hide-sm" data-label="Mensagens/mês" style="text-align:right;">60</td>
+            <td data-label="Gatilhos">
+              <div><span class="adg-check">✓</span> Botão no app</div>
+              <div><span class="adg-check">✓</span> <strong>Senha de voz (offline)</strong></div>
+            </td>
+            <td class="hide-sm" data-label="Widget"><span class="adg-check">✓</span> Rápido</td>
+            <td class="hide-sm" data-label="Suporte / Logs">Prioritário / Detalhados</td>
+            <td data-label="Preço">
+              <div class="adg-price">R$ 29,90 <small>/ mês</small></div>
+              <div class="adg-note">ou R$ 299/ano</div>
+            </td>
+            <td class="hide-sm" data-label="Excedente">repasse do canal + 20%</td>
+            <td class="hide-sm adg-actions">
+              <a class="btn" href="mailto:comercial@seu-dominio.com?subject=Assinar%20Plano%20Plus%20Anjo%20da%20Guarda">Assinar</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="adg-foot">
+        * Mensagens incluídas somam entre os canais (ex.: 20 WA + 10 SMS = 30).  
+        ** WhatsApp Business (Meta) cobra por mensagem entregue; excedentes são cobrados a <em>repasse do canal</em> + 20% oper., conforme tabela vigente.
+      </div>
+    </section>
+
+    <section class="adg-addons" aria-label="Add-ons">
+      <p><strong>Add-ons:</strong>
+        <br>• <strong>Família (até 4 perfis)</strong>: Simples <strong>R$ 39,90/mês</strong> | Plus <strong>R$ 69,90/mês</strong>.
+        <br>• <strong>Condomínio (até 100 usuários)</strong>: Simples <strong>R$ 399/mês</strong> | Plus <strong>R$ 699/mês</strong>, inclui <strong>1.000 SMS + 200 WA</strong>; excedentes a custo do canal.
+      </p>
+      <p class="adg-note">Para outro número de usuários/limites, fale com a gente: <a href="mailto:comercial@seu-dominio.com">comercial@seu-dominio.com</a>.</p>
+    </section>
+  </main>
+</body>
+</html>
 
