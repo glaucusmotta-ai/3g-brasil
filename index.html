@@ -77,6 +77,21 @@
       opacity:.9;
     }
 
+    .btn-outline{
+      display:inline-block;
+      margin-top:8px;
+      padding:8px 12px;
+      border-radius:8px;
+      background:#fff;
+      color:#111;
+      border:1px solid #d1d5db;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn-outline:hover{
+      background:#f3f4f6;
+    }
+
     /* Popup genérico */
     .modal{
       position:fixed;
@@ -146,7 +161,6 @@
       text-align:right;
     }
 
-    /* Corpo dos termos */
     .terms-body{
       font-size:.9rem;
       line-height:1.5;
@@ -173,6 +187,43 @@
     }
     .terms-pdf a:hover{
       text-decoration:underline;
+    }
+
+    .terms-actions{
+      margin-top:16px;
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    /* Formulário de cartão */
+    .card-form label{
+      display:block;
+      font-size:.85rem;
+      margin:6px 0 10px;
+      color:#444;
+    }
+    .card-form input{
+      width:100%;
+      padding:6px 8px;
+      margin-top:4px;
+      border-radius:6px;
+      border:1px solid #d1d5db;
+      font-size:.9rem;
+      box-sizing:border-box;
+    }
+    .card-row{
+      display:flex;
+      gap:8px;
+    }
+    .card-row label{
+      flex:1;
+    }
+    .card-note{
+      font-size:.8rem;
+      color:#666;
+      margin-top:4px;
     }
 
     /* Rodapé em 2 colunas */
@@ -359,6 +410,64 @@
               Baixar termos em PDF
             </a>
           </div>
+
+          <div class="terms-actions">
+            <button type="button" class="btn-outline" id="terms-cancel-btn">Cancelar</button>
+            <button type="button" class="btn-link" id="terms-confirm-btn">Eu quero</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Popup de dados do cartão -->
+      <div id="card-modal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 style="margin:0;">Dados para pagamento</h3>
+            <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
+          </div>
+
+          <p class="terms-plan">
+            Plano selecionado: <strong id="selected-plan-card">—</strong>
+          </p>
+
+          <form class="card-form" onsubmit="return false;">
+            <label>
+              Nome completo no cartão
+              <input type="text" required>
+            </label>
+            <label>
+              E-mail
+              <input type="email" required>
+            </label>
+            <label>
+              Telefone (WhatsApp)
+              <input type="tel" required>
+            </label>
+            <label>
+              Número do cartão
+              <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
+            </label>
+            <div class="card-row">
+              <label>
+                Validade (MM/AA)
+                <input type="text" inputmode="numeric" maxlength="5" placeholder="MM/AA" required>
+              </label>
+              <label>
+                CVV
+                <input type="password" inputmode="numeric" maxlength="4" required>
+              </label>
+            </div>
+
+            <p class="card-note">
+              Esta é uma interface de demonstração. A cobrança real deverá ser processada em ambiente seguro,
+              por provedor de pagamento homologado.
+            </p>
+
+            <div class="terms-actions">
+              <button type="button" class="btn-outline" id="card-cancel-btn">Cancelar</button>
+              <button type="submit" class="btn-link" id="card-submit-btn">Confirmar pagamento</button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -411,10 +520,21 @@
     (function () {
       var planModal   = document.getElementById('plan-modal');
       var termsModal  = document.getElementById('terms-modal');
+      var cardModal   = document.getElementById('card-modal');
+
       var planClose   = planModal ? planModal.querySelector('.modal-close') : null;
       var termsClose  = termsModal ? termsModal.querySelector('.modal-close') : null;
+      var cardClose   = cardModal ? cardModal.querySelector('.modal-close') : null;
+
       var planItems   = document.querySelectorAll('.plan-item');
       var selectedDom = document.getElementById('selected-plan');
+      var selectedCardDom = document.getElementById('selected-plan-card');
+
+      var termsCancel = document.getElementById('terms-cancel-btn');
+      var termsConfirm= document.getElementById('terms-confirm-btn');
+
+      var cardCancel  = document.getElementById('card-cancel-btn');
+      var cardForm    = document.querySelector('.card-form');
 
       function showModal(modal) {
         if (!modal) return;
@@ -434,6 +554,9 @@
       if (termsClose) {
         termsClose.addEventListener('click', function () { hideModal(termsModal); });
       }
+      if (cardClose) {
+        cardClose.addEventListener('click', function () { hideModal(cardModal); });
+      }
 
       if (planModal) {
         planModal.addEventListener('click', function (e) {
@@ -445,11 +568,17 @@
           if (e.target === termsModal) hideModal(termsModal);
         });
       }
+      if (cardModal) {
+        cardModal.addEventListener('click', function (e) {
+          if (e.target === cardModal) hideModal(cardModal);
+        });
+      }
 
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
           if (planModal && planModal.style.display === 'flex') hideModal(planModal);
           if (termsModal && termsModal.style.display === 'flex') hideModal(termsModal);
+          if (cardModal && cardModal.style.display === 'flex') hideModal(cardModal);
         }
       });
 
@@ -457,13 +586,39 @@
         item.addEventListener('click', function () {
           var txt = item.getAttribute('data-plan') || '';
           if (selectedDom) selectedDom.textContent = txt;
+          if (selectedCardDom) selectedCardDom.textContent = txt;
           hideModal(planModal);
           showModal(termsModal);
         });
       });
+
+      if (termsCancel) {
+        termsCancel.addEventListener('click', function () {
+          hideModal(termsModal);
+        });
+      }
+      if (termsConfirm) {
+        termsConfirm.addEventListener('click', function () {
+          hideModal(termsModal);
+          showModal(cardModal);
+        });
+      }
+
+      if (cardCancel) {
+        cardCancel.addEventListener('click', function () {
+          hideModal(cardModal);
+        });
+      }
+
+      if (cardForm) {
+        cardForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          alert('Dados enviados. Em breve nossa equipe entrará em contato para concluir a contratação.');
+          hideModal(cardModal);
+        });
+      }
     })();
   </script>
 
 </body>
 </html>
-
