@@ -77,7 +77,7 @@
       opacity:.9;
     }
 
-    /* Popup de planos */
+    /* Popup genérico */
     .modal{
       position:fixed;
       inset:0;
@@ -90,11 +90,13 @@
     .modal-content{
       background:#fff;
       color:#111;
-      max-width:420px;
+      max-width:480px;
       width:90%;
       border-radius:12px;
       padding:20px;
       box-shadow:0 18px 40px rgba(0,0,0,.35);
+      max-height:90vh;
+      overflow:auto;
     }
     .modal-header{
       display:flex;
@@ -111,12 +113,14 @@
       cursor:pointer;
       color:#555;
     }
+
+    /* Lista de planos */
     .plan-list{
       list-style:none;
       padding:0;
       margin:12px 0;
     }
-    .plan-list li{
+    .plan-item{
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -126,6 +130,11 @@
       border-radius:8px;
       border:1px solid #e5e7eb;
       font-size:.95rem;
+      cursor:pointer;
+      background:#f9fafb;
+    }
+    .plan-item:hover{
+      background:#eef2ff;
     }
     .plan-price{
       font-weight:600;
@@ -135,6 +144,35 @@
       font-size:.8rem;
       color:#666;
       text-align:right;
+    }
+
+    /* Corpo dos termos */
+    .terms-body{
+      font-size:.9rem;
+      line-height:1.5;
+      color:#333;
+    }
+    .terms-body p{ margin:8px 0; }
+    .terms-body ul{ margin:8px 0 4px; padding-left:18px; }
+    .terms-body li{ margin:4px 0; }
+
+    .terms-plan{
+      font-size:.9rem;
+      margin:4px 0 12px;
+      color:#444;
+    }
+
+    .terms-pdf{
+      margin-top:10px;
+      font-size:.85rem;
+      text-align:right;
+    }
+    .terms-pdf a{
+      color:#2563eb;
+      text-decoration:none;
+    }
+    .terms-pdf a:hover{
+      text-decoration:underline;
     }
 
     /* Rodapé em 2 colunas */
@@ -243,27 +281,84 @@
           </div>
 
           <ul class="plan-list">
-            <li>
+            <li class="plan-item" data-plan="Mensal individual — BRL 22,90">
               <span>Mensal individual</span>
               <span class="plan-price">BRL 22,90</span>
             </li>
-            <li>
+            <li class="plan-item" data-plan="Anual individual — BRL 20,00">
               <span>Anual individual</span>
               <span class="plan-price">BRL 20,00</span>
             </li>
-            <li>
+            <li class="plan-item" data-plan="Mensal família (até 4 pessoas) — BRL 18,90">
               <span>Mensal família (até 4 pessoas cada)</span>
               <span class="plan-price">BRL 18,90</span>
             </li>
-            <li>
+            <li class="plan-item" data-plan="Anual família (até 4 pessoas) — BRL 17,00">
               <span>Anual família (até 4 pessoas cada)</span>
               <span class="plan-price">BRL 17,00</span>
             </li>
           </ul>
 
           <p class="modal-footer">
-            Valores em BRL. No próximo passo faremos a contratação pelo nosso time comercial.
+            Adquira seu plano.
           </p>
+        </div>
+      </div>
+
+      <!-- Popup de termos de aquisição -->
+      <div id="terms-modal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 style="margin:0;">Termos de aquisição e autorização</h3>
+            <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
+          </div>
+
+          <p class="terms-plan">
+            Plano selecionado: <strong id="selected-plan">—</strong>
+          </p>
+
+          <div class="terms-body">
+            <p>
+              Ao solicitar a contratação do aplicativo <strong>Anjo da Guarda</strong>, o cliente declara estar
+              ciente e de acordo com as condições abaixo:
+            </p>
+
+            <ul>
+              <li>Os valores informados são em <strong>BRL (Reais)</strong>, conforme plano selecionado.</li>
+              <li>A cobrança poderá ser realizada por cartão de crédito e/ou outros meios disponibilizados pela 3G Brasil.</li>
+              <li>O acesso ao aplicativo e às funcionalidades de segurança está condicionado à manutenção dos pagamentos em dia.</li>
+            </ul>
+
+            <p>
+              <strong>Canal oficial de WhatsApp:</strong> para viabilizar o atendimento, suporte e envio de mensagens
+              transacionais relacionadas ao Anjo da Guarda (por exemplo, confirmação de cadastro, alertas de uso e
+              notificações de cobrança), o cliente se compromete a:
+            </p>
+
+            <ul>
+              <li>Adicionar em sua agenda o número <strong>+55 11 9617-4582</strong> como contato da 3G Brasil / Anjo da Guarda.</li>
+              <li>Enviar uma mensagem inicial de texto, contendo ao menos <strong>“Oi”</strong>, para o número
+                  <strong>+55 11 9617-4582</strong> via WhatsApp, autorizando a abertura da janela de comunicação.</li>
+            </ul>
+
+            <p>
+              Essa mensagem inicial é necessária para cumprir as políticas da Meta/WhatsApp Business e garantir
+              que o contato foi iniciado pelo próprio cliente, como forma de consentimento e segurança.
+            </p>
+
+            <p>
+              Ao prosseguir com a contratação, o cliente confirma que leu estes termos, compreende as condições
+              de uso do Anjo da Guarda e autoriza o contato pelos canais informados, podendo revogar essa
+              autorização a qualquer momento.
+            </p>
+          </div>
+
+          <div class="terms-pdf">
+            <!-- coloque o PDF em /assets/termo_anjo_da_guarda.pdf -->
+            <a href="/assets/termo_anjo_da_guarda.pdf" target="_blank" rel="noopener">
+              Baixar termos em PDF
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -304,7 +399,7 @@
   Fale no WhatsApp
 </a>
 
-  <!-- Script popup planos -->
+  <!-- Scripts dos popups -->
   <script>
     function openPlanModal() {
       var modal = document.getElementById('plan-modal');
@@ -314,31 +409,61 @@
     }
 
     (function () {
-      var modal = document.getElementById('plan-modal');
-      var close = document.querySelector('.modal-close');
+      var planModal   = document.getElementById('plan-modal');
+      var termsModal  = document.getElementById('terms-modal');
+      var planClose   = planModal ? planModal.querySelector('.modal-close') : null;
+      var termsClose  = termsModal ? termsModal.querySelector('.modal-close') : null;
+      var planItems   = document.querySelectorAll('.plan-item');
+      var selectedDom = document.getElementById('selected-plan');
 
-      if (!modal || !close) return;
+      function showModal(modal) {
+        if (!modal) return;
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+      }
 
-      function hideModal() {
+      function hideModal(modal) {
+        if (!modal) return;
         modal.style.display = 'none';
         modal.setAttribute('aria-hidden', 'true');
       }
 
-      close.addEventListener('click', hideModal);
+      if (planClose) {
+        planClose.addEventListener('click', function () { hideModal(planModal); });
+      }
+      if (termsClose) {
+        termsClose.addEventListener('click', function () { hideModal(termsModal); });
+      }
 
-      // clicar fora fecha
-      modal.addEventListener('click', function (e) {
-        if (e.target === modal) hideModal();
+      if (planModal) {
+        planModal.addEventListener('click', function (e) {
+          if (e.target === planModal) hideModal(planModal);
+        });
+      }
+      if (termsModal) {
+        termsModal.addEventListener('click', function (e) {
+          if (e.target === termsModal) hideModal(termsModal);
+        });
+      }
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          if (planModal && planModal.style.display === 'flex') hideModal(planModal);
+          if (termsModal && termsModal.style.display === 'flex') hideModal(termsModal);
+        }
       });
 
-      // ESC fecha
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
-          hideModal();
-        }
+      planItems.forEach(function (item) {
+        item.addEventListener('click', function () {
+          var txt = item.getAttribute('data-plan') || '';
+          if (selectedDom) selectedDom.textContent = txt;
+          hideModal(planModal);
+          showModal(termsModal);
+        });
       });
     })();
   </script>
 
 </body>
 </html>
+
