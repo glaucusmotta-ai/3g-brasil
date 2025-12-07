@@ -1,0 +1,257 @@
+<style>
+    :root{ --bg:#0b132b; --fg:#e8eaed; --muted:#9aa0a6; --accent:#4fd1c5; }
+
+    *{ box-sizing:border-box; }
+    html,body{
+      margin:0; padding:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
+      background:#fff; color:#111;
+    }
+
+    /* Header */
+    header{
+      background:transparent; color:var(--fg); padding:0;
+      display:flex; flex-direction:column; align-items:center; width:100%;
+    }
+
+    /* Faixa do LOGO (largura total) */
+    .logo-band{
+      width:100%;
+      height:clamp(240px, 30vw, 340px);
+      display:flex; align-items:center; justify-content:center;
+      background:#fff;
+    }
+    .logo-band img{
+      height:100%; width:auto; max-width:100%;
+      object-fit:contain; display:block;
+    }
+
+    /* Barra de navegação (tarja preta) */
+    header nav{
+      background:var(--bg);
+      padding:8px 16px;
+      display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+      width:100%;
+    }
+    header nav a{
+      color:var(--fg); text-decoration:none; font-weight:600;
+    }
+    header nav a:hover{ text-decoration:underline; }
+
+    /* Layout geral */
+    .container{ max-width:980px; margin:0 auto; padding:24px 16px; }
+    .hero{ padding:32px 0; }
+    .hero h1{ margin:0 0 8px 0; font-size:32px; }
+    .hero p{ margin:0; color:#444; }
+
+    section h2{ margin-top:32px; }
+    .card{
+      border:1px solid #e5e7eb; border-radius:12px;
+      padding:16px; margin:12px 0;
+    }
+    ul{ padding-left:18px; }
+    li{ margin:6px 0; }
+
+    .btn-link{
+      display:inline-block;
+      margin-top:8px;
+      padding:8px 12px;
+      border-radius:8px;
+      background:var(--bg);
+      color:var(--fg);
+      text-decoration:none;
+      font-weight:600;
+      border:none;
+      cursor:pointer;
+    }
+    .btn-link:hover{
+      opacity:.9;
+    }
+
+    .btn-outline{
+      display:inline-block;
+      margin-top:8px;
+      padding:8px 12px;
+      border-radius:8px;
+      background:#fff;
+      color:#111;
+      border:1px solid #d1d5db;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn-outline:hover{
+      background:#f3f4f6;
+    }
+
+    /* Popup genérico */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:9998;
+    }
+    .modal-content{
+      background:#fff;
+      color:#111;
+      max-width:480px;
+      width:90%;
+      border-radius:12px;
+      padding:20px;
+      box-shadow:0 18px 40px rgba(0,0,0,.35);
+      max-height:90vh;
+      overflow:auto;
+    }
+    .modal-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:8px;
+    }
+    .modal-close{
+      background:none;
+      border:none;
+      font-size:22px;
+      line-height:1;
+      cursor:pointer;
+      color:#555;
+    }
+
+    /* Lista de planos */
+    .plan-list{
+      list-style:none;
+      padding:0;
+      margin:12px 0;
+    }
+    .plan-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:8px 10px;
+      margin-bottom:8px;
+      border-radius:8px;
+      border:1px solid #e5e7eb;
+      font-size:.95rem;
+      cursor:pointer;
+      background:#f9fafb;
+    }
+    .plan-item:hover{
+      background:#eef2ff;
+    }
+    .plan-price{
+      font-weight:600;
+    }
+    .modal-footer{
+      margin-top:8px;
+      font-size:.8rem;
+      color:#666;
+      text-align:right;
+    }
+
+    .terms-body{
+      font-size:.9rem;
+      line-height:1.5;
+      color:#333;
+    }
+    .terms-body p{ margin:8px 0; }
+    .terms-body ul{ margin:8px 0 4px; padding-left:18px; }
+    .terms-body li{ margin:4px 0; }
+
+    .terms-plan{
+      font-size:.9rem;
+      margin:4px 0 12px;
+      color:#444;
+    }
+
+    .terms-pdf{
+      margin-top:10px;
+      font-size:.85rem;
+      text-align:right;
+    }
+    .terms-pdf a{
+      color:#2563eb;
+      text-decoration:none;
+    }
+    .terms-pdf a:hover{
+      text-decoration:underline;
+    }
+
+    .terms-actions{
+      margin-top:16px;
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    /* Formulário de cartão */
+    .card-form label{
+      display:block;
+      font-size:.85rem;
+      margin:6px 0 10px;
+      color:#444;
+    }
+    .card-form input{
+      width:100%;
+      padding:6px 8px;
+      margin-top:4px;
+      border-radius:6px;
+      border:1px solid #d1d5db;
+      font-size:.9rem;
+      box-sizing:border-box;
+    }
+    .card-row{
+      display:flex;
+      gap:8px;
+    }
+    .card-row label{
+      flex:1;
+    }
+    .card-note{
+      font-size:.8rem;
+      color:#666;
+      margin-top:4px;
+    }
+
+    /* Rodapé em 2 colunas */
+    footer{ border-top:1px solid #e5e7eb; padding:16px; color:#555; }
+    footer .container{ padding:0 16px; }
+    .footer-wrap{
+      display:flex; gap:16px; align-items:flex-start;
+      justify-content:space-between; flex-wrap:wrap;
+    }
+    .footer-support-title{
+      margin:0; font-size:13px; color:#444; font-weight:600;
+    }
+    .footer-support-info{
+      margin:4px 0 6px; font-size:12px;
+      line-height:1.4; color:#667085;
+    }
+    .footer-support-info a{ color:inherit; text-decoration:none; }
+    .footer-support-info a:hover{ text-decoration:underline; }
+    .legal{ text-align:right; }
+    .footer-legal,.footer-copy{
+      margin:0; font-size:12px; line-height:1.4; color:#667085;
+    }
+    .footer-copy{ margin-top:4px; }
+
+    /* Botão WhatsApp (fora do @media) */
+    .wa-btn{
+      position:fixed; right:18px; bottom:18px; z-index:9999;
+      display:flex; align-items:center; gap:8px;
+      background:#25D366; color:#fff;
+      padding:12px 14px; border-radius:999px; text-decoration:none; font-weight:600;
+      box-shadow:0 8px 20px rgba(0,0,0,.25);
+    }
+    .wa-btn svg{ width:22px; height:22px; display:block; }
+    .wa-btn svg path{ fill:currentColor; }
+
+    @media (max-width:640px){
+      .legal{ text-align:left; }
+    }
+  </style>
+  
