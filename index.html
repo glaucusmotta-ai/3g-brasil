@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>3G Brasil — Conectividade e soluções digitais</title>
-  <meta name="description" content="3G Brasil — Conectividade e soluções digitais para empresas. Atendimento responsável, consentimento para WhatsApp e conformidade com LGPD.">
+  <meta name="description" content="3G Brasil — Conectividade e soluções digitais para empresas. Produto Anjo da Guarda (app de segurança pessoal), atendimento responsável, consentimento para WhatsApp e conformidade com LGPD.">
   <meta name="robots" content="index,follow">
 
   <style>
@@ -53,6 +53,20 @@
     ul{ padding-left:18px; }
     li{ margin:6px 0; }
 
+    .btn-link{
+      display:inline-block;
+      margin-top:8px;
+      padding:8px 12px;
+      border-radius:8px;
+      background:var(--bg);
+      color:var(--fg);
+      text-decoration:none;
+      font-weight:600;
+    }
+    .btn-link:hover{
+      opacity:.9;
+    }
+
     /* Rodapé em 2 colunas */
     footer{ border-top:1px solid #e5e7eb; padding:16px; color:#555; }
     footer .container{ padding:0 16px; }
@@ -69,13 +83,12 @@
     .wa-btn{
       position:fixed; right:18px; bottom:18px; z-index:9999;
       display:flex; align-items:center; gap:8px;
-      background:#25D366; color:#fff;         /* cor do texto/ícone */
+      background:#25D366; color:#fff;
       padding:12px 14px; border-radius:999px; text-decoration:none; font-weight:600;
       box-shadow:0 8px 20px rgba(0,0,0,.25);
     }
     .wa-btn svg{ width:22px; height:22px; display:block; }
-    .wa-btn svg path{ fill:currentColor; }    /* ícone pega a cor branca */
-
+    .wa-btn svg path{ fill:currentColor; }
 
     @media (max-width:640px){
       .legal{ text-align:left; }
@@ -91,6 +104,7 @@
     </div>
     <nav>
       <a href="/">3G Brasil</a>
+      <a href="#produtos">Produtos</a>
       <a href="/contact.html">Contato</a>
     </nav>
   </header>
@@ -118,6 +132,26 @@
           Para parar de receber mensagens, responda <strong>“PARAR”</strong> no WhatsApp ou envie solicitação para
           <a href="mailto:contato@3g-brasil.com">contato@3g-brasil.com</a>.
         </p>
+      </div>
+    </section>
+
+    <section id="produtos">
+      <h2>Produtos</h2>
+      <div class="card">
+        <h3 style="margin-top:0;">Anjo da Guarda</h3>
+        <p>
+          O <strong>Anjo da Guarda</strong> é um aplicativo de segurança pessoal 24/7 que permite disparar um SOS
+          silencioso, enviar localização em tempo quase real e acionar seus contatos de confiança em situações
+          de risco ou emergência.
+        </p>
+        <ul>
+          <li>Botão de pânico discreto e modo de coação.</li>
+          <li>Envio de localização para contatos pré-configurados.</li>
+          <li>Alertas por WhatsApp, SMS, e-mail e Telegram.</li>
+        </ul>
+        <a class="btn-link" href="/contact.html">
+          Quero levar o Anjo da Guarda para minha empresa
+        </a>
       </div>
     </section>
 
@@ -159,3 +193,4 @@
 
 </body>
 </html>
+
