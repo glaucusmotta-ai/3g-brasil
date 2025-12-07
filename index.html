@@ -229,7 +229,7 @@
           <li>Envio de localização para contatos pré-configurados.</li>
           <li>Alertas por WhatsApp, SMS, e-mail e Telegram.</li>
         </ul>
-        <button type="button" class="btn-link" id="plan-btn">
+        <button type="button" class="btn-link" onclick="openPlanModal()">
           Quero adquirir o Anjo da Guarda
         </button>
       </div>
@@ -306,18 +306,18 @@
 
   <!-- Script popup planos -->
   <script>
+    function openPlanModal() {
+      var modal = document.getElementById('plan-modal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
     (function () {
-      var btn   = document.getElementById('plan-btn');
       var modal = document.getElementById('plan-modal');
       var close = document.querySelector('.modal-close');
 
-      if (!btn || !modal || !close) return;
-
-      btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
-      });
+      if (!modal || !close) return;
 
       function hideModal() {
         modal.style.display = 'none';
