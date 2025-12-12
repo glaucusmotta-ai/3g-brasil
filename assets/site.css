@@ -41,7 +41,7 @@ header {
 /* Imagem do topo (galáxia + logo) */
 .logo-band img {
   width: min(100%, 900px);   /* ocupa a largura, mas no máx. 900px */
-  height: 20;              /* altura vem da proporção da imagem */
+  height: 5;              /* altura vem da proporção da imagem */
   display: block;
 }
 
