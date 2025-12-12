@@ -429,3 +429,28 @@ footer .container {
 .btn-outline:hover{
   background:#f3f4f6;
 }
+/* ==== HERO 3G BRASIL – LOGO GRANDE ==== */
+
+/* Deixa o topo escuro (não mais branco dos lados) */
+header {
+  background-color: #050816;
+}
+
+/* Faixa onde o logo fica */
+header .logo-band,
+header .hero-logo,
+header .logo-container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* A imagem que está no topo (logo/banner) */
+header img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;          /* ocupa toda a largura do quadro vermelho */
+  max-width: 1200px;    /* limite para não ficar gigante em telas enormes */
+  height: auto;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.7)); /* dá uma nitidez visual */
+}
