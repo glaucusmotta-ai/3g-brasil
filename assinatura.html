@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finalizar assinatura — Anjo da Guarda | 3G Brasil</title>
+  <meta name="description" content="Finalização da assinatura do aplicativo Anjo da Guarda da 3G Brasil.">
+  <link rel="stylesheet" href="assets/site.css?v=3">
+
+  <style>
+    main.container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+    .card-form-page {
+      max-width: 480px;
+      margin-top: 24px;
+    }
+    .card-form-page label {
+      display:block;
+      margin-bottom:12px;
+    }
+    .card-form-page input {
+      width:100%;
+    }
+    .card-row {
+      display:flex;
+      gap:12px;
+    }
+    .card-row label {
+      flex:1;
+    }
+    .terms-actions {
+      display:flex;
+      gap:12px;
+      margin-top:20px;
+    }
+    .terms-actions button {
+      flex:1;
+      min-height:48px;
+      border-radius:999px;
+      padding:12px 16px;
+      font-weight:600;
+      border:none;
+      cursor:pointer;
+    }
+    .btn-outline { background:#fff;border:1px solid #d1d5db;color:#111;}
+    .btn-link { background:#0b132b;color:#e8eaed;}
+    .btn-outline:hover{background:#f3f4f6;}
+    .btn-link:hover{opacity:.9;}
+    .card-note{font-size:.9rem;opacity:.8;margin-top:8px;}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-band">
+      <img src="assets/logo.png" alt="3G Brasil">
+    </div>
+    <nav>
+      <a href="/">3G Brasil</a>
+      <a href="/#produtos">Produtos</a>
+      <a href="/contact.html">Contato</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section>
+      <h1>Finalizar assinatura</h1>
+      <p class="terms-plan">
+        Plano selecionado: <strong id="selected-plan-card">—</strong>
+      </p>
+
+      <form class="card-form card-form-page" onsubmit="return false;">
+        <label>
+          Nome completo
+          <input type="text" id="card-name" required>
+        </label>
+        <label>
+          E-mail
+          <input type="email" id="card-email" required>
+        </label>
+        <label>
+          Telefone (WhatsApp)
+          <input type="tel" id="card-phone" required>
+        </label>
+        <label>
+          Número do cartão
+          <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
+        </label>
+        <div class="card-row">
+          <label>
+            Validade (MM/AA)
+            <input type="text" inputmode="numeric" maxlength="5" placeholder="MM/AA" required>
+          </label>
+          <label>
+            CVV
+            <input type="password" inputmode="numeric" maxlength="4" required>
+          </label>
+        </div>
+
+        <p class="card-note">
+          Nesta fase de testes, os dados de cartão são apenas ilustrativos.
+        </p>
+
+        <div class="terms-actions">
+          <button type="button" class="btn-outline" id="card-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn-link" id="card-submit-btn">Confirmar assinatura</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-wrap">
+        <div class="support">
+          <p class="footer-support-title">Canais oficiais de suporte</p>
+          <p class="footer-support-info">
+            <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a> 
+          </p>
+        </div>
+        <div class="legal">
+          <p class="footer-legal">CNPJ: 30.589.513/0001-40</p>
+          <p class="footer-copy">© 2025 3G Brasil — 3g-brasil.com</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Lê o plano da query string (?plano=...)
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var plano = params.get('plano') || '—';
+      var selected = document.getElementById('selected-plan-card');
+      if (selected) {
+        selected.textContent = plano;
+      }
+    })();
+
+    (function () {
+      var cardForm   = document.querySelector('.card-form');
+      var cancelBtn  = document.getElementById('card-cancel-btn');
+      var submitBtn  = document.getElementById('card-submit-btn');
+      var selectedEl = document.getElementById('selected-plan-card');
+
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', function () {
+          window.location.href = '/';
+        });
+      }
+
+      if (!cardForm) return;
+
+      cardForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var nomeInput     = document.getElementById('card-name');
+        var emailInput    = document.getElementById('card-email');
+        var telefoneInput = document.getElementById('card-phone');
+
+        var nome      = nomeInput  ? nomeInput.value.trim()  : "";
+        var userEmail = emailInput ? emailInput.value.trim() : "";
+        var telefone  = telefoneInput ? telefoneInput.value.trim() : "";
+
+        var plano = selectedEl ? (selectedEl.textContent || "").trim() : "";
+
+        var valorCentavos = 0;
+        if (plano.indexOf("Mensal individual") >= 0) {
+          valorCentavos = 2290;
+        } else if (plano.indexOf("Anual individual") >= 0) {
+          valorCentavos = 2000;
+        } else if (plano.indexOf("Mensal família") >= 0) {
+          valorCentavos = 1890;
+        } else if (plano.indexOf("Anual família") >= 0) {
+          valorCentavos = 1700;
+        }
+
+        if (!nome || !userEmail || !telefone || !plano || !valorCentavos) {
+          alert("Por favor, confira nome, e-mail, telefone e plano antes de continuar.");
+          return;
+        }
+
+        // Por enquanto, API local (como já usamos nos testes)
+        var API_BASE_URL = "http://127.0.0.1:8000";
+
+        var payload = {
+          nome: nome,
+          telefone: telefone,
+          user_email: userEmail,
+          plano: plano,
+          valor_mensal_centavos: valorCentavos
+        };
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Enviando...";
+        }
+
+        fetch(API_BASE_URL + "/api/assinaturas/site", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        })
+        .then(function (resp) {
+          if (!resp.ok) throw new Error("HTTP " + resp.status);
+          return resp.json();
+        })
+        .then(function (data) {
+          console.log("Assinatura criada, id =", data.id);
+          alert("Assinatura registrada! Você receberá um e-mail com o link e o QR Code para instalar o app.");
+          cardForm.reset();
+          window.location.href = "/";
+        })
+        .catch(function (err) {
+          console.error("Erro ao registrar assinatura:", err);
+          alert("Não foi possível registrar sua assinatura agora. Tente novamente em alguns instantes.");
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Confirmar assinatura";
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
