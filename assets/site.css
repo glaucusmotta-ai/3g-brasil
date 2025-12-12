@@ -28,34 +28,32 @@ header {
   width: 100%;
 }
 
-/* Faixa do LOGO (ocupando largura inteira) */
+/* Faixa do LOGO (banner mais baixo) */
 .logo-band {
   width: 100%;
-  padding: 32px 16px 24px;        /* espaço em cima/baixo */
+  height: 260px;              /* altura fixa tipo faixa */
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;               /* fundo escuro atrás da galáxia */
+  background: #000;           /* fundo escuro */
+  overflow: hidden;           /* corta o excedente da imagem */
 }
 
-/* Faixa do LOGO (ocupando largura inteira, mas altura controlada) */
-.logo-band {
-  width: 100%;
-  height: clamp(260px, 55vh, 420px);  /* altura máxima da faixa */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000;                   /* fundo escuro atrás da galáxia */
-  overflow: hidden;                   /* “corta” o excedente da imagem */
+/* No celular, um pouco mais baixo ainda */
+@media (max-width: 640px) {
+  .logo-band {
+    height: 200px;
+  }
 }
 
-/* Imagem do topo (galáxia + logo) */
+/* Imagem (galáxia + logo) preenchendo a faixa */
 .logo-band img {
   width: 100%;
   height: 100%;
-  object-fit: cover;                  /* preenche a faixa recortando as bordas */
+  object-fit: cover;          /* preenche a faixa recortando só as bordas */
   display: block;
 }
+
 
 
 /* Barra de navegação (tarja preta) */
