@@ -38,13 +38,25 @@ header {
   background: #000;               /* fundo escuro atrás da galáxia */
 }
 
+/* Faixa do LOGO (ocupando largura inteira, mas altura controlada) */
+.logo-band {
+  width: 100%;
+  height: clamp(260px, 55vh, 420px);  /* altura máxima da faixa */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;                   /* fundo escuro atrás da galáxia */
+  overflow: hidden;                   /* “corta” o excedente da imagem */
+}
+
 /* Imagem do topo (galáxia + logo) */
 .logo-band img {
   width: 100%;
-  max-width: 1200px;              /* limita o tamanho em tela grande */
-  height: auto;
+  height: 100%;
+  object-fit: cover;                  /* preenche a faixa recortando as bordas */
   display: block;
 }
+
 
 /* Barra de navegação (tarja preta) */
 header nav {
