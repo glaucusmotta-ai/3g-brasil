@@ -7,14 +7,66 @@
   <meta name="description" content="3G Brasil — Conectividade e soluções digitais. Produto Anjo da Guarda (app de segurança pessoal), atendimento responsável, consentimento para WhatsApp e conformidade com LGPD.">
   <meta name="robots" content="index,follow">
 
-  <link rel="stylesheet" href="/assets/site.css">
+  <!-- IMPORTANTE: caminho relativo pro CSS quando abrir local -->
+  <link rel="stylesheet" href="assets/site.css?v=3">
+
+  <!-- Estilos auxiliares dos botões / layout de ações -->
+  <style>
+    button.btn-link,
+    a.btn-link {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: #0b132b;
+      color: #e8eaed;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    button.btn-link:hover,
+    a.btn-link:hover {
+      opacity: .9;
+    }
+
+    .terms-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .terms-actions button {
+      flex: 1;
+      margin: 0;
+      padding: 12px 16px;
+      min-height: 48px;
+    }
+
+    button.btn-outline {
+      background: #fff;
+      color: #111;
+      border: 1px solid #d1d5db;
+    }
+
+    button.btn-outline:hover {
+      background: #f3f4f6;
+    }
+
+    /* Botões desabilitados (iOS em breve) */
+    button[disabled] {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
 
   <header>
     <div class="logo-band">
       <!-- ajuste o caminho se necessário: "assets/logo.png" -->
-      <img src="/assets/logo.png" alt="3G Brasil">
+      <img src="assets/logo.png" alt="3G Brasil">
     </div>
     <nav>
       <a href="/">3G Brasil</a>
@@ -44,7 +96,7 @@
         </p>
         <p style="font-size:.95rem;opacity:.85;">
           Para parar de receber mensagens, responda <strong>“PARAR”</strong> no WhatsApp ou envie solicitação para
-          <a href="mailto:contato@3g-brasil.com">contato@3g-brasil.com</a>.
+          <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a>.
         </p>
       </div>
     </section>
@@ -63,158 +115,192 @@
           <li>Envio de localização para contatos pré-configurados.</li>
           <li>Alertas por WhatsApp, SMS, e-mail e Telegram.</li>
         </ul>
-        <button type="button" class="btn-link" onclick="openPlanModal()">
+
+        <!-- FRASE AZUL CLICÁVEL (abre o popup de SISTEMA OPERACIONAL) -->
+        <a href="javascript:void(0)"
+           onclick="openOsModal()"
+           style="color:#2563eb; cursor:pointer; font-weight:600; text-decoration:underline;">
           Quero adquirir o Anjo da Guarda
-        </button>
-      </div>
-
-      <!-- Popup de planos do Anjo da Guarda -->
-      <div id="plan-modal" class="modal" aria-hidden="true">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 style="margin:0;">Escolha seu plano</h3>
-            <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
-          </div>
-
-          <ul class="plan-list">
-            <li class="plan-item" data-plan="Mensal individual — BRL 22,90">
-              <span>Mensal individual</span>
-              <span class="plan-price">BRL 22,90</span>
-            </li>
-            <li class="plan-item" data-plan="Anual individual — BRL 20,00">
-              <span>Anual individual</span>
-              <span class="plan-price">BRL 20,00</span>
-            </li>
-            <li class="plan-item" data-plan="Mensal família (até 4 pessoas) — BRL 18,90">
-              <span>Mensal família (até 4 pessoas cada)</span>
-              <span class="plan-price">BRL 18,90</span>
-            </li>
-            <li class="plan-item" data-plan="Anual família (até 4 pessoas) — BRL 17,00">
-              <span>Anual família (até 4 pessoas cada)</span>
-              <span class="plan-price">BRL 17,00</span>
-            </li>
-          </ul>
-
-          <p class="modal-footer">
-            Adquira seu plano.
-          </p>
-        </div>
-      </div>
-
-      <!-- Popup de termos de aquisição -->
-      <div id="terms-modal" class="modal" aria-hidden="true">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 style="margin:0;">Termos de aquisição e autorização</h3>
-            <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
-          </div>
-
-          <p class="terms-plan">
-            Plano selecionado: <strong id="selected-plan">—</strong>
-          </p>
-
-          <div class="terms-body">
-            <p>
-              Ao solicitar a contratação do aplicativo <strong>Anjo da Guarda</strong>, o cliente declara estar
-              ciente e de acordo com as condições abaixo:
-            </p>
-
-            <ul>
-              <li>Os valores informados são em <strong>BRL (Reais)</strong>, conforme plano selecionado.</li>
-              <li>A cobrança poderá ser realizada por cartão de crédito e/ou outros meios disponibilizados pela 3G Brasil.</li>
-              <li>O acesso ao aplicativo e às funcionalidades de segurança está condicionado à manutenção dos pagamentos em dia.</li>
-            </ul>
-
-            <p>
-              <strong>Canal oficial de WhatsApp:</strong> para viabilizar o atendimento, suporte e envio de mensagens
-              transacionais relacionadas ao Anjo da Guarda (por exemplo, confirmação de cadastro, alertas de uso e
-              notificações de cobrança), o cliente se compromete a:
-            </p>
-
-            <ul>
-              <li>Adicionar em sua agenda o número <strong>+55 11 9617-4582</strong> como contato da 3G Brasil / Anjo da Guarda.</li>
-              <li>Enviar uma mensagem inicial de texto, contendo ao menos <strong>“Oi”</strong>, para o número
-                  <strong>+55 11 9617-4582</strong> via WhatsApp, autorizando a abertura da janela de comunicação.</li>
-            </ul>
-
-            <p>
-              Essa mensagem inicial é necessária para cumprir as políticas da Meta/WhatsApp Business e garantir
-              que o contato foi iniciado pelo próprio cliente, como forma de consentimento e segurança.
-            </p>
-
-            <p>
-              Ao prosseguir com a contratação, o cliente confirma que leu estes termos, compreende as condições
-              de uso do Anjo da Guarda e autoriza o contato pelos canais informados, podendo revogar essa
-              autorização a qualquer momento.
-            </p>
-          </div>
-
-          <div class="terms-pdf">
-            <!-- coloque o PDF em /assets/termo_anjo_da_guarda.pdf -->
-            <a href="/assets/termo_anjo_da_guarda.pdf" target="_blank" rel="noopener">
-              Baixar termos em PDF
-            </a>
-          </div>
-
-          <div class="terms-actions">
-            <button type="button" class="btn-outline" id="terms-cancel-btn">Cancelar</button>
-            <button type="button" class="btn-link" id="terms-confirm-btn">Eu quero</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Popup de dados do cartão -->
-      <div id="card-modal" class="modal" aria-hidden="true">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 style="margin:0;">Dados para pagamento</h3>
-            <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
-          </div>
-
-          <p class="terms-plan">
-            Plano selecionado: <strong id="selected-plan-card">—</strong>
-          </p>
-
-          <form class="card-form" onsubmit="return false;">
-            <label>
-              Nome completo no cartão
-              <input type="text" required>
-            </label>
-            <label>
-              E-mail
-              <input type="email" required>
-            </label>
-            <label>
-              Telefone (WhatsApp)
-              <input type="tel" required>
-            </label>
-            <label>
-              Número do cartão
-              <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
-            </label>
-            <div class="card-row">
-              <label>
-                Validade (MM/AA)
-                <input type="text" inputmode="numeric" maxlength="5" placeholder="MM/AA" required>
-              </label>
-              <label>
-                CVV
-                <input type="password" inputmode="numeric" maxlength="4" required>
-              </label>
-            </div>
-
-            <p class="card-note">
-              Efetue o pagamento.
-            </p>
-
-            <div class="terms-actions">
-              <button type="button" class="btn-outline" id="card-cancel-btn">Cancelar</button>
-              <button type="submit" class="btn-link" id="card-submit-btn">Confirmar pagamento</button>
-            </div>
-          </form>
-        </div>
+        </a>
       </div>
     </section>
+
+    <!-- Popup de SISTEMA OPERACIONAL -->
+    <div id="os-modal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 style="margin:0;">Escolha seu sistema operacional</h3>
+          <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Selecione o sistema operacional do seu celular.</p>
+          <div class="terms-actions">
+            <button type="button" class="btn-outline" id="os-ios-btn" disabled>
+              iOS (em breve)
+            </button>
+            <button type="button" class="btn-link" id="os-android-btn">
+              Android
+            </button>
+          </div>
+          <p class="card-note" style="margin-top:12px;font-size:.9rem;">
+            No momento o Anjo da Guarda está disponível apenas para Android.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popup de planos do Anjo da Guarda -->
+    <div id="plan-modal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 style="margin:0;">Escolha seu plano</h3>
+          <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
+        </div>
+
+        <ul class="plan-list">
+          <li class="plan-item" data-plan="Mensal individual — BRL 22,90">
+            <span>Mensal individual</span>
+            <span class="plan-price">BRL 22,90</span>
+          </li>
+          <li class="plan-item" data-plan="Anual individual — BRL 20,00">
+            <span>Anual individual</span>
+            <span class="plan-price">BRL 20,00</span>
+          </li>
+          <li class="plan-item" data-plan="Mensal família (até 4 pessoas) — BRL 18,90">
+            <span>Mensal família (até 4 pessoas cada)</span>
+            <span class="plan-price">BRL 18,90</span>
+          </li>
+          <li class="plan-item" data-plan="Anual família (até 4 pessoas) — BRL 17,00">
+            <span>Anual família (até 4 pessoas cada)</span>
+            <span class="plan-price">BRL 17,00</span>
+          </li>
+        </ul>
+
+        <p class="modal-footer">
+          Adquira seu plano.
+        </p>
+      </div>
+    </div>
+
+    <!-- Popup de termos de aquisição -->
+    <div id="terms-modal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 style="margin:0;">Termos de aquisição e autorização</h3>
+          <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
+        </div>
+
+        <p class="terms-plan">
+          Plano selecionado: <strong id="selected-plan">—</strong>
+        </p>
+
+        <div class="terms-body">
+          <p>
+            Ao solicitar a contratação do aplicativo <strong>Anjo da Guarda</strong>, o cliente declara estar
+            ciente e de acordo com as condições abaixo:
+          </p>
+
+          <ul>
+            <li>Os valores informados são em <strong>BRL (Reais)</strong>, conforme plano selecionado.</li>
+            <li>A cobrança poderá ser realizada por cartão de crédito e/ou outros meios disponibilizados pela 3G Brasil.</li>
+            <li>O acesso ao aplicativo e às funcionalidades de segurança está condicionado à manutenção dos pagamentos em dia.</li>
+          </ul>
+
+          <p>
+            <strong>Canal oficial de WhatsApp:</strong> para viabilizar o atendimento, suporte e envio de mensagens
+            transacionais relacionadas ao Anjo da Guarda (por exemplo, confirmação de cadastro, alertas de uso e
+            notificações de cobrança), o cliente se compromete a:
+          </p>
+
+          <ul>
+            <li>Adicionar em sua agenda o número <strong>+55 11 96170-4582</strong> como contato da 3G Brasil / Anjo da Guarda.</li>
+            <li>Enviar uma mensagem inicial de texto, contendo ao menos <strong>“Oi”</strong>, para o número
+                <strong>+55 11 96170-4582</strong> via WhatsApp, autorizando a abertura da janela de comunicação.</li>
+            <li>Solicitar a cada contato de confiança/destinatário cadastrado no aplicativo que, a partir do próprio WhatsApp,
+                também envie uma mensagem de texto contendo ao menos <strong>“Oi”</strong> para o número
+                <strong>+55 11 96170-4582</strong>, a fim de habilitar o recebimento das mensagens de alerta.</li>
+          </ul>
+
+          <p>
+            Essas mensagens iniciais — tanto do cliente quanto dos destinatários indicados — são necessárias para cumprir
+            as políticas da Meta/WhatsApp Business e garantir que cada contato foi iniciado pelo titular da conta,
+            como forma de consentimento e segurança.
+          </p>
+
+          <p>
+            Ao prosseguir com a contratação, o cliente confirma que leu estes termos, compreende as condições
+            de uso do Anjo da Guarda e autoriza o contato pelos canais informados, podendo revogar essa
+            autorização a qualquer momento.
+          </p>
+        </div>
+
+        <div class="terms-pdf">
+          <!-- coloque o PDF em /assets/termo_anjo_da_guarda.pdf -->
+          <a href="/assets/termo_anjo_da_guarda.pdf" target="_blank" rel="noopener">
+            Baixar termos em PDF
+          </a>
+        </div>
+
+        <div class="terms-actions">
+          <button type="button" class="btn-outline" id="terms-cancel-btn">Cancelar</button>
+          <!-- EU QUERO = botão cheio/escuro -->
+          <button type="button" class="btn-link" id="terms-confirm-btn">Eu quero</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popup de dados do cartão -->
+    <div id="card-modal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 style="margin:0;">Dados para pagamento</h3>
+          <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
+        </div>
+
+        <p class="terms-plan">
+          Plano selecionado: <strong id="selected-plan-card">—</strong>
+        </p>
+
+        <form class="card-form" onsubmit="return false;">
+          <label>
+            Nome completo no cartão
+            <input type="text" id="card-name" required>
+          </label>
+          <label>
+            E-mail
+            <input type="email" id="card-email" required>
+          </label>
+          <label>
+            Telefone (WhatsApp)
+            <input type="tel" id="card-phone" required>
+          </label>
+          <label>
+            Número do cartão
+            <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
+          </label>
+          <div class="card-row">
+            <label>
+              Validade (MM/AA)
+              <input type="text" inputmode="numeric" maxlength="5" placeholder="MM/AA" required>
+            </label>
+            <label>
+              CVV
+              <input type="password" inputmode="numeric" maxlength="4" required>
+            </label>
+          </div>
+
+          <p class="card-note">
+            Efetue o pagamento.
+          </p>
+
+          <div class="terms-actions">
+            <button type="button" class="btn-outline" id="card-cancel-btn">Cancelar</button>
+            <!-- CONFIRMAR = botão cheio/escuro -->
+            <button type="submit" class="btn-link" id="card-submit-btn">Confirmar pagamento</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <section>
       <h2>Transparência</h2>
@@ -231,7 +317,7 @@
         <div class="support">
           <p class="footer-support-title">Canais oficiais de suporte</p>
           <p class="footer-support-info">
-            <a href="mailto:contato@3g-brasil.com">contato@3g-brasil.com</a> 
+            <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a> 
           </p>
         </div>
         <div class="legal">
@@ -246,14 +332,22 @@
   <a class="wa-btn"
      href="https://api.whatsapp.com/send?phone=5511961704582&text=Ol%C3%A1!%20Vim%20pelo%20site%20da%203G%20Brasil.%20Quero%20falar%20sobre%20o%20Anjo%20da%20Guarda."
      target="_blank" rel="noopener noreferrer" aria-label="Fale no WhatsApp">
-   <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
-    <path fill="currentColor" d="M19.1 17.5c-.3-.1-1.8-.9-2-.9s-.5-.1-.8.3-.9 1-1.1 1.2-.4.2-.7.1a7.7 7.7 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.4 0-.6.2-.8l.5-.6c.2-.2.3-.3.4-.5s0-.4 0-.5 0-.5-.2-.7c-.1-.3-.8-2-1.1-2.7s-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4s-1.2 1.1-1.2 2.6 1.2 3 1.4 3.2 2.5 3.9 6 5.5a20.2 20.2 0 0 0 2 .8 4.8 4.8 0 0 0 2.2.1c.7-.1 2.1-.9 2.4-1.8s.3-1.6.2-1.8-.3-.2-.6-.3zM16 3a13 13 0 0 0-11 19.6L3.2 29 9.6 27A13 13 0 1 0 16 3zm7.9 20.9a10.3 10.3 0 0 1-14.3 0A10.1 10.1 0 0 1 16 5.9a10.1 10.1 0 0 1 7.9 17.9z"/>
-   </svg>
-  Fale no WhatsApp
-</a>
+    <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
+      <path fill="currentColor" d="M19.1 17.5c-.3-.1-1.8-.9-2-.9s-.5-.1-.8.3-.9 1-1.1 1.2-.4.2-.7.1a7.7 7.7 0 0 1-2.3-1.4 8.6 8.6 0 0 1-1.6-2c-.2-.4 0-.6.2-.8l.5-.6c.2-.2.3-.3.4-.5s0-.4 0-.5 0-.5-.2-.7c-.1-.3-.8-2-1.1-2.7s-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4s-1.2 1.1-1.2 2.6 1.2 3 1.4 3.2 2.5 3.9 6 5.5a20.2 20.2 0 0 0 2 .8 4.8 4.8 0 0 0 2.2.1c.7-.1 2.1-.9 2.4-1.8s.3-1.6.2-1.8-.3-.2-.6-.3zM16 3a13 13 0 0 0-11 19.6L3.2 29 9.6 27A13 13 0 1 0 16 3zm7.9 20.9a10.3 10.3 0 0 1-14.3 0A10.1 10.1 0 0 1 16 5.9a10.1 10.1 0 0 1 7.9 17.9z"/>
+    </svg>
+    Fale no WhatsApp
+  </a>
 
   <!-- Scripts dos popups -->
   <script>
+    // Função global chamada pelo link azul
+    function openOsModal() {
+      var modal = document.getElementById('os-modal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
     function openPlanModal() {
       var modal = document.getElementById('plan-modal');
       if (!modal) return;
@@ -262,23 +356,28 @@
     }
 
     (function () {
-      var planModal   = document.getElementById('plan-modal');
-      var termsModal  = document.getElementById('terms-modal');
-      var cardModal   = document.getElementById('card-modal');
+      var osModal       = document.getElementById('os-modal');
+      var planModal     = document.getElementById('plan-modal');
+      var termsModal    = document.getElementById('terms-modal');
+      var cardModal     = document.getElementById('card-modal');
 
-      var planClose   = planModal ? planModal.querySelector('.modal-close') : null;
-      var termsClose  = termsModal ? termsModal.querySelector('.modal-close') : null;
-      var cardClose   = cardModal ? cardModal.querySelector('.modal-close') : null;
+      var osClose       = osModal   ? osModal.querySelector('.modal-close')   : null;
+      var planClose     = planModal ? planModal.querySelector('.modal-close') : null;
+      var termsClose    = termsModal? termsModal.querySelector('.modal-close'): null;
+      var cardClose     = cardModal ? cardModal.querySelector('.modal-close') : null;
 
-      var planItems   = document.querySelectorAll('.plan-item');
-      var selectedDom = document.getElementById('selected-plan');
+      var osAndroidBtn  = document.getElementById('os-android-btn');
+      var osIosBtn      = document.getElementById('os-ios-btn');
+
+      var planItems     = document.querySelectorAll('.plan-item');
+      var selectedDom   = document.getElementById('selected-plan');
       var selectedCardDom = document.getElementById('selected-plan-card');
 
-      var termsCancel = document.getElementById('terms-cancel-btn');
-      var termsConfirm= document.getElementById('terms-confirm-btn');
+      var termsCancel   = document.getElementById('terms-cancel-btn');
+      var termsConfirm  = document.getElementById('terms-confirm-btn');
 
-      var cardCancel  = document.getElementById('card-cancel-btn');
-      var cardForm    = document.querySelector('.card-form');
+      var cardCancel    = document.getElementById('card-cancel-btn');
+      var cardForm      = document.querySelector('.card-form');
 
       function showModal(modal) {
         if (!modal) return;
@@ -292,16 +391,18 @@
         modal.setAttribute('aria-hidden', 'true');
       }
 
-      if (planClose) {
-        planClose.addEventListener('click', function () { hideModal(planModal); });
-      }
-      if (termsClose) {
-        termsClose.addEventListener('click', function () { hideModal(termsModal); });
-      }
-      if (cardClose) {
-        cardClose.addEventListener('click', function () { hideModal(cardModal); });
-      }
+      // Fechar pelos X
+      if (osClose)   osClose.addEventListener('click',   function () { hideModal(osModal);   });
+      if (planClose) planClose.addEventListener('click', function () { hideModal(planModal); });
+      if (termsClose)termsClose.addEventListener('click',function () { hideModal(termsModal);});
+      if (cardClose) cardClose.addEventListener('click', function () { hideModal(cardModal); });
 
+      // Clique fora fecha
+      if (osModal) {
+        osModal.addEventListener('click', function (e) {
+          if (e.target === osModal) hideModal(osModal);
+        });
+      }
       if (planModal) {
         planModal.addEventListener('click', function (e) {
           if (e.target === planModal) hideModal(planModal);
@@ -318,19 +419,35 @@
         });
       }
 
+      // ESC fecha
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
+          if (osModal   && osModal.style.display   === 'flex') hideModal(osModal);
           if (planModal && planModal.style.display === 'flex') hideModal(planModal);
-          if (termsModal && termsModal.style.display === 'flex') hideModal(termsModal);
+          if (termsModal&& termsModal.style.display=== 'flex') hideModal(termsModal);
           if (cardModal && cardModal.style.display === 'flex') hideModal(cardModal);
         }
       });
 
+      // Botões do modal OS
+      if (osAndroidBtn) {
+        osAndroidBtn.addEventListener('click', function () {
+          hideModal(osModal);
+          showModal(planModal);
+        });
+      }
+      if (osIosBtn) {
+        osIosBtn.addEventListener('click', function () {
+          alert('Versão para iOS ainda não está disponível. Em breve.');
+        });
+      }
+
+      // Clique nos planos
       planItems.forEach(function (item) {
         item.addEventListener('click', function () {
           var txt = item.getAttribute('data-plan') || '';
-          if (selectedDom) selectedDom.textContent = txt;
-          if (selectedCardDom) selectedCardDom.textContent = txt;
+          if (selectedDom)      selectedDom.textContent     = txt;
+          if (selectedCardDom)  selectedCardDom.textContent = txt;
           hideModal(planModal);
           showModal(termsModal);
         });
@@ -341,10 +458,19 @@
           hideModal(termsModal);
         });
       }
+
       if (termsConfirm) {
         termsConfirm.addEventListener('click', function () {
+          var planoTxt = selectedDom ? (selectedDom.textContent || '').trim() : '';
+
           hideModal(termsModal);
-          showModal(cardModal);
+
+          var url = 'assinatura.html';
+          if (planoTxt) {
+            url += '?plano=' + encodeURIComponent(planoTxt);
+          }
+
+          window.location.href = url;
         });
       }
 
@@ -354,11 +480,94 @@
         });
       }
 
+      // URL da API do backend Anjo da Guarda
+      // Produção: anjo-track.3g-brasil.com
+      // Dev local: cai automaticamente para 127.0.0.1:8000
+      var API_BASE_URL = "https://anjo-track.3g-brasil.com";
+      if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
+        API_BASE_URL = "http://127.0.0.1:8000";
+      }
+
+      // Submissão do formulário do cartão → cria assinatura no backend
       if (cardForm) {
         cardForm.addEventListener('submit', function (e) {
           e.preventDefault();
-          alert('Dados enviados. Em breve nossa equipe entrará em contato para concluir a contratação.');
-          hideModal(cardModal);
+
+          // 1) Pega nome, telefone e e-mail digitados no formulário
+          var nomeInput     = document.getElementById('card-name');
+          var emailInput    = document.getElementById('card-email');
+          var telefoneInput = document.getElementById('card-phone');
+
+          var nome      = nomeInput     ? nomeInput.value.trim()     : "";
+          var userEmail = emailInput    ? emailInput.value.trim()    : "";
+          var telefone  = telefoneInput ? telefoneInput.value.trim() : "";
+
+          // 2) Plano selecionado
+          var plano = selectedCardDom ? (selectedCardDom.textContent || "").trim() : "";
+
+          // 3) Define o valor em centavos conforme o plano
+          var valorCentavos = 0;
+          if (plano.indexOf("Mensal individual") >= 0) {
+            valorCentavos = 2290;
+          } else if (plano.indexOf("Anual individual") >= 0) {
+            valorCentavos = 2000;
+          } else if (plano.indexOf("Mensal família") >= 0) {
+            valorCentavos = 1890;
+          } else if (plano.indexOf("Anual família") >= 0) {
+            valorCentavos = 1700;
+          }
+
+          if (!nome || !userEmail || !telefone || !plano || !valorCentavos) {
+            alert("Por favor, confira nome, e-mail, telefone e plano selecionado antes de continuar.");
+            return;
+          }
+
+          // 5) Monta o payload
+          var payload = {
+            nome: nome,
+            telefone: telefone,
+            user_email: userEmail,
+            plano: plano,
+            valor_mensal_centavos: valorCentavos
+          };
+
+          // 6) Desabilita o botão para evitar clique duplo
+          var submitBtn = document.getElementById('card-submit-btn');
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Enviando...";
+          }
+
+          // 7) Faz o POST para /api/assinaturas/site
+          fetch(API_BASE_URL + "/api/assinaturas/site", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          })
+          .then(function (resp) {
+            if (!resp.ok) {
+              throw new Error("HTTP " + resp.status);
+            }
+            return resp.json();
+          })
+          .then(function (data) {
+            console.log("Assinatura criada, id =", data.id);
+            alert("Assinatura registrada! Você receberá um e-mail com o link e QR Code para instalar o app.");
+            cardForm.reset();
+            hideModal(cardModal);
+          })
+          .catch(function (err) {
+            console.error("Erro ao registrar assinatura:", err);
+            alert("Não foi possível registrar sua assinatura agora. Tente novamente em alguns instantes.");
+          })
+          .finally(function () {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Confirmar pagamento";
+            }
+          });
         });
       }
     })();
