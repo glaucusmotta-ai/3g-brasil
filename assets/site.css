@@ -28,21 +28,27 @@ header {
   width: 100%;
 }
 
-/* Faixa do LOGO (largura total) */
+/* Faixa do LOGO (largura total) – fundo galáxia com logo já centralizado */
 .logo-band {
   width: 100%;
-  height: clamp(240px, 30vw, 340px);
+  height: clamp(260px, 36vw, 420px);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+
+  /* fundo com a imagem hero-3gbrasil.png */
+  background-color: #000;
+  background-image: url("hero-3gbrasil.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  overflow: hidden;
 }
+
+/* Se ainda existir um <img> dentro da .logo-band, escondemos.
+   O logo já está embutido na própria imagem de fundo. */
 .logo-band img {
-  height: 100%;
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
+  display: none;
 }
 
 /* Barra de navegação (tarja preta) */
@@ -70,6 +76,8 @@ header nav a:hover {
   margin: 0 auto;
   padding: 24px 16px;
 }
+
+/* Hero de texto (fica abaixo do logo/galáxia) */
 .hero {
   padding: 32px 0;
 }
@@ -375,6 +383,7 @@ footer .container {
     max-width: 100%;
   }
 }
+
 /* === OVERRIDE FINAL PARA OS BOTÕES DO ANJO DA GUARDA === */
 
 /* Container dos botões "Cancelar" / "Eu quero" / "Confirmar pagamento" */
@@ -428,29 +437,4 @@ footer .container {
 }
 .btn-outline:hover{
   background:#f3f4f6;
-}
-/* ==== HERO 3G BRASIL – LOGO GRANDE ==== */
-
-/* Deixa o topo escuro (não mais branco dos lados) */
-header {
-  background-color: #050816;
-}
-
-/* Faixa onde o logo fica */
-header .logo-band,
-header .hero-logo,
-header .logo-container {
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-/* A imagem que está no topo (logo/banner) */
-header img {
-  display: block;
-  margin: 0 auto;
-  width: 100%;          /* ocupa toda a largura do quadro vermelho */
-  max-width: 1200px;    /* limite para não ficar gigante em telas enormes */
-  height: auto;
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.7)); /* dá uma nitidez visual */
 }
