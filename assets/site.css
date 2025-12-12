@@ -28,27 +28,22 @@ header {
   width: 100%;
 }
 
-/* Faixa do LOGO (largura total) – fundo galáxia com logo já centralizado */
+/* Faixa do LOGO (ocupando largura inteira) */
 .logo-band {
   width: 100%;
-  height: clamp(260px, 36vw, 420px);
+  padding: 32px 16px 24px;        /* espaço em cima/baixo */
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* fundo com a imagem hero-3gbrasil.png */
-  background-color: #000;
-  background-image: url("hero-3gbrasil.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  overflow: hidden;
+  background: #000;               /* fundo escuro atrás da galáxia */
 }
 
-/* Se ainda existir um <img> dentro da .logo-band, escondemos.
-   O logo já está embutido na própria imagem de fundo. */
+/* Imagem do topo (galáxia + logo) */
 .logo-band img {
-  display: none;
+  width: 100%;
+  max-width: 1200px;              /* limita o tamanho em tela grande */
+  height: auto;
+  display: block;
 }
 
 /* Barra de navegação (tarja preta) */
