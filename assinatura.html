@@ -5,53 +5,92 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Finalizar assinatura — Anjo da Guarda | 3G Brasil</title>
   <meta name="description" content="Finalização da assinatura do aplicativo Anjo da Guarda da 3G Brasil.">
-  <link rel="stylesheet" href="assets/site.css?v=3">
+
+  <link rel="stylesheet" href="assets/site.css?v=4">
 
   <style>
-    main.container {
+    main.container{
       max-width: 960px;
       margin: 0 auto;
       padding: 32px 16px 64px;
     }
-    .card-form-page {
-      max-width: 480px;
-      margin-top: 24px;
+
+    .card-form-page{
+      max-width: 520px;
+      margin-top: 18px;
     }
-    .card-form-page label {
+
+    .terms-plan{
+      margin: 10px 0 0;
+      font-size: 1rem;
+    }
+
+    .card-form-page label{
       display:block;
-      margin-bottom:12px;
+      margin-bottom: 12px;
+      font-size: .95rem;
     }
-    .card-form-page input {
+
+    .card-form-page input{
       width:100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+      outline: none;
     }
-    .card-row {
+    .card-form-page input:focus{
+      border-color:#1d4ed8;
+      box-shadow: 0 0 0 3px rgba(29,78,216,.12);
+    }
+
+    .card-row{
       display:flex;
       gap:12px;
     }
-    .card-row label {
-      flex:1;
-    }
-    .terms-actions {
+    .card-row label{ flex:1; }
+
+    .terms-actions{
       display:flex;
       gap:12px;
-      margin-top:20px;
+      margin-top: 18px;
+      flex-wrap: wrap;
     }
-    .terms-actions button {
-      flex:1;
+    .terms-actions button{
+      flex:1 0 auto;
       min-height:48px;
       border-radius:999px;
       padding:12px 16px;
-      font-weight:600;
+      font-weight:700;
       border:none;
       cursor:pointer;
     }
-    .btn-outline { background:#fff;border:1px solid #d1d5db;color:#111;}
-    .btn-link { background:#0b132b;color:#e8eaed;}
+    .btn-outline{ background:#fff;border:1px solid #d1d5db;color:#111;}
+    .btn-link{ background:#0b132b;color:#e8eaed;border:1px solid #0b132b;}
     .btn-outline:hover{background:#f3f4f6;}
-    .btn-link:hover{opacity:.9;}
-    .card-note{font-size:.9rem;opacity:.8;margin-top:8px;}
+    .btn-link:hover{opacity:.92;}
+
+    .card-note{
+      font-size:.9rem;
+      color:#6b7280;
+      margin-top: 8px;
+    }
+
+    .coupon-feedback{
+      font-size:.85rem;
+      margin-top:6px;
+      color:#6b7280;
+    }
+
+    .hint{
+      font-size:.85rem;
+      color:#6b7280;
+      margin-top:6px;
+      line-height: 1.35;
+    }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -68,27 +107,40 @@
   <main class="container">
     <section>
       <h1>Finalizar assinatura</h1>
+
       <p class="terms-plan">
         Plano selecionado: <strong id="selected-plan-card">—</strong>
       </p>
+      <p class="hint" id="plan-hint"></p>
 
       <form class="card-form card-form-page" onsubmit="return false;">
         <label>
           Nome completo
           <input type="text" id="card-name" required>
         </label>
+
         <label>
           E-mail
           <input type="email" id="card-email" required>
         </label>
+
         <label>
           Telefone (WhatsApp)
-          <input type="tel" id="card-phone" required>
+          <input type="tel" id="card-phone" required placeholder="+55 11 99999-9999">
         </label>
+
+        <!-- Cupom -->
+        <label>
+          Cupom (opcional)
+          <input type="text" id="coupon-code" placeholder="Digite seu cupom" autocomplete="off">
+          <div class="coupon-feedback" id="coupon-feedback"></div>
+        </label>
+
         <label>
           Número do cartão
           <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
         </label>
+
         <div class="card-row">
           <label>
             Validade (MM/AA)
@@ -118,7 +170,7 @@
         <div class="support">
           <p class="footer-support-title">Canais oficiais de suporte</p>
           <p class="footer-support-info">
-            <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a> 
+            <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a>
           </p>
         </div>
         <div class="legal">
@@ -130,21 +182,114 @@
   </footer>
 
   <script>
-    // Lê o plano da query string (?plano=...)
+    // ----------------------------
+    // Helpers
+    // ----------------------------
+    function _normSpaces(s){
+      return (s || "").replace(/\s+/g, " ").trim();
+    }
+
+    function _upperNoSpaces(s){
+      return (s || "").replace(/\s+/g, "").toUpperCase();
+    }
+
+    function _inferPlanMeta(planoText){
+      // Retorna: {perfil, tier, periodicidade, valor_centavos, valor_mensal_centavos}
+      // - valor_centavos: valor TOTAL que será cobrado agora (mensal ou anual total)
+      // - valor_mensal_centavos: o "mensal equivalente" (compatibilidade e relatórios)
+      var p = (planoText || "").toLowerCase();
+
+      var perfil = p.indexOf("familiar") >= 0 ? "familia" : "individual";
+      var tier   = p.indexOf("premium")   >= 0 ? "premium" : "essencial";
+      var periodicidade = p.indexOf("/ano") >= 0 ? "anual" : "mensal";
+
+      // tabela oficial (centavos)
+      // mensal
+      // Essencial Individual 22,90 -> 2290
+      // Premium  Individual 32,90 -> 3290
+      // Essencial Familiar  total 75,60 -> 7560 (apesar de mostrar por pessoa, cobrança aqui é total)
+      // Premium  Familiar  total 115,60 -> 11560
+      //
+      // anual TOTAL
+      // Essencial Individual 240,00 -> 24000
+      // Premium  Individual 370,00 -> 37000
+      // Essencial Familiar   192,00 -> 19200
+      // Premium  Familiar    312,00 -> 31200
+
+      var valor_centavos = 0;
+      var valor_mensal_centavos = 0;
+
+      if (periodicidade === "mensal"){
+        if (perfil === "individual" && tier === "essencial"){ valor_centavos = 2290;  valor_mensal_centavos = 2290; }
+        if (perfil === "individual" && tier === "premium"){   valor_centavos = 3290;  valor_mensal_centavos = 3290; }
+        if (perfil === "familia"    && tier === "essencial"){ valor_centavos = 7560;  valor_mensal_centavos = 7560; }
+        if (perfil === "familia"    && tier === "premium"){   valor_centavos = 11560; valor_mensal_centavos = 11560; }
+      } else {
+        // anual = TOTAL do ano (corrige seu problema)
+        if (perfil === "individual" && tier === "essencial"){ valor_centavos = 24000; valor_mensal_centavos = 24000/12; }
+        if (perfil === "individual" && tier === "premium"){   valor_centavos = 37000; valor_mensal_centavos = 37000/12; }
+        if (perfil === "familia"    && tier === "essencial"){ valor_centavos = 19200; valor_mensal_centavos = 19200/12; }
+        if (perfil === "familia"    && tier === "premium"){   valor_centavos = 31200; valor_mensal_centavos = 31200/12; }
+        // mensal equivalente arredondado
+        valor_mensal_centavos = Math.round(valor_mensal_centavos);
+      }
+
+      return {
+        perfil: perfil,
+        tier: tier,
+        periodicidade: periodicidade,
+        valor_centavos: valor_centavos,
+        valor_mensal_centavos: valor_mensal_centavos
+      };
+    }
+
+    function _planHint(meta){
+      if (!meta || !meta.valor_centavos) return "";
+      if (meta.periodicidade === "anual"){
+        return "Cobrança anual (valor total do ano).";
+      }
+      return "Cobrança mensal.";
+    }
+
+    // ----------------------------
+    // Plano via querystring
+    // ----------------------------
+    var PLANO_TXT = "—";
     (function() {
       var params = new URLSearchParams(window.location.search);
-      var plano = params.get('plano') || '—';
+      var plano = params.get('plano') || "—";
+      plano = _normSpaces(plano);
+
       var selected = document.getElementById('selected-plan-card');
-      if (selected) {
-        selected.textContent = plano;
-      }
+      if (selected) selected.textContent = plano;
+
+      PLANO_TXT = plano;
+
+      var meta = _inferPlanMeta(plano);
+      var hint = document.getElementById("plan-hint");
+      if (hint) hint.textContent = _planHint(meta);
     })();
 
+    // ----------------------------
+    // Form + API
+    // ----------------------------
     (function () {
       var cardForm   = document.querySelector('.card-form');
       var cancelBtn  = document.getElementById('card-cancel-btn');
       var submitBtn  = document.getElementById('card-submit-btn');
-      var selectedEl = document.getElementById('selected-plan-card');
+
+      var couponInput = document.getElementById('coupon-code');
+      var couponFeedback = document.getElementById('coupon-feedback');
+
+      if (couponInput) {
+        couponInput.addEventListener('input', function () {
+          var v = _upperNoSpaces(couponInput.value || "");
+          couponInput.value = v;
+
+          if (!couponFeedback) return;
+          couponFeedback.textContent = v ? "Cupom registrado. Ele será validado na finalização." : "";
+        });
+      }
 
       if (cancelBtn) {
         cancelBtn.addEventListener('click', function () {
@@ -154,44 +299,47 @@
 
       if (!cardForm) return;
 
+      // API base: produção, e local quando localhost/127
+      var API_BASE_URL = "https://anjo-track.3g-brasil.com";
+      if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
+        API_BASE_URL = "http://127.0.0.1:8000";
+      }
+
       cardForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        var nomeInput     = document.getElementById('card-name');
-        var emailInput    = document.getElementById('card-email');
-        var telefoneInput = document.getElementById('card-phone');
+        var nome      = (document.getElementById('card-name')  || {}).value ? document.getElementById('card-name').value.trim() : "";
+        var userEmail = (document.getElementById('card-email') || {}).value ? document.getElementById('card-email').value.trim() : "";
+        var telefone  = (document.getElementById('card-phone') || {}).value ? document.getElementById('card-phone').value.trim() : "";
+        var couponCode = couponInput ? (couponInput.value || "").trim() : "";
 
-        var nome      = nomeInput  ? nomeInput.value.trim()  : "";
-        var userEmail = emailInput ? emailInput.value.trim() : "";
-        var telefone  = telefoneInput ? telefoneInput.value.trim() : "";
+        var plano = (PLANO_TXT || "").trim();
 
-        var plano = selectedEl ? (selectedEl.textContent || "").trim() : "";
+        var meta = _inferPlanMeta(plano);
 
-        var valorCentavos = 0;
-        if (plano.indexOf("Mensal individual") >= 0) {
-          valorCentavos = 2290;
-        } else if (plano.indexOf("Anual individual") >= 0) {
-          valorCentavos = 2000;
-        } else if (plano.indexOf("Mensal família") >= 0) {
-          valorCentavos = 1890;
-        } else if (plano.indexOf("Anual família") >= 0) {
-          valorCentavos = 1700;
-        }
-
-        if (!nome || !userEmail || !telefone || !plano || !valorCentavos) {
+        if (!nome || !userEmail || !telefone || !plano || !meta.valor_centavos) {
           alert("Por favor, confira nome, e-mail, telefone e plano antes de continuar.");
           return;
         }
 
-        // Por enquanto, API local (como já usamos nos testes)
-        var API_BASE_URL = "http://127.0.0.1:8000";
-
+        // Payload (compatível + correto para anual)
         var payload = {
           nome: nome,
           telefone: telefone,
           user_email: userEmail,
           plano: plano,
-          valor_mensal_centavos: valorCentavos
+
+          // NOVO (recomendado): valor total a cobrar agora
+          valor_centavos: meta.valor_centavos,
+
+          // Mantido para compatibilidade com backend antigo
+          valor_mensal_centavos: meta.valor_mensal_centavos,
+
+          periodicidade: meta.periodicidade, // mensal | anual
+          plano_tier: meta.tier,             // essencial | premium
+          perfil: meta.perfil,               // individual | familia
+
+          coupon_code: couponCode
         };
 
         if (submitBtn) {
@@ -201,9 +349,7 @@
 
         fetch(API_BASE_URL + "/api/assinaturas/site", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: {"Content-Type":"application/json"},
           body: JSON.stringify(payload)
         })
         .then(function (resp) {

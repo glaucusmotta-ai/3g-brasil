@@ -433,3 +433,133 @@ footer .container {
 .btn-outline:hover{
   background:#f3f4f6;
 }
+
+/* =========================================================
+   PLANOS (MODAL) — 1) Alturas alinhadas  2) Preço fixo  3) Menos scroll
+   ========================================================= */
+
+/* Modal maior (reduz scroll) */
+#plan-modal .modal-content{
+  max-width: 980px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 92vh; /* mais alto na tela */
+}
+
+/* Corpo com scroll controlado (reduz scroll) */
+#plan-modal .modal-body{
+  padding: 16px 20px 20px;
+  max-height: 78vh;
+  overflow: auto;
+}
+
+/* Grid 2 colunas: garante “linha” com altura igual nos dois lados */
+#plan-modal .plan-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: stretch; /* força itens a esticar */
+}
+
+/* Responsivo: em telas menores vira 1 coluna */
+@media (max-width: 900px){
+  #plan-modal .plan-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cabeçalho de coluna (Individual / Família) */
+#plan-modal .plan-col-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fff;
+}
+
+#plan-modal .plan-col-title{
+  margin:0;
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+#plan-modal .plan-col-badge{
+  font-size: .82rem;
+  font-weight: 800;
+  background:#eef2ff;
+  color:#1d4ed8;
+  padding: 6px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Card do plano */
+#plan-modal .plan-item{
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px;
+  cursor: pointer;
+
+  /* chave do alinhamento de alturas */
+  height: 100%;
+  align-self: stretch;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  /* se algum navegador aplicar estilo de botão (caso você use <button>) */
+  text-align: left;
+}
+
+#plan-modal .plan-item:hover{
+  background:#eef2ff;
+  border-color:#1d4ed8;
+}
+
+/* Linha do título + preço */
+#plan-modal .plan-row{
+  display: grid;
+  grid-template-columns: 1fr auto; /* nome cresce / preço fica fixo */
+  gap: 12px;
+  align-items: start;
+}
+
+#plan-modal .plan-name{
+  font-weight: 900;
+  font-size: 1.03rem;
+}
+
+#plan-modal .plan-price{
+  text-align: right;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+#plan-modal .plan-price small{
+  display:block;              /* quebra em 2 linhas quando necessário */
+  font-size: .86rem;
+  font-weight: 800;
+  opacity: .85;
+  margin-top: 2px;
+}
+
+/* Features: reserva espaço para padronizar altura do card */
+#plan-modal .plan-features{
+  margin: 0;
+  padding-left: 18px;
+  color:#374151;
+  line-height: 1.35;
+  font-size: .95rem;
+
+  /* chave para as alturas ficarem parecidas mesmo quando tem poucos itens */
+  min-height: 4.4em;
+  flex: 1;
+}
+
+#plan-modal .plan-features li{ margin: 6px 0; }
+#plan-modal .plan-features li:last-child{ margin-bottom: 0; }

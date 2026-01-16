@@ -8,7 +8,7 @@
   <meta name="robots" content="index,follow">
 
   <!-- IMPORTANTE: caminho relativo pro CSS quando abrir local -->
-  <link rel="stylesheet" href="assets/site.css?v=3">
+  <link rel="stylesheet" href="assets/site.css?v=4">
 
   <!-- Estilos auxiliares dos botões / layout de ações -->
   <style>
@@ -64,18 +64,16 @@
 <body>
 
   <header>
-  <div class="logo-band">
-    <!-- imagem principal do topo -->
-    <img src="assets/logo.png" alt="3G Brasil" loading="lazy" />
-  </div>
+    <div class="logo-band">
+      <img src="assets/logo.png" alt="3G Brasil" loading="lazy" />
+    </div>
 
-  <nav>
-    <a href="#3gbrasil">3G Brasil</a>
-    <a href="#produtos">Produtos</a>
-    <a href="#contato">Contato</a>
-  </nav>
-</header>
-
+    <nav>
+      <a href="#3gbrasil">3G Brasil</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
 
   <main class="container">
     <section class="hero">
@@ -118,7 +116,6 @@
           <li>Alertas por WhatsApp, SMS, e-mail e Telegram.</li>
         </ul>
 
-        <!-- FRASE AZUL CLICÁVEL (abre o popup de SISTEMA OPERACIONAL) -->
         <a href="javascript:void(0)"
            onclick="openOsModal()"
            style="color:#2563eb; cursor:pointer; font-weight:600; text-decoration:underline;">
@@ -159,28 +156,123 @@
           <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
         </div>
 
-        <ul class="plan-list">
-          <li class="plan-item" data-plan="Mensal individual — BRL 22,90">
-            <span>Mensal individual</span>
-            <span class="plan-price">BRL 22,90</span>
-          </li>
-          <li class="plan-item" data-plan="Anual individual — BRL 20,00">
-            <span>Anual individual</span>
-            <span class="plan-price">BRL 20,00</span>
-          </li>
-          <li class="plan-item" data-plan="Mensal família (até 4 pessoas) — BRL 18,90">
-            <span>Mensal família (até 4 pessoas cada)</span>
-            <span class="plan-price">BRL 18,90</span>
-          </li>
-          <li class="plan-item" data-plan="Anual família (até 4 pessoas) — BRL 17,00">
-            <span>Anual família (até 4 pessoas cada)</span>
-            <span class="plan-price">BRL 17,00</span>
-          </li>
-        </ul>
+        <div class="modal-body">
+          <div class="plan-grid">
+            <!-- Cabeçalhos -->
+            <div class="plan-col-head">
+              <h4 class="plan-col-title">Individual</h4>
+              <span class="plan-col-badge">1 pessoa</span>
+            </div>
+            <div class="plan-col-head">
+              <h4 class="plan-col-title">Família</h4>
+              <span class="plan-col-badge">até 4 pessoas</span>
+            </div>
 
-        <p class="modal-footer">
-          Adquira seu plano.
-        </p>
+            <!-- LINHA 1 -->
+            <div class="plan-item" data-plan="Essencial Individual — R$ 22,90/mês">
+              <div class="plan-row">
+                <span class="plan-name">Essencial Individual</span>
+                <span class="plan-price">R$ 22,90/mês</span>
+              </div>
+              <ul class="plan-features">
+                <li>SOS por PIN e/ou Áudio</li>
+                <li>Disparo para WhatsApp / Telegram / E-mail</li>
+                <li>Link do mapa para destinatários quando houver internet</li>
+              </ul>
+            </div>
+
+            <div class="plan-item" data-plan="Essencial Familiar — R$ 18,90/pessoa (R$ 75,60/mês)">
+              <div class="plan-row">
+                <span class="plan-name">Essencial Familiar</span>
+                <span class="plan-price">
+                  R$ 18,90/pessoa
+                  <small>(R$ 75,60/mês)</small>
+                </span>
+              </div>
+              <ul class="plan-features">
+                <li>Essencial para até 4 membros (PIN/Áudio + disparos + link do mapa quando houver internet)</li>
+              </ul>
+            </div>
+
+            <!-- LINHA 2 -->
+            <div class="plan-item" data-plan="Premium Individual — R$ 32,90/mês">
+              <div class="plan-row">
+                <span class="plan-name">Premium Individual</span>
+                <span class="plan-price">R$ 32,90/mês</span>
+              </div>
+              <ul class="plan-features">
+                <li>Tudo do Essencial</li>
+                <li>SMS via operadora (sem internet)</li>
+                <li>Central/Localiza 24/7 (suporte por telefone + acompanhamento no mapa quando possível)</li>
+              </ul>
+            </div>
+
+            <div class="plan-item" data-plan="Premium Familiar — R$ 28,90/pessoa (R$ 115,60/mês)">
+              <div class="plan-row">
+                <span class="plan-name">Premium Familiar</span>
+                <span class="plan-price">
+                  R$ 28,90/pessoa
+                  <small>(R$ 115,60/mês)</small>
+                </span>
+              </div>
+              <ul class="plan-features">
+                <li>Premium para até 4 membros (inclui SMS sem internet + Central/Localiza 24/7)</li>
+              </ul>
+            </div>
+
+            <!-- LINHA 3 -->
+            <div class="plan-item" data-plan="Essencial Individual — R$ 240,00/ano">
+              <div class="plan-row">
+                <span class="plan-name">Essencial Individual</span>
+                <span class="plan-price">R$ 240,00/ano</span>
+              </div>
+              <ul class="plan-features">
+                <li>Mesmas coberturas do Essencial mensal (economia no anual)</li>
+              </ul>
+            </div>
+
+            <div class="plan-item" data-plan="Essencial Familiar — R$ 192,00/ano (total)">
+              <div class="plan-row">
+                <span class="plan-name">Essencial Familiar</span>
+                <span class="plan-price">
+                  R$ 192,00/ano
+                  <small>(total)</small>
+                </span>
+              </div>
+              <ul class="plan-features">
+                <li>Mesmas coberturas do Essencial Familiar mensal (economia no anual)</li>
+              </ul>
+            </div>
+
+            <!-- LINHA 4 -->
+            <div class="plan-item" data-plan="Premium Individual — R$ 370,00/ano">
+              <div class="plan-row">
+                <span class="plan-name">Premium Individual</span>
+                <span class="plan-price">R$ 370,00/ano</span>
+              </div>
+              <ul class="plan-features">
+                <li>Mesmas coberturas do Premium mensal (economia no anual)</li>
+              </ul>
+            </div>
+
+            <div class="plan-item" data-plan="Premium Familiar — R$ 312,00/ano (total)">
+              <div class="plan-row">
+                <span class="plan-name">Premium Familiar</span>
+                <span class="plan-price">
+                  R$ 312,00/ano
+                  <small>(total)</small>
+                </span>
+              </div>
+              <ul class="plan-features">
+                <li>Mesmas coberturas do Premium Familiar mensal (economia no anual)</li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="modal-footer" style="margin-top:14px;">
+            Adquira seu plano.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -237,7 +329,6 @@
         </div>
 
         <div class="terms-pdf">
-          <!-- coloque o PDF em /assets/termo_anjo_da_guarda.pdf -->
           <a href="/assets/termo_anjo_da_guarda.pdf" target="_blank" rel="noopener">
             Baixar termos em PDF
           </a>
@@ -245,62 +336,8 @@
 
         <div class="terms-actions">
           <button type="button" class="btn-outline" id="terms-cancel-btn">Cancelar</button>
-          <!-- EU QUERO = botão cheio/escuro -->
           <button type="button" class="btn-link" id="terms-confirm-btn">Eu quero</button>
         </div>
-      </div>
-    </div>
-
-    <!-- Popup de dados do cartão -->
-    <div id="card-modal" class="modal" aria-hidden="true">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 style="margin:0;">Dados para pagamento</h3>
-          <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
-        </div>
-
-        <p class="terms-plan">
-          Plano selecionado: <strong id="selected-plan-card">—</strong>
-        </p>
-
-        <form class="card-form" onsubmit="return false;">
-          <label>
-            Nome completo no cartão
-            <input type="text" id="card-name" required>
-          </label>
-          <label>
-            E-mail
-            <input type="email" id="card-email" required>
-          </label>
-          <label>
-            Telefone (WhatsApp)
-            <input type="tel" id="card-phone" required>
-          </label>
-          <label>
-            Número do cartão
-            <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
-          </label>
-          <div class="card-row">
-            <label>
-              Validade (MM/AA)
-              <input type="text" inputmode="numeric" maxlength="5" placeholder="MM/AA" required>
-            </label>
-            <label>
-              CVV
-              <input type="password" inputmode="numeric" maxlength="4" required>
-            </label>
-          </div>
-
-          <p class="card-note">
-            Efetue o pagamento.
-          </p>
-
-          <div class="terms-actions">
-            <button type="button" class="btn-outline" id="card-cancel-btn">Cancelar</button>
-            <!-- CONFIRMAR = botão cheio/escuro -->
-            <button type="submit" class="btn-link" id="card-submit-btn">Confirmar pagamento</button>
-          </div>
-        </form>
       </div>
     </div>
 
@@ -319,7 +356,7 @@
         <div class="support">
           <p class="footer-support-title">Canais oficiais de suporte</p>
           <p class="footer-support-info">
-            <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a> 
+            <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a>
           </p>
         </div>
         <div class="legal">
@@ -340,18 +377,9 @@
     Fale no WhatsApp
   </a>
 
-  <!-- Scripts dos popups -->
   <script>
-    // Função global chamada pelo link azul
     function openOsModal() {
       var modal = document.getElementById('os-modal');
-      if (!modal) return;
-      modal.style.display = 'flex';
-      modal.setAttribute('aria-hidden', 'false');
-    }
-
-    function openPlanModal() {
-      var modal = document.getElementById('plan-modal');
       if (!modal) return;
       modal.style.display = 'flex';
       modal.setAttribute('aria-hidden', 'false');
@@ -361,25 +389,19 @@
       var osModal       = document.getElementById('os-modal');
       var planModal     = document.getElementById('plan-modal');
       var termsModal    = document.getElementById('terms-modal');
-      var cardModal     = document.getElementById('card-modal');
 
       var osClose       = osModal   ? osModal.querySelector('.modal-close')   : null;
       var planClose     = planModal ? planModal.querySelector('.modal-close') : null;
       var termsClose    = termsModal? termsModal.querySelector('.modal-close'): null;
-      var cardClose     = cardModal ? cardModal.querySelector('.modal-close') : null;
 
       var osAndroidBtn  = document.getElementById('os-android-btn');
       var osIosBtn      = document.getElementById('os-ios-btn');
 
       var planItems     = document.querySelectorAll('.plan-item');
       var selectedDom   = document.getElementById('selected-plan');
-      var selectedCardDom = document.getElementById('selected-plan-card');
 
       var termsCancel   = document.getElementById('terms-cancel-btn');
       var termsConfirm  = document.getElementById('terms-confirm-btn');
-
-      var cardCancel    = document.getElementById('card-cancel-btn');
-      var cardForm      = document.querySelector('.card-form');
 
       function showModal(modal) {
         if (!modal) return;
@@ -393,13 +415,10 @@
         modal.setAttribute('aria-hidden', 'true');
       }
 
-      // Fechar pelos X
       if (osClose)   osClose.addEventListener('click',   function () { hideModal(osModal);   });
       if (planClose) planClose.addEventListener('click', function () { hideModal(planModal); });
       if (termsClose)termsClose.addEventListener('click',function () { hideModal(termsModal);});
-      if (cardClose) cardClose.addEventListener('click', function () { hideModal(cardModal); });
 
-      // Clique fora fecha
       if (osModal) {
         osModal.addEventListener('click', function (e) {
           if (e.target === osModal) hideModal(osModal);
@@ -415,23 +434,15 @@
           if (e.target === termsModal) hideModal(termsModal);
         });
       }
-      if (cardModal) {
-        cardModal.addEventListener('click', function (e) {
-          if (e.target === cardModal) hideModal(cardModal);
-        });
-      }
 
-      // ESC fecha
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
           if (osModal   && osModal.style.display   === 'flex') hideModal(osModal);
           if (planModal && planModal.style.display === 'flex') hideModal(planModal);
           if (termsModal&& termsModal.style.display=== 'flex') hideModal(termsModal);
-          if (cardModal && cardModal.style.display === 'flex') hideModal(cardModal);
         }
       });
 
-      // Botões do modal OS
       if (osAndroidBtn) {
         osAndroidBtn.addEventListener('click', function () {
           hideModal(osModal);
@@ -444,12 +455,11 @@
         });
       }
 
-      // Clique nos planos
       planItems.forEach(function (item) {
         item.addEventListener('click', function () {
           var txt = item.getAttribute('data-plan') || '';
-          if (selectedDom)      selectedDom.textContent     = txt;
-          if (selectedCardDom)  selectedCardDom.textContent = txt;
+          if (selectedDom) selectedDom.textContent = txt;
+
           hideModal(planModal);
           showModal(termsModal);
         });
@@ -464,112 +474,13 @@
       if (termsConfirm) {
         termsConfirm.addEventListener('click', function () {
           var planoTxt = selectedDom ? (selectedDom.textContent || '').trim() : '';
-
           hideModal(termsModal);
 
           var url = 'assinatura.html';
           if (planoTxt) {
             url += '?plano=' + encodeURIComponent(planoTxt);
           }
-
           window.location.href = url;
-        });
-      }
-
-      if (cardCancel) {
-        cardCancel.addEventListener('click', function () {
-          hideModal(cardModal);
-        });
-      }
-
-      // URL da API do backend Anjo da Guarda
-      // Produção: anjo-track.3g-brasil.com
-      // Dev local: cai automaticamente para 127.0.0.1:8000
-      var API_BASE_URL = "https://anjo-track.3g-brasil.com";
-      if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
-        API_BASE_URL = "http://127.0.0.1:8000";
-      }
-
-      // Submissão do formulário do cartão → cria assinatura no backend
-      if (cardForm) {
-        cardForm.addEventListener('submit', function (e) {
-          e.preventDefault();
-
-          // 1) Pega nome, telefone e e-mail digitados no formulário
-          var nomeInput     = document.getElementById('card-name');
-          var emailInput    = document.getElementById('card-email');
-          var telefoneInput = document.getElementById('card-phone');
-
-          var nome      = nomeInput     ? nomeInput.value.trim()     : "";
-          var userEmail = emailInput    ? emailInput.value.trim()    : "";
-          var telefone  = telefoneInput ? telefoneInput.value.trim() : "";
-
-          // 2) Plano selecionado
-          var plano = selectedCardDom ? (selectedCardDom.textContent || "").trim() : "";
-
-          // 3) Define o valor em centavos conforme o plano
-          var valorCentavos = 0;
-          if (plano.indexOf("Mensal individual") >= 0) {
-            valorCentavos = 2290;
-          } else if (plano.indexOf("Anual individual") >= 0) {
-            valorCentavos = 2000;
-          } else if (plano.indexOf("Mensal família") >= 0) {
-            valorCentavos = 1890;
-          } else if (plano.indexOf("Anual família") >= 0) {
-            valorCentavos = 1700;
-          }
-
-          if (!nome || !userEmail || !telefone || !plano || !valorCentavos) {
-            alert("Por favor, confira nome, e-mail, telefone e plano selecionado antes de continuar.");
-            return;
-          }
-
-          // 5) Monta o payload
-          var payload = {
-            nome: nome,
-            telefone: telefone,
-            user_email: userEmail,
-            plano: plano,
-            valor_mensal_centavos: valorCentavos
-          };
-
-          // 6) Desabilita o botão para evitar clique duplo
-          var submitBtn = document.getElementById('card-submit-btn');
-          if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Enviando...";
-          }
-
-          // 7) Faz o POST para /api/assinaturas/site
-          fetch(API_BASE_URL + "/api/assinaturas/site", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-          })
-          .then(function (resp) {
-            if (!resp.ok) {
-              throw new Error("HTTP " + resp.status);
-            }
-            return resp.json();
-          })
-          .then(function (data) {
-            console.log("Assinatura criada, id =", data.id);
-            alert("Assinatura registrada! Você receberá um e-mail com o link e QR Code para instalar o app.");
-            cardForm.reset();
-            hideModal(cardModal);
-          })
-          .catch(function (err) {
-            console.error("Erro ao registrar assinatura:", err);
-            alert("Não foi possível registrar sua assinatura agora. Tente novamente em alguns instantes.");
-          })
-          .finally(function () {
-            if (submitBtn) {
-              submitBtn.disabled = false;
-              submitBtn.textContent = "Confirmar pagamento";
-            }
-          });
         });
       }
     })();
