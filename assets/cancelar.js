@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   var form = document.getElementById("cancel-form");
   var btnVoltar = document.getElementById("btn-voltar");
   var btnCancelar = document.getElementById("btn-cancelar");
