@@ -1,11 +1,11 @@
 (function () {
-  // Lê o parâmetro ?plano= da URL
+  // L? o par?metro ?plano= da URL
   function getQueryParam(name) {
     var params = new URLSearchParams(window.location.search);
     return params.get(name);
   }
 
-  var planoTxt = getQueryParam('plano') || '—';
+  var planoTxt = getQueryParam('plano') || '??"';
 
   var planoLabel = document.getElementById('plano-label');
   var planoInput = document.getElementById('plano-input');
@@ -36,7 +36,7 @@
     var vendedor = (formData.get('vendedor') || '').trim();
     var plano    = (formData.get('plano')    || '').trim();
 
-    // Validações básicas
+    // Valida??es b?sicas
     if (!nome || !email || !plano) {
       msgBox.textContent = 'Por favor, preencha nome, e-mail e selecione um plano.';
       msgBox.style.color = 'red';
@@ -49,19 +49,19 @@
       valorCentavos = 2290;
     } else if (plano.indexOf('Anual individual') >= 0) {
       valorCentavos = 2000;
-    } else if (plano.indexOf('Mensal família') >= 0) {
+    } else if (plano.indexOf('Mensal fam?lia') >= 0) {
       valorCentavos = 1890;
-    } else if (plano.indexOf('Anual família') >= 0) {
+    } else if (plano.indexOf('Anual fam?lia') >= 0) {
       valorCentavos = 1700;
     }
 
     if (!valorCentavos) {
-      msgBox.textContent = 'Não foi possível identificar o valor do plano. Tente escolher o plano novamente.';
+      msgBox.textContent = 'N?o foi poss?vel identificar o valor do plano. Tente escolher o plano novamente.';
       msgBox.style.color = 'red';
       return;
     }
 
-    // Payload no formato que o backend já conhece
+    // Payload no formato que o backend j? conhece
     var payload = {
       user_email: email,
       plano: plano,
@@ -91,19 +91,19 @@
       return resp.json().catch(function () { return null; });
     })
     .then(function (data) {
-      msgBox.textContent = '🎉 Assinatura recebida com sucesso! Em breve você receberá um e-mail com os próximos passos.';
+      msgBox.textContent = '?YZ? Assinatura recebida com sucesso! Em breve voc? receber? um e-mail com os pr?ximos passos.';
       msgBox.style.color = 'green';
       form.reset();
     })
     .catch(function (err) {
       console.error('Erro ao enviar assinatura:', err);
-      msgBox.textContent = '😔 Não foi possível enviar sua assinatura agora. Tente novamente em alguns instantes.';
+      msgBox.textContent = '?Y~" N?o foi poss?vel enviar sua assinatura agora. Tente novamente em alguns instantes.';
       msgBox.style.color = 'red';
     })
     .finally(function () {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Enviar solicitação';
+        submitBtn.textContent = 'Enviar solicita??o';
       }
     });
   });

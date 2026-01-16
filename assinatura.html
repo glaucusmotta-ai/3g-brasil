@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Finalizar assinatura â€” Anjo da Guarda | 3G Brasil</title>
-  <meta name="description" content="FinalizaÃ§Ã£o da assinatura do aplicativo Anjo da Guarda da 3G Brasil.">
+  <title>Finalizar assinatura ??,???? Anjo da Guarda | 3G Brasil</title>
+  <meta name="description" content="Finaliza?f??f?o da assinatura do aplicativo Anjo da Guarda da 3G Brasil.">
   <link rel="stylesheet" href="assets/site.css?v=3">
 
   <style>
@@ -132,7 +132,7 @@
       <div>
         <h1 style="margin:0 0 6px 0;">Finalizar assinatura</h1>
         <p class="terms-plan" style="margin:0 0 14px 0;">
-          Plano selecionado: <strong id="selected-plan-card">â€”</strong>
+          Plano selecionado: <strong id="selected-plan-card">??,????</strong>
         </p>
 
         <form class="card-form card-form-page" onsubmit="return false;">
@@ -151,9 +151,9 @@
             <input type="tel" id="card-phone" placeholder="+55 11 99999-9999" autocomplete="tel" required>
           </label>
 
-          <!-- NOVO: CÃ³digo do vendedor -->
+          <!-- NOVO: C?f?digo do vendedor -->
           <label>
-            CÃ³digo do vendedor (opcional)
+            C?f?digo do vendedor (opcional)
             <input type="text" id="seller-code" placeholder="Ex.: VD-AB12" autocomplete="off">
             <div class="inline-feedback" id="seller-feedback"></div>
           </label>
@@ -170,21 +170,21 @@
             <h3>Resumo</h3>
             <div class="summary-row">
               <span>Valor do plano</span>
-              <strong id="sum-plan">â€”</strong>
+              <strong id="sum-plan">??,????</strong>
             </div>
             <div class="summary-row">
               <span>Desconto</span>
-              <strong id="sum-discount">â€”</strong>
+              <strong id="sum-discount">??,????</strong>
             </div>
             <div class="summary-row">
               <span class="total">Total</span>
-              <strong class="total" id="sum-total">â€”</strong>
+              <strong class="total" id="sum-total">??,????</strong>
             </div>
           </div>
 
-          <!-- Campos do cartÃ£o (ilustrativos) â€” NÃƒO SÃƒO ENVIADOS -->
+          <!-- Campos do cart?f?o (ilustrativos) ??,???? N?f?'O S?f?'O ENVIADOS -->
           <label style="margin-top:14px;">
-            NÃºmero do cartÃ£o (ilustrativo)
+            N?f?mero do cart?f?o (ilustrativo)
             <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
           </label>
 
@@ -200,7 +200,7 @@
           </div>
 
           <p class="note">
-            Nesta fase de testes, os dados de cartÃ£o sÃ£o apenas ilustrativos e <strong>nÃ£o sÃ£o armazenados</strong>.
+            Nesta fase de testes, os dados de cart?f?o s?f?o apenas ilustrativos e <strong>n?f?o s?f?o armazenados</strong>.
           </p>
 
           <div class="terms-actions">
@@ -223,14 +223,14 @@
         </div>
         <div class="legal">
           <p class="footer-legal">CNPJ: 30.589.513/0001-40</p>
-          <p class="footer-copy">Â© 2025 3G Brasil â€” 3g-brasil.com</p>
+          <p class="footer-copy">?,? 2025 3G Brasil ??,???? 3g-brasil.com</p>
         </div>
       </div>
     </div>
   </footer>
 
   <script>
-    // ---------- API base (produÃ§Ã£o + fallback local) ----------
+    // ---------- API base (produ?f??f?o + fallback local) ----------
     var API_BASE_URL = "https://anjo-track.3g-brasil.com";
     if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
       API_BASE_URL = "http://127.0.0.1:8000";
@@ -243,7 +243,7 @@
     }
 
     function parseCentavosFromPlano(plano) {
-      // pega TODOS os valores no texto: "R$ 18,90/pessoa (R$ 75,60/mÃªs)" => [18,90] e [75,60]
+      // pega TODOS os valores no texto: "R$ 18,90/pessoa (R$ 75,60/m?f?s)" => [18,90] e [75,60]
       var re = /R\$\s*([0-9]{1,3}(?:\.[0-9]{3})*),([0-9]{2})/g;
       var vals = [];
       var m;
@@ -255,7 +255,7 @@
 
       if (!vals.length) return 0;
 
-      // se for "por pessoa" e tiver total entre parÃªnteses, usa o ÃšLTIMO valor (total)
+      // se for "por pessoa" e tiver total entre par?f?nteses, usa o ?fsLTIMO valor (total)
       var isFamiliaPorPessoa = plano.toLowerCase().indexOf("pessoa") >= 0;
       if (isFamiliaPorPessoa && vals.length >= 2) {
         return vals[vals.length - 1];
@@ -287,21 +287,21 @@
     var cancelBtn = document.getElementById("card-cancel-btn");
     var form = document.querySelector(".card-form");
 
-    var currentPlano = "â€”";
+    var currentPlano = "??,????";
     var currentValorCentavos = 0;
     var currentDescontoCentavos = 0;
 
     function updateSummary() {
-      sumPlanEl.textContent = currentValorCentavos ? brlFromCentavos(currentValorCentavos) : "â€”";
+      sumPlanEl.textContent = currentValorCentavos ? brlFromCentavos(currentValorCentavos) : "??,????";
       sumDiscountEl.textContent = currentDescontoCentavos ? ("-" + brlFromCentavos(currentDescontoCentavos)) : brlFromCentavos(0);
       var total = Math.max(currentValorCentavos - currentDescontoCentavos, 0);
-      sumTotalEl.textContent = currentValorCentavos ? brlFromCentavos(total) : "â€”";
+      sumTotalEl.textContent = currentValorCentavos ? brlFromCentavos(total) : "??,????";
     }
 
-    // ---------- LÃª plano da query string ----------
+    // ---------- L?f? plano da query string ----------
     (function initPlano() {
       var params = new URLSearchParams(window.location.search);
-      var plano = params.get("plano") || "â€”";
+      var plano = params.get("plano") || "??,????";
       currentPlano = plano;
       if (selectedPlanEl) selectedPlanEl.textContent = plano;
 
@@ -315,11 +315,11 @@
       sellerInput.addEventListener("input", function() {
         var v = normalizeCode(sellerInput.value);
         sellerInput.value = v;
-        if (sellerFeedback) sellerFeedback.textContent = v ? "CÃ³digo do vendedor registrado." : "";
+        if (sellerFeedback) sellerFeedback.textContent = v ? "C?f?digo do vendedor registrado." : "";
       });
     }
 
-    // (Opcional) Preview de cupom: tenta chamar endpoint; se nÃ£o existir, sÃ³ avisa que serÃ¡ validado no final
+    // (Opcional) Preview de cupom: tenta chamar endpoint; se n?f?o existir, s?f? avisa que ser?f? validado no final
     function previewCoupon() {
       var code = couponInput ? normalizeCode(couponInput.value) : "";
       if (!code) {
@@ -329,8 +329,8 @@
         return;
       }
 
-      // fallback neutro (se backend nÃ£o tiver preview)
-      if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele serÃ¡ validado na finalizaÃ§Ã£o.";
+      // fallback neutro (se backend n?f?o tiver preview)
+      if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele ser?f? validado na finaliza?f??f?o.";
 
       // tenta preview (se existir no backend)
       fetch(API_BASE_URL + "/api/coupons/preview", {
@@ -349,7 +349,7 @@
       .then(function(data) {
         if (!data || data.ok !== true) {
           currentDescontoCentavos = 0;
-          if (couponFeedback) couponFeedback.textContent = (data && data.reason) ? ("Cupom invÃ¡lido: " + data.reason) : "Cupom invÃ¡lido.";
+          if (couponFeedback) couponFeedback.textContent = (data && data.reason) ? ("Cupom inv?f?lido: " + data.reason) : "Cupom inv?f?lido.";
           updateSummary();
           return;
         }
@@ -358,7 +358,7 @@
         updateSummary();
       })
       .catch(function() {
-        // se nÃ£o existe preview, mantÃ©m o desconto 0 e valida sÃ³ no submit
+        // se n?f?o existe preview, mant?f?m o desconto 0 e valida s?f? no submit
         currentDescontoCentavos = 0;
         updateSummary();
       });
@@ -400,7 +400,7 @@
           user_email: email,
           plano: currentPlano,
 
-          // mantÃ©m compatibilidade com backend atual:
+          // mant?f?m compatibilidade com backend atual:
           valor_mensal_centavos: currentValorCentavos,
 
           // novos campos:
@@ -423,10 +423,10 @@
           return resp.json();
         })
         .then(function(data){
-          // se backend devolver o desconto/cÃ³digo do cliente, melhor ainda
+          // se backend devolver o desconto/c?f?digo do cliente, melhor ainda
           var msg = "Assinatura registrada!";
-          if (data && data.client_code) msg += "\n\nSeu cÃ³digo do cliente: " + data.client_code;
-          if (data && data.checkout_url) msg += "\n\nLink de pagamento/instalaÃ§Ã£o: " + data.checkout_url;
+          if (data && data.client_code) msg += "\n\nSeu c?f?digo do cliente: " + data.client_code;
+          if (data && data.checkout_url) msg += "\n\nLink de pagamento/instala?f??f?o: " + data.checkout_url;
 
           alert(msg);
           form.reset();
@@ -434,7 +434,7 @@
         })
         .catch(function(err){
           console.error("Erro ao registrar assinatura:", err);
-          alert("NÃ£o foi possÃ­vel registrar sua assinatura agora. Tente novamente em alguns instantes.");
+          alert("N?f?o foi poss?f?vel registrar sua assinatura agora. Tente novamente em alguns instantes.");
         })
         .finally(function(){
           if (submitBtn) {

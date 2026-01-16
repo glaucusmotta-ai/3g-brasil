@@ -31,22 +31,22 @@ header {
 /* Faixa do LOGO (ocupando largura inteira) */
 .logo-band {
   width: 100%;
-  padding: 24px 16px;        /* espaço em cima/baixo */
+  padding: 24px 16px;        /* espa?o em cima/baixo */
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;          /* fundo preto atrás da arte */
+  background: #000;          /* fundo preto atr?s da arte */
 }
 
-/* Imagem do topo (galáxia + logo) */
+/* Imagem do topo (gal?xia + logo) */
 .logo-band img {
-  width: min(100%, 280px);   /* ocupa a largura, mas no máx. 900px */
-  height: 5;              /* altura vem da proporção da imagem */
+  width: min(100%, 280px);   /* ocupa a largura, mas no m?x. 900px */
+  height: 5;              /* altura vem da propor??o da imagem */
   display: block;
 }
 
 
-/* Barra de navegação (tarja preta) */
+/* Barra de navega??o (tarja preta) */
 header nav {
   background: var(--bg);
   padding: 8px 16px;
@@ -72,7 +72,7 @@ header nav a:hover {
   padding: 24px 16px;
 }
 
-/* Hero de texto (fica abaixo do logo/galáxia) */
+/* Hero de texto (fica abaixo do logo/gal?xia) */
 .hero {
   padding: 32px 0;
 }
@@ -101,7 +101,7 @@ li {
   margin: 6px 0;
 }
 
-/* Botão principal (ex: "Quero adquirir o Anjo da Guarda") */
+/* Bot?o principal (ex: "Quero adquirir o Anjo da Guarda") */
 button.btn-link,
 a.btn-link {
   display: inline-block;
@@ -120,7 +120,7 @@ a.btn-link:hover {
   opacity: .9;
 }
 
-/* Botão contornado (Cancelar) */
+/* Bot?o contornado (Cancelar) */
 button.btn-outline {
   display: inline-block;
   margin-top: 8px;
@@ -136,7 +136,7 @@ button.btn-outline:hover {
   background: #f3f4f6;
 }
 
-/* Rodapé em 2 colunas */
+/* Rodap? em 2 colunas */
 footer {
   border-top: 1px solid #e5e7eb;
   padding: 16px;
@@ -185,7 +185,7 @@ footer .container {
   margin-top: 4px;
 }
 
-/* Botão WhatsApp fixo */
+/* Bot?o WhatsApp fixo */
 .wa-btn {
   position: fixed;
   right: 18px;
@@ -331,7 +331,7 @@ footer .container {
   text-decoration: underline;
 }
 
-/* Rodapé de botões nos modais */
+/* Rodap? de bot?es nos modais */
 .terms-actions {
   padding: 0 20px 16px;
   display: flex;
@@ -342,7 +342,7 @@ footer .container {
   margin: 0;
 }
 
-/* Formulário de pagamento */
+/* Formul?rio de pagamento */
 .card-form {
   padding: 0 20px 16px;
 }
@@ -379,9 +379,9 @@ footer .container {
   }
 }
 
-/* === OVERRIDE FINAL PARA OS BOTÕES DO ANJO DA GUARDA === */
+/* === OVERRIDE FINAL PARA OS BOT?.ES DO ANJO DA GUARDA === */
 
-/* Container dos botões "Cancelar" / "Eu quero" / "Confirmar pagamento" */
+/* Container dos bot?es "Cancelar" / "Eu quero" / "Confirmar pagamento" */
 .terms-actions{
   display:flex;
   gap:12px;
@@ -389,7 +389,7 @@ footer .container {
   flex-wrap:wrap;
 }
 
-/* Garante que todos os botões dentro de .terms-actions fiquem alinhados
+/* Garante que todos os bot?es dentro de .terms-actions fiquem alinhados
    e com o mesmo tamanho visual */
 .terms-actions button{
   flex:1 0 auto;
@@ -397,7 +397,7 @@ footer .container {
   min-width:140px;
 }
 
-/* Botão principal (Quero adquirir o Anjo da Guarda / Eu quero / Confirmar pagamento) */
+/* Bot?o principal (Quero adquirir o Anjo da Guarda / Eu quero / Confirmar pagamento) */
 .btn-link{
   display:inline-flex;
   align-items:center;
@@ -416,7 +416,7 @@ footer .container {
   opacity:.9;
 }
 
-/* Botão claro (Cancelar) */
+/* Bot?o claro (Cancelar) */
 .btn-outline{
   display:inline-flex;
   align-items:center;
@@ -435,7 +435,7 @@ footer .container {
 }
 
 /* =========================================================
-   PLANOS (MODAL) — 1) Alturas alinhadas  2) Preço fixo  3) Menos scroll
+   PLANOS (MODAL) ??" 1) Alturas alinhadas  2) Pre?o fixo  3) Menos scroll
    ========================================================= */
 
 /* Modal maior (reduz scroll) */
@@ -454,12 +454,12 @@ footer .container {
   overflow: auto;
 }
 
-/* Grid 2 colunas: garante “linha” com altura igual nos dois lados */
+/* Grid 2 colunas: garante ??olinha??? com altura igual nos dois lados */
 #plan-modal .plan-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  align-items: stretch; /* força itens a esticar */
+  align-items: stretch; /* for?a itens a esticar */
 }
 
 /* Responsivo: em telas menores vira 1 coluna */
@@ -469,7 +469,7 @@ footer .container {
   }
 }
 
-/* Cabeçalho de coluna (Individual / Família) */
+/* Cabe?alho de coluna (Individual / Fam?lia) */
 #plan-modal .plan-col-head{
   display:flex;
   align-items:center;
@@ -512,7 +512,7 @@ footer .container {
   flex-direction: column;
   gap: 10px;
 
-  /* se algum navegador aplicar estilo de botão (caso você use <button>) */
+  /* se algum navegador aplicar estilo de bot?o (caso voc? use <button>) */
   text-align: left;
 }
 
@@ -521,10 +521,10 @@ footer .container {
   border-color:#1d4ed8;
 }
 
-/* Linha do título + preço */
+/* Linha do t?tulo + pre?o */
 #plan-modal .plan-row{
   display: grid;
-  grid-template-columns: 1fr auto; /* nome cresce / preço fica fixo */
+  grid-template-columns: 1fr auto; /* nome cresce / pre?o fica fixo */
   gap: 12px;
   align-items: start;
 }
@@ -541,14 +541,14 @@ footer .container {
 }
 
 #plan-modal .plan-price small{
-  display:block;              /* quebra em 2 linhas quando necessário */
+  display:block;              /* quebra em 2 linhas quando necess?rio */
   font-size: .86rem;
   font-weight: 800;
   opacity: .85;
   margin-top: 2px;
 }
 
-/* Features: reserva espaço para padronizar altura do card */
+/* Features: reserva espa?o para padronizar altura do card */
 #plan-modal .plan-features{
   margin: 0;
   padding-left: 18px;
