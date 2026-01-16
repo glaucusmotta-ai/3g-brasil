@@ -1,28 +1,68 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contato — 3G Brasil</title>
-  <meta name="description" content="Fale com a 3G Brasil. E-mail e WhatsApp comercial. Consentimento e opt-out em conformidade com a LGPD e políticas da Meta.">
-  <link rel="stylesheet" href="/assets/style.css?v=5">
-  <style>
-    /* Garantia de layout mesmo sem style.css */
-    :root{ --bg:#0b132b; --fg:#e8eaed; --muted:#667085; }
-    *{ box-sizing:border-box; }
-    html,body{ margin:0; padding:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif; color:#111; background:#fff; }
-    header{ display:flex; flex-direction:column; align-items:center; }
-    .site-logo{ display:block; height:72px; width:auto; margin:12px auto; object-fit:contain; }
-    nav{ width:100%; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; background:var(--bg); padding:8px 16px; }
-    nav a{ color:var(--fg); text-decoration:none; font-weight:600; }
-    nav a:hover{ text-decoration:underline; }
-    .container{ max-width:980px; margin:0 auto; padding:24px 16px; }
-    .card{ border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin:12px 0 24px; }
-    h1{ margin:0 0 12px; }
-    table{ width:100%; border-collapse:collapse; margin-top:8px; }
-    th,td{ text-align:left; padding:10px 12px; border-bottom:1px solid #eef0f2; }
-    th{ width:220px; color:#444; font-weight:600; background:#fafafa; }
-    .muted{ color:#6b7280; font-size:.92rem; }
-    footer{ border-top:1px solid #e5e7eb; padding:16px; color:#555; }
-    footer .container{ text-align:right; }
-    .footer-legal,.footer-copy{ margin:
+  <meta name="description" content="Fale com a 3G Brasil. Canais oficiais de suporte e contato." />
+  <link rel="stylesheet" href="assets/site.css?v=3">
+</head>
+<body>
+
+  <header>
+    <div class="logo-band">
+      <img src="assets/logo.png" alt="3G Brasil">
+    </div>
+    <nav>
+      <a href="/">3G Brasil</a>
+      <a href="/#produtos">Produtos</a>
+      <a href="/contact.html" aria-current="page">Contato</a>
+      <a href="/cancelar.html">Cancelar assinatura</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1 style="margin:0 0 8px 0;">Contato</h1>
+      <p style="margin:0 0 14px 0; color:#444;">
+        Use os canais oficiais abaixo para falar com a equipe 3G Brasil (Assinaturas / Anjo da Guarda).
+      </p>
+
+      <table>
+        <tbody>
+          <tr>
+            <th>E-mail comercial</th>
+            <td><a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a></td>
+          </tr>
+          <tr>
+            <th>Assunto sugerido</th>
+            <td>Assinatura / Instalação / Suporte</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="card-note" style="margin-top:12px;">
+        Para cancelamento de assinatura, use o link <strong>“Cancelar assinatura”</strong> no menu acima.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-wrap">
+        <div class="support">
+          <p class="footer-support-title">Canais oficiais de suporte</p>
+          <p class="footer-support-info">
+            <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a>
+          </p>
+        </div>
+        <div class="legal">
+          <p class="footer-legal">CNPJ: 30.589.513/0001-40</p>
+          <p class="footer-copy">© 2025 3G Brasil — 3g-brasil.com</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

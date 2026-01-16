@@ -1,49 +1,44 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Finalizar assinatura — Anjo da Guarda | 3G Brasil</title>
-  <meta name="description" content="Finalização da assinatura do aplicativo Anjo da Guarda da 3G Brasil.">
-
-  <link rel="stylesheet" href="assets/site.css?v=4">
+  <title>Finalizar assinatura â€” Anjo da Guarda | 3G Brasil</title>
+  <meta name="description" content="FinalizaÃ§Ã£o da assinatura do aplicativo Anjo da Guarda da 3G Brasil.">
+  <link rel="stylesheet" href="assets/site.css?v=3">
 
   <style>
     main.container{
-      max-width: 960px;
+      max-width: 980px;
       margin: 0 auto;
       padding: 32px 16px 64px;
     }
-
+    .page-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items:start;
+    }
     .card-form-page{
       max-width: 520px;
-      margin-top: 18px;
     }
-
-    .terms-plan{
-      margin: 10px 0 0;
-      font-size: 1rem;
-    }
-
     .card-form-page label{
       display:block;
-      margin-bottom: 12px;
-      font-size: .95rem;
+      margin-bottom:12px;
+      font-size:.95rem;
     }
-
     .card-form-page input{
       width:100%;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      font-size: 1rem;
-      outline: none;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      font-size: .98rem;
+      outline:none;
     }
     .card-form-page input:focus{
       border-color:#1d4ed8;
-      box-shadow: 0 0 0 3px rgba(29,78,216,.12);
+      box-shadow:0 0 0 3px rgba(29,78,216,.12);
     }
-
     .card-row{
       display:flex;
       gap:12px;
@@ -53,114 +48,167 @@
     .terms-actions{
       display:flex;
       gap:12px;
-      margin-top: 18px;
-      flex-wrap: wrap;
+      margin-top:20px;
+      flex-wrap:wrap;
     }
     .terms-actions button{
       flex:1 0 auto;
+      min-width: 180px;
       min-height:48px;
       border-radius:999px;
       padding:12px 16px;
-      font-weight:700;
+      font-weight:600;
       border:none;
       cursor:pointer;
     }
     .btn-outline{ background:#fff;border:1px solid #d1d5db;color:#111;}
-    .btn-link{ background:#0b132b;color:#e8eaed;border:1px solid #0b132b;}
+    .btn-link{ background:#0b132b;color:#e8eaed;}
     .btn-outline:hover{background:#f3f4f6;}
     .btn-link:hover{opacity:.92;}
 
-    .card-note{
+    .note{
       font-size:.9rem;
       color:#6b7280;
-      margin-top: 8px;
+      margin:10px 0 0;
+      line-height:1.45;
     }
 
-    .coupon-feedback{
+    .inline-feedback{
       font-size:.85rem;
       margin-top:6px;
       color:#6b7280;
     }
 
-    .hint{
-      font-size:.85rem;
-      color:#6b7280;
-      margin-top:6px;
-      line-height: 1.35;
+    .summary{
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      padding:14px 14px;
+      background:#fafafa;
+      margin-top: 10px;
+    }
+    .summary h3{
+      margin:0 0 10px 0;
+      font-size: 1rem;
+    }
+    .summary-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:6px 0;
+      border-bottom:1px dashed #e5e7eb;
+      font-size:.95rem;
+    }
+    .summary-row:last-child{ border-bottom:0; }
+    .summary strong{ font-weight:700; }
+    .summary .total{
+      font-size:1.05rem;
+      color:#0b132b;
+    }
+
+    @media (max-width:640px){
+      .card-row{ flex-direction:column; }
+      .terms-actions button{ min-width: 0; flex:1; }
+      .card-form-page{ max-width: 100%; }
     }
   </style>
 </head>
 
 <body>
-
   <header>
     <div class="logo-band">
-      <img src="assets/logo.png" alt="3G Brasil">
+      <img src="assets/logo.png" alt="3G Brasil" loading="lazy">
     </div>
     <nav>
       <a href="/">3G Brasil</a>
       <a href="/#produtos">Produtos</a>
       <a href="/contact.html">Contato</a>
-    </nav>
+      <a href="/cancelar.html">Cancelar assinatura</a>
+    
   </header>
 
   <main class="container">
-    <section>
-      <h1>Finalizar assinatura</h1>
-
-      <p class="terms-plan">
-        Plano selecionado: <strong id="selected-plan-card">—</strong>
-      </p>
-      <p class="hint" id="plan-hint"></p>
-
-      <form class="card-form card-form-page" onsubmit="return false;">
-        <label>
-          Nome completo
-          <input type="text" id="card-name" required>
-        </label>
-
-        <label>
-          E-mail
-          <input type="email" id="card-email" required>
-        </label>
-
-        <label>
-          Telefone (WhatsApp)
-          <input type="tel" id="card-phone" required placeholder="+55 11 99999-9999">
-        </label>
-
-        <!-- Cupom -->
-        <label>
-          Cupom (opcional)
-          <input type="text" id="coupon-code" placeholder="Digite seu cupom" autocomplete="off">
-          <div class="coupon-feedback" id="coupon-feedback"></div>
-        </label>
-
-        <label>
-          Número do cartão
-          <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
-        </label>
-
-        <div class="card-row">
-          <label>
-            Validade (MM/AA)
-            <input type="text" inputmode="numeric" maxlength="5" placeholder="MM/AA" required>
-          </label>
-          <label>
-            CVV
-            <input type="password" inputmode="numeric" maxlength="4" required>
-          </label>
-        </div>
-
-        <p class="card-note">
-          Nesta fase de testes, os dados de cartão são apenas ilustrativos.
+    <section class="page-grid">
+      <div>
+        <h1 style="margin:0 0 6px 0;">Finalizar assinatura</h1>
+        <p class="terms-plan" style="margin:0 0 14px 0;">
+          Plano selecionado: <strong id="selected-plan-card">â€”</strong>
         </p>
 
-        <div class="terms-actions">
-          <button type="button" class="btn-outline" id="card-cancel-btn">Cancelar</button>
-          <button type="submit" class="btn-link" id="card-submit-btn">Confirmar assinatura</button>
-        </div>
-      </form>
+        <form class="card-form card-form-page" onsubmit="return false;">
+          <label>
+            Nome completo
+            <input type="text" id="card-name" autocomplete="name" required>
+          </label>
+
+          <label>
+            E-mail
+            <input type="email" id="card-email" autocomplete="email" required>
+          </label>
+
+          <label>
+            Telefone (WhatsApp)
+            <input type="tel" id="card-phone" placeholder="+55 11 99999-9999" autocomplete="tel" required>
+          </label>
+
+          <!-- NOVO: CÃ³digo do vendedor -->
+          <label>
+            CÃ³digo do vendedor (opcional)
+            <input type="text" id="seller-code" placeholder="Ex.: VD-AB12" autocomplete="off">
+            <div class="inline-feedback" id="seller-feedback"></div>
+          </label>
+
+          <!-- NOVO: Cupom -->
+          <label>
+            Cupom de desconto (opcional)
+            <input type="text" id="coupon-code" placeholder="Digite seu cupom" autocomplete="off">
+            <div class="inline-feedback" id="coupon-feedback"></div>
+          </label>
+
+          <!-- Resumo -->
+          <div class="summary" aria-live="polite">
+            <h3>Resumo</h3>
+            <div class="summary-row">
+              <span>Valor do plano</span>
+              <strong id="sum-plan">â€”</strong>
+            </div>
+            <div class="summary-row">
+              <span>Desconto</span>
+              <strong id="sum-discount">â€”</strong>
+            </div>
+            <div class="summary-row">
+              <span class="total">Total</span>
+              <strong class="total" id="sum-total">â€”</strong>
+            </div>
+          </div>
+
+          <!-- Campos do cartÃ£o (ilustrativos) â€” NÃƒO SÃƒO ENVIADOS -->
+          <label style="margin-top:14px;">
+            NÃºmero do cartÃ£o (ilustrativo)
+            <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
+          </label>
+
+          <div class="card-row">
+            <label>
+              Validade (MM/AA) (ilustrativo)
+              <input type="text" inputmode="numeric" maxlength="5" placeholder="MM/AA" required>
+            </label>
+            <label>
+              CVV (ilustrativo)
+              <input type="password" inputmode="numeric" maxlength="4" required>
+            </label>
+          </div>
+
+          <p class="note">
+            Nesta fase de testes, os dados de cartÃ£o sÃ£o apenas ilustrativos e <strong>nÃ£o sÃ£o armazenados</strong>.
+          </p>
+
+          <div class="terms-actions">
+            <button type="button" class="btn-outline" id="card-cancel-btn">Cancelar</button>
+            <button type="submit" class="btn-link" id="card-submit-btn">Confirmar assinatura</button>
+          </div>
+        </form>
+      </div>
     </section>
   </main>
 
@@ -175,170 +223,188 @@
         </div>
         <div class="legal">
           <p class="footer-legal">CNPJ: 30.589.513/0001-40</p>
-          <p class="footer-copy">© 2025 3G Brasil — 3g-brasil.com</p>
+          <p class="footer-copy">Â© 2025 3G Brasil â€” 3g-brasil.com</p>
         </div>
       </div>
     </div>
   </footer>
 
   <script>
-    // ----------------------------
-    // Helpers
-    // ----------------------------
-    function _normSpaces(s){
-      return (s || "").replace(/\s+/g, " ").trim();
+    // ---------- API base (produÃ§Ã£o + fallback local) ----------
+    var API_BASE_URL = "https://anjo-track.3g-brasil.com";
+    if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
+      API_BASE_URL = "http://127.0.0.1:8000";
     }
 
-    function _upperNoSpaces(s){
-      return (s || "").replace(/\s+/g, "").toUpperCase();
+    // ---------- Helpers ----------
+    function brlFromCentavos(v) {
+      var n = (Number(v || 0) / 100);
+      return n.toLocaleString("pt-BR", { style:"currency", currency:"BRL" });
     }
 
-    function _inferPlanMeta(planoText){
-      // Retorna: {perfil, tier, periodicidade, valor_centavos, valor_mensal_centavos}
-      // - valor_centavos: valor TOTAL que será cobrado agora (mensal ou anual total)
-      // - valor_mensal_centavos: o "mensal equivalente" (compatibilidade e relatórios)
-      var p = (planoText || "").toLowerCase();
-
-      var perfil = p.indexOf("familiar") >= 0 ? "familia" : "individual";
-      var tier   = p.indexOf("premium")   >= 0 ? "premium" : "essencial";
-      var periodicidade = p.indexOf("/ano") >= 0 ? "anual" : "mensal";
-
-      // tabela oficial (centavos)
-      // mensal
-      // Essencial Individual 22,90 -> 2290
-      // Premium  Individual 32,90 -> 3290
-      // Essencial Familiar  total 75,60 -> 7560 (apesar de mostrar por pessoa, cobrança aqui é total)
-      // Premium  Familiar  total 115,60 -> 11560
-      //
-      // anual TOTAL
-      // Essencial Individual 240,00 -> 24000
-      // Premium  Individual 370,00 -> 37000
-      // Essencial Familiar   192,00 -> 19200
-      // Premium  Familiar    312,00 -> 31200
-
-      var valor_centavos = 0;
-      var valor_mensal_centavos = 0;
-
-      if (periodicidade === "mensal"){
-        if (perfil === "individual" && tier === "essencial"){ valor_centavos = 2290;  valor_mensal_centavos = 2290; }
-        if (perfil === "individual" && tier === "premium"){   valor_centavos = 3290;  valor_mensal_centavos = 3290; }
-        if (perfil === "familia"    && tier === "essencial"){ valor_centavos = 7560;  valor_mensal_centavos = 7560; }
-        if (perfil === "familia"    && tier === "premium"){   valor_centavos = 11560; valor_mensal_centavos = 11560; }
-      } else {
-        // anual = TOTAL do ano (corrige seu problema)
-        if (perfil === "individual" && tier === "essencial"){ valor_centavos = 24000; valor_mensal_centavos = 24000/12; }
-        if (perfil === "individual" && tier === "premium"){   valor_centavos = 37000; valor_mensal_centavos = 37000/12; }
-        if (perfil === "familia"    && tier === "essencial"){ valor_centavos = 19200; valor_mensal_centavos = 19200/12; }
-        if (perfil === "familia"    && tier === "premium"){   valor_centavos = 31200; valor_mensal_centavos = 31200/12; }
-        // mensal equivalente arredondado
-        valor_mensal_centavos = Math.round(valor_mensal_centavos);
+    function parseCentavosFromPlano(plano) {
+      // pega TODOS os valores no texto: "R$ 18,90/pessoa (R$ 75,60/mÃªs)" => [18,90] e [75,60]
+      var re = /R\$\s*([0-9]{1,3}(?:\.[0-9]{3})*),([0-9]{2})/g;
+      var vals = [];
+      var m;
+      while ((m = re.exec(plano)) !== null) {
+        var reais = parseInt(m[1].replace(/\./g, ""), 10);
+        var cents = parseInt(m[2], 10);
+        vals.push(reais * 100 + cents);
       }
 
-      return {
-        perfil: perfil,
-        tier: tier,
-        periodicidade: periodicidade,
-        valor_centavos: valor_centavos,
-        valor_mensal_centavos: valor_mensal_centavos
-      };
-    }
+      if (!vals.length) return 0;
 
-    function _planHint(meta){
-      if (!meta || !meta.valor_centavos) return "";
-      if (meta.periodicidade === "anual"){
-        return "Cobrança anual (valor total do ano).";
+      // se for "por pessoa" e tiver total entre parÃªnteses, usa o ÃšLTIMO valor (total)
+      var isFamiliaPorPessoa = plano.toLowerCase().indexOf("pessoa") >= 0;
+      if (isFamiliaPorPessoa && vals.length >= 2) {
+        return vals[vals.length - 1];
       }
-      return "Cobrança mensal.";
+
+      // caso geral: primeiro valor
+      return vals[0];
     }
 
-    // ----------------------------
-    // Plano via querystring
-    // ----------------------------
-    var PLANO_TXT = "—";
-    (function() {
+    function normalizeCode(s) {
+      s = (s || "").trim().toUpperCase();
+      s = s.replace(/\s+/g, "");
+      return s;
+    }
+
+    // ---------- UI refs ----------
+    var selectedPlanEl = document.getElementById("selected-plan-card");
+    var sumPlanEl = document.getElementById("sum-plan");
+    var sumDiscountEl = document.getElementById("sum-discount");
+    var sumTotalEl = document.getElementById("sum-total");
+
+    var couponInput = document.getElementById("coupon-code");
+    var couponFeedback = document.getElementById("coupon-feedback");
+
+    var sellerInput = document.getElementById("seller-code");
+    var sellerFeedback = document.getElementById("seller-feedback");
+
+    var submitBtn = document.getElementById("card-submit-btn");
+    var cancelBtn = document.getElementById("card-cancel-btn");
+    var form = document.querySelector(".card-form");
+
+    var currentPlano = "â€”";
+    var currentValorCentavos = 0;
+    var currentDescontoCentavos = 0;
+
+    function updateSummary() {
+      sumPlanEl.textContent = currentValorCentavos ? brlFromCentavos(currentValorCentavos) : "â€”";
+      sumDiscountEl.textContent = currentDescontoCentavos ? ("-" + brlFromCentavos(currentDescontoCentavos)) : brlFromCentavos(0);
+      var total = Math.max(currentValorCentavos - currentDescontoCentavos, 0);
+      sumTotalEl.textContent = currentValorCentavos ? brlFromCentavos(total) : "â€”";
+    }
+
+    // ---------- LÃª plano da query string ----------
+    (function initPlano() {
       var params = new URLSearchParams(window.location.search);
-      var plano = params.get('plano') || "—";
-      plano = _normSpaces(plano);
+      var plano = params.get("plano") || "â€”";
+      currentPlano = plano;
+      if (selectedPlanEl) selectedPlanEl.textContent = plano;
 
-      var selected = document.getElementById('selected-plan-card');
-      if (selected) selected.textContent = plano;
-
-      PLANO_TXT = plano;
-
-      var meta = _inferPlanMeta(plano);
-      var hint = document.getElementById("plan-hint");
-      if (hint) hint.textContent = _planHint(meta);
+      currentValorCentavos = parseCentavosFromPlano(plano);
+      currentDescontoCentavos = 0;
+      updateSummary();
     })();
 
-    // ----------------------------
-    // Form + API
-    // ----------------------------
-    (function () {
-      var cardForm   = document.querySelector('.card-form');
-      var cancelBtn  = document.getElementById('card-cancel-btn');
-      var submitBtn  = document.getElementById('card-submit-btn');
+    // ---------- Normalize seller/coupon ----------
+    if (sellerInput) {
+      sellerInput.addEventListener("input", function() {
+        var v = normalizeCode(sellerInput.value);
+        sellerInput.value = v;
+        if (sellerFeedback) sellerFeedback.textContent = v ? "CÃ³digo do vendedor registrado." : "";
+      });
+    }
 
-      var couponInput = document.getElementById('coupon-code');
-      var couponFeedback = document.getElementById('coupon-feedback');
-
-      if (couponInput) {
-        couponInput.addEventListener('input', function () {
-          var v = _upperNoSpaces(couponInput.value || "");
-          couponInput.value = v;
-
-          if (!couponFeedback) return;
-          couponFeedback.textContent = v ? "Cupom registrado. Ele será validado na finalização." : "";
-        });
+    // (Opcional) Preview de cupom: tenta chamar endpoint; se nÃ£o existir, sÃ³ avisa que serÃ¡ validado no final
+    function previewCoupon() {
+      var code = couponInput ? normalizeCode(couponInput.value) : "";
+      if (!code) {
+        currentDescontoCentavos = 0;
+        if (couponFeedback) couponFeedback.textContent = "";
+        updateSummary();
+        return;
       }
 
-      if (cancelBtn) {
-        cancelBtn.addEventListener('click', function () {
-          window.location.href = '/';
-        });
-      }
+      // fallback neutro (se backend nÃ£o tiver preview)
+      if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele serÃ¡ validado na finalizaÃ§Ã£o.";
 
-      if (!cardForm) return;
+      // tenta preview (se existir no backend)
+      fetch(API_BASE_URL + "/api/coupons/preview", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          coupon_code: code,
+          plano: currentPlano,
+          valor_centavos: currentValorCentavos
+        })
+      })
+      .then(function(resp) {
+        if (!resp.ok) throw new Error("HTTP " + resp.status);
+        return resp.json();
+      })
+      .then(function(data) {
+        if (!data || data.ok !== true) {
+          currentDescontoCentavos = 0;
+          if (couponFeedback) couponFeedback.textContent = (data && data.reason) ? ("Cupom invÃ¡lido: " + data.reason) : "Cupom invÃ¡lido.";
+          updateSummary();
+          return;
+        }
+        currentDescontoCentavos = Number(data.desconto_centavos || 0);
+        if (couponFeedback) couponFeedback.textContent = "Cupom aplicado.";
+        updateSummary();
+      })
+      .catch(function() {
+        // se nÃ£o existe preview, mantÃ©m o desconto 0 e valida sÃ³ no submit
+        currentDescontoCentavos = 0;
+        updateSummary();
+      });
+    }
 
-      // API base: produção, e local quando localhost/127
-      var API_BASE_URL = "https://anjo-track.3g-brasil.com";
-      if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
-        API_BASE_URL = "http://127.0.0.1:8000";
-      }
+    if (couponInput) {
+      couponInput.addEventListener("input", function() {
+        couponInput.value = normalizeCode(couponInput.value);
+        previewCoupon();
+      });
+    }
 
-      cardForm.addEventListener('submit', function (e) {
+    if (cancelBtn) {
+      cancelBtn.addEventListener("click", function() {
+        window.location.href = "/";
+      });
+    }
+
+    // ---------- Submit ----------
+    if (form) {
+      form.addEventListener("submit", function(e) {
         e.preventDefault();
 
-        var nome      = (document.getElementById('card-name')  || {}).value ? document.getElementById('card-name').value.trim() : "";
-        var userEmail = (document.getElementById('card-email') || {}).value ? document.getElementById('card-email').value.trim() : "";
-        var telefone  = (document.getElementById('card-phone') || {}).value ? document.getElementById('card-phone').value.trim() : "";
-        var couponCode = couponInput ? (couponInput.value || "").trim() : "";
+        var nome = (document.getElementById("card-name")?.value || "").trim();
+        var email = (document.getElementById("card-email")?.value || "").trim();
+        var phone = (document.getElementById("card-phone")?.value || "").trim();
 
-        var plano = (PLANO_TXT || "").trim();
+        var sellerCode = normalizeCode(document.getElementById("seller-code")?.value || "");
+        var couponCode = normalizeCode(document.getElementById("coupon-code")?.value || "");
 
-        var meta = _inferPlanMeta(plano);
-
-        if (!nome || !userEmail || !telefone || !plano || !meta.valor_centavos) {
+        if (!nome || !email || !phone || !currentPlano || !currentValorCentavos) {
           alert("Por favor, confira nome, e-mail, telefone e plano antes de continuar.");
           return;
         }
 
-        // Payload (compatível + correto para anual)
         var payload = {
           nome: nome,
-          telefone: telefone,
-          user_email: userEmail,
-          plano: plano,
+          telefone: phone,
+          user_email: email,
+          plano: currentPlano,
 
-          // NOVO (recomendado): valor total a cobrar agora
-          valor_centavos: meta.valor_centavos,
+          // mantÃ©m compatibilidade com backend atual:
+          valor_mensal_centavos: currentValorCentavos,
 
-          // Mantido para compatibilidade com backend antigo
-          valor_mensal_centavos: meta.valor_mensal_centavos,
-
-          periodicidade: meta.periodicidade, // mensal | anual
-          plano_tier: meta.tier,             // essencial | premium
-          perfil: meta.perfil,               // individual | familia
-
+          // novos campos:
+          vendedor_codigo: sellerCode,
           coupon_code: couponCode
         };
 
@@ -352,29 +418,33 @@
           headers: {"Content-Type":"application/json"},
           body: JSON.stringify(payload)
         })
-        .then(function (resp) {
+        .then(function(resp){
           if (!resp.ok) throw new Error("HTTP " + resp.status);
           return resp.json();
         })
-        .then(function (data) {
-          console.log("Assinatura criada, id =", data.id);
-          alert("Assinatura registrada! Você receberá um e-mail com o link e o QR Code para instalar o app.");
-          cardForm.reset();
+        .then(function(data){
+          // se backend devolver o desconto/cÃ³digo do cliente, melhor ainda
+          var msg = "Assinatura registrada!";
+          if (data && data.client_code) msg += "\n\nSeu cÃ³digo do cliente: " + data.client_code;
+          if (data && data.checkout_url) msg += "\n\nLink de pagamento/instalaÃ§Ã£o: " + data.checkout_url;
+
+          alert(msg);
+          form.reset();
           window.location.href = "/";
         })
-        .catch(function (err) {
+        .catch(function(err){
           console.error("Erro ao registrar assinatura:", err);
-          alert("Não foi possível registrar sua assinatura agora. Tente novamente em alguns instantes.");
+          alert("NÃ£o foi possÃ­vel registrar sua assinatura agora. Tente novamente em alguns instantes.");
         })
-        .finally(function () {
+        .finally(function(){
           if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.textContent = "Confirmar assinatura";
           }
         });
       });
-    })();
+    }
   </script>
-
 </body>
 </html>
+
