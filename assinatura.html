@@ -201,7 +201,7 @@
           </div>
 
           <p class="note">
-            Nesta fase de testes, os dados de cartão são apenas ilustrativos e <strong>não são armazenados</strong>.
+            Após confirmar, você será direcionado para o checkout de pagamento.
           </p>
 
           <div class="terms-actions">
@@ -347,12 +347,18 @@
         return resp.json();
       })
       .then(function(data) {
-        if (!data || data.ok !== true) {
-          currentDescontoCentavos = 0;
-          if (couponFeedback) couponFeedback.textContent = (data && data.reason) ? ("Cupom inválido: " + data.reason) : "Cupom inválido.";
-          updateSummary();
+        if (data && data.checkout_url) {
+          window.location.href = data.checkout_url;
           return;
         }
+
+        var msg = "Assinatura registrada!";
+        if (data && data.client_code) msg += "\n\nSeu código do cliente: " + data.client_code;
+        alert(msg);
+
+        form.reset();
+        window.location.href = "/";
+        })
         currentDescontoCentavos = Number(data.desconto_centavos || 0);
         if (couponFeedback) couponFeedback.textContent = "Cupom aplicado.";
         updateSummary();
