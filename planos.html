@@ -3,7 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Anjo da Guarda — Planos</title>
+  <title>Anjo da Guarda — Planos | 3G Brasil</title>
+  <meta name="description" content="Planos do aplicativo Anjo da Guarda. Compare recursos, canais e preços." />
+
+  <!-- CSS padrão do site -->
+  <link rel="stylesheet" href="assets/site.css?v=4">
+
   <style>
     :root{
       /* ======= CORES DA MARCA (ajuste aqui) ======= */
@@ -20,29 +25,36 @@
       --shadow: 0 10px 30px rgba(0,0,0,.3);
       --radius: 16px;
     }
-    /* ======= RESET BÁSICO ======= */
+    /* ======= RESET BÁSICO (apenas para esta página) ======= */
     *,*:before,*:after{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    body.adg{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
       background: radial-gradient(1200px 600px at 10% -10%, rgba(225,29,72,.25), transparent 60%),
                   radial-gradient(1200px 600px at 110% 10%, rgba(14,165,233,.18), transparent 60%),
                   var(--bg);
       color:var(--text);
       line-height:1.5;
+      min-height:100vh;
     }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover{ text-decoration: underline; }
+    body.adg a { color: var(--accent); text-decoration: none; }
+    body.adg a:hover{ text-decoration: underline; }
+
+    /* Header do site (mantém padrão, mas adapta para fundo escuro) */
+    body.adg header .logo-band{ background: transparent; }
+    body.adg header nav{ background: transparent; border-bottom: 1px solid var(--border); }
+    body.adg header nav a{ color: var(--text); }
+    body.adg header nav a:hover{ opacity:.9; }
 
     .adg-wrap{
-      max-width: 1100px; margin: 48px auto; padding: 0 20px;
+      max-width: 1100px; margin: 28px auto 48px; padding: 0 20px;
     }
     .adg-header{
       display:flex; align-items:center; gap:16px; margin-bottom: 28px;
     }
     .adg-logo{
-      width:56px; height:56px; border-radius:12px; object-fit:cover; box-shadow: var(--shadow);
-      background:#fff; /* remove se seu logo tiver fundo próprio */
+      width:56px; height:56px; border-radius:12px; object-fit:contain; box-shadow: var(--shadow);
+      background:#fff;
     }
     .adg-title h1{
       margin:0; font-size: clamp(22px, 3.2vw, 32px); letter-spacing:.2px;
@@ -118,11 +130,24 @@
     }
   </style>
 </head>
-<body>
+
+<body class="adg">
+
+  <header>
+    <div class="logo-band">
+      <img src="assets/logo.png" alt="3G Brasil" loading="lazy" />
+    </div>
+    <nav>
+      <a href="/">3G Brasil</a>
+      <a href="/#produtos">Produtos</a>
+      <a href="/contact.html">Contato</a>
+      <a href="/cancelar.html">Cancelar assinatura</a>
+    </nav>
+  </header>
+
   <main class="adg-wrap">
     <header class="adg-header">
-      <!-- Troque o src abaixo pelo caminho do seu logo -->
-      <img class="adg-logo" src="logo.png" alt="Logo Anjo da Guarda" />
+      <img class="adg-logo" src="assets/logo.png" alt="Logo Anjo da Guarda" />
       <div class="adg-title">
         <h1>Planos — Anjo da Guarda</h1>
         <p>SOS por WhatsApp, SMS e E-mail. Opção com senha de voz (offline) para disparo rápido.</p>
@@ -146,6 +171,7 @@
             <th class="hide-sm">Assinar</th>
           </tr>
         </thead>
+
         <tbody>
           <!-- SIMPLES -->
           <tr>
@@ -167,9 +193,10 @@
             </td>
             <td class="hide-sm" data-label="Excedente">repasse do canal + 20%</td>
             <td class="hide-sm adg-actions">
-              <a class="btn" href="mailto:comercial@seu-dominio.com?subject=Assinar%20Plano%20Simples%20Anjo%20da%20Guarda">Assinar</a>
+              <a class="btn" href="mailto:comercial@3g-brasil.com?subject=Assinar%20Plano%20Simples%20Anjo%20da%20Guarda">Assinar</a>
             </td>
           </tr>
+
           <!-- PLUS -->
           <tr>
             <td data-label="Plano">
@@ -191,14 +218,14 @@
             </td>
             <td class="hide-sm" data-label="Excedente">repasse do canal + 20%</td>
             <td class="hide-sm adg-actions">
-              <a class="btn" href="mailto:comercial@seu-dominio.com?subject=Assinar%20Plano%20Plus%20Anjo%20da%20Guarda">Assinar</a>
+              <a class="btn" href="mailto:comercial@3g-brasil.com?subject=Assinar%20Plano%20Plus%20Anjo%20da%20Guarda">Assinar</a>
             </td>
           </tr>
         </tbody>
       </table>
 
       <div class="adg-foot">
-        * Mensagens incluídas somam entre os canais (ex.: 20 WA + 10 SMS = 30).  
+        * Mensagens incluídas somam entre os canais (ex.: 20 WA + 10 SMS = 30).<br>
         ** WhatsApp Business (Meta) cobra por mensagem entregue; excedentes são cobrados a <em>repasse do canal</em> + 20% oper., conforme tabela vigente.
       </div>
     </section>
@@ -208,9 +235,9 @@
         <br>• <strong>Família (até 4 perfis)</strong>: Simples <strong>R$ 39,90/mês</strong> | Plus <strong>R$ 69,90/mês</strong>.
         <br>• <strong>Condomínio (até 100 usuários)</strong>: Simples <strong>R$ 399/mês</strong> | Plus <strong>R$ 699/mês</strong>, inclui <strong>1.000 SMS + 200 WA</strong>; excedentes a custo do canal.
       </p>
-      <p class="adg-note">Para outro número de usuários/limites, fale com a gente: <a href="mailto:comercial@seu-dominio.com">comercial@seu-dominio.com</a>.</p>
+      <p class="adg-note">Para outro número de usuários/limites, fale com a gente: <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a>.</p>
     </section>
   </main>
+
 </body>
 </html>
-
