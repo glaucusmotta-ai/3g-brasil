@@ -39,11 +39,6 @@
       border-color:#1d4ed8;
       box-shadow:0 0 0 3px rgba(29,78,216,.12);
     }
-    .card-row{
-      display:flex;
-      gap:12px;
-    }
-    .card-row label{ flex:1; }
 
     .terms-actions{
       display:flex;
@@ -107,7 +102,6 @@
     }
 
     @media (max-width:640px){
-      .card-row{ flex-direction:column; }
       .terms-actions button{ min-width: 0; flex:1; }
       .card-form-page{ max-width: 100%; }
     }
@@ -136,7 +130,7 @@
           Plano selecionado: <strong id="selected-plan-card">—</strong>
         </p>
 
-        <form class="card-form card-form-page" id="form-assinatura" onsubmit="return false;">
+        <form class="card-form card-form-page" id="form-assinatura" novalidate>
           <label>
             Nome completo
             <input type="text" id="card-name" autocomplete="name" required>
@@ -152,21 +146,18 @@
             <input type="tel" id="card-phone" placeholder="+55 11 99999-9999" autocomplete="tel" required>
           </label>
 
-          <!-- NOVO: Código do vendedor -->
           <label>
             Código do vendedor (opcional)
             <input type="text" id="seller-code" placeholder="Ex.: VD-AB12" autocomplete="off">
             <div class="inline-feedback" id="seller-feedback"></div>
           </label>
 
-          <!-- NOVO: Cupom -->
           <label>
             Cupom de desconto (opcional)
             <input type="text" id="coupon-code" placeholder="Digite seu cupom" autocomplete="off">
             <div class="inline-feedback" id="coupon-feedback"></div>
           </label>
 
-          <!-- Resumo -->
           <div class="summary" aria-live="polite">
             <h3>Resumo</h3>
             <div class="summary-row">
@@ -183,30 +174,13 @@
             </div>
           </div>
 
-          <!-- Campos do cartão (ilustrativos) — NÃO SÃO ENVIADOS -->
-          <label style="margin-top:14px;">
-            Número do cartão (ilustrativo)
-            <input type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
-          </label>
-
-          <div class="card-row">
-            <label>
-              Validade (MM/AA) (ilustrativo)
-              <input type="text" inputmode="numeric" maxlength="5" placeholder="MM/AA" required>
-            </label>
-            <label>
-              CVV (ilustrativo)
-              <input type="password" inputmode="numeric" maxlength="4" required>
-            </label>
-          </div>
-
           <p class="note">
             Após confirmar, você será direcionado para o checkout de pagamento.
           </p>
 
           <div class="terms-actions">
             <button type="button" class="btn-outline" id="card-cancel-btn">Cancelar</button>
-            <button type="submit" class="btn-link" id="card-submit-btn">Confirmar assinatura</button>
+            <button type="submit" class="btn-link" id="card-submit-btn">Ir para pagamento</button>
           </div>
         </form>
       </div>
@@ -303,7 +277,6 @@
       var params = new URLSearchParams(window.location.search);
       var plano = params.get("plano") || "—";
       currentPlano = plano;
-
       if (selectedPlanEl) selectedPlanEl.textContent = plano;
 
       currentValorCentavos = parseCentavosFromPlano(plano);
@@ -311,7 +284,7 @@
       updateSummary();
     })();
 
-    // ---------- Seller / Coupon ----------
+    // ---------- Seller ----------
     if (sellerInput) {
       sellerInput.addEventListener("input", function() {
         var v = normalizeCode(sellerInput.value);
@@ -320,6 +293,7 @@
       });
     }
 
+    // ---------- Cupom (preview opcional) ----------
     function previewCoupon() {
       var code = couponInput ? normalizeCode(couponInput.value) : "";
       if (!code) {
@@ -329,10 +303,9 @@
         return;
       }
 
-      // fallback neutro (se backend não tiver preview)
-      if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele será validado na finalização.";
+      // mensagem neutra
+      if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele será validado no checkout.";
 
-      // tenta preview (se existir no backend)
       fetch(API_BASE_URL + "/api/coupons/preview", {
         method: "POST",
         headers: {"Content-Type":"application/json"},
@@ -347,19 +320,21 @@
         return resp.json();
       })
       .then(function(data) {
-        if (data && data.checkout_url) {
-          window.location.href = data.checkout_url;
+        if (!data || data.ok !== true) {
+          currentDescontoCentavos = 0;
+          if (couponFeedback) {
+            couponFeedback.textContent = (data && data.reason)
+              ? ("Cupom inválido: " + data.reason)
+              : "Cupom inválido.";
+          }
+          updateSummary();
           return;
         }
 
-        var msg = "Assinatura registrada!";
-        if (data && data.client_code) msg += "\n\nSeu código do cliente: " + data.client_code;
-        alert(msg);
-
-        form.reset();
-        window.location.href = "/";
-        })
         currentDescontoCentavos = Number(data.desconto_centavos || 0);
+        if (currentDescontoCentavos < 0) currentDescontoCentavos = 0;
+        if (currentDescontoCentavos > currentValorCentavos) currentDescontoCentavos = currentValorCentavos;
+
         if (couponFeedback) couponFeedback.textContent = "Cupom aplicado.";
         updateSummary();
       })
@@ -388,18 +363,12 @@
       form.addEventListener("submit", function(e) {
         e.preventDefault();
 
-        var nameEl = document.getElementById("card-name");
-        var emailEl = document.getElementById("card-email");
-        var phoneEl = document.getElementById("card-phone");
-        var sellerEl = document.getElementById("seller-code");
-        var couponEl = document.getElementById("coupon-code");
+        var nome = (document.getElementById("card-name").value || "").trim();
+        var email = (document.getElementById("card-email").value || "").trim();
+        var phone = (document.getElementById("card-phone").value || "").trim();
 
-        var nome = (nameEl && nameEl.value ? nameEl.value : "").trim();
-        var email = (emailEl && emailEl.value ? emailEl.value : "").trim();
-        var phone = (phoneEl && phoneEl.value ? phoneEl.value : "").trim();
-
-        var sellerCode = normalizeCode(sellerEl && sellerEl.value ? sellerEl.value : "");
-        var couponCode = normalizeCode(couponEl && couponEl.value ? couponEl.value : "");
+        var sellerCode = normalizeCode(document.getElementById("seller-code").value || "");
+        var couponCode = normalizeCode(document.getElementById("coupon-code").value || "");
 
         if (!nome || !email || !phone || !currentPlano || !currentValorCentavos) {
           alert("Por favor, confira nome, e-mail, telefone e plano antes de continuar.");
@@ -412,22 +381,19 @@
           user_email: email,
           plano: currentPlano,
 
-          // compatibilidade com backend atual:
+          // compatibilidade com backend atual
           valor_mensal_centavos: currentValorCentavos,
 
-          // novos campos (tabela já tem):
           vendedor_codigo: sellerCode,
 
-          // IMPORTANTE: escolha 1 padrão no backend.
-          // Se o backend espera cupom_codigo, use cupom_codigo. Se espera coupon_code, use coupon_code.
-          // Aqui envio os dois pra não quebrar sua fase atual de testes.
+          // envia nos dois formatos para não quebrar o backend enquanto você decide o padrão final
           cupom_codigo: couponCode,
           coupon_code: couponCode
         };
 
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.textContent = "Enviando...";
+          submitBtn.textContent = "Aguarde...";
         }
 
         fetch(API_BASE_URL + "/api/assinaturas/site", {
@@ -440,22 +406,25 @@
           return resp.json();
         })
         .then(function(data){
+          if (data && data.checkout_url) {
+            window.location.href = data.checkout_url;
+            return;
+          }
+
           var msg = "Assinatura registrada!";
           if (data && data.client_code) msg += "\n\nSeu código do cliente: " + data.client_code;
-          if (data && data.checkout_url) msg += "\n\nLink: " + data.checkout_url;
-
           alert(msg);
-          form.reset();
+
           window.location.href = "/";
         })
         .catch(function(err){
           console.error("Erro ao registrar assinatura:", err);
-          alert("Não foi possível registrar sua assinatura agora. Tente novamente em alguns instantes.");
+          alert("Não foi possível iniciar o checkout agora. Tente novamente em alguns instantes.");
         })
         .finally(function(){
           if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.textContent = "Confirmar assinatura";
+            submitBtn.textContent = "Ir para pagamento";
           }
         });
       });
@@ -463,4 +432,3 @@
   </script>
 </body>
 </html>
-
