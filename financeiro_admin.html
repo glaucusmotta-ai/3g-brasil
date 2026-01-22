@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Financeiro • Admin</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#0b132b;color:#e5e7eb;margin:0}
+    .wrap{max-width:980px;margin:36px auto;padding:0 16px}
+    .card{background:#111a33;border:1px solid #223058;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    h1{margin:0 0 10px;font-size:20px}
+    label{display:block;margin:10px 0 6px;color:#cbd5e1;font-size:13px}
+    input,select{width:100%;padding:10px;border-radius:12px;border:1px solid #2a3a68;background:#0f1730;color:#e5e7eb;box-sizing:border-box}
+    button{padding:10px 14px;border-radius:12px;border:0;background:#4fd1c5;color:#06101d;font-weight:700;cursor:pointer}
+    .btn2{background:#334155;color:#e5e7eb}
+    .row{display:grid;grid-template-columns:1fr 1fr 1fr 2fr;gap:10px}
+    .top{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .msg{margin:10px 0;padding:10px;border-radius:12px}
+    .ok{background:#0b3a2f;border:1px solid #1f8a75;color:#bbf7d0}
+    .err{background:#3b0f1b;border:1px solid #8b1d3a;color:#fecdd3}
+    table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
+    th,td{border-bottom:1px solid #223058;padding:10px;text-align:left;vertical-align:top}
+    th{color:#cbd5e1;font-weight:700}
+    code{color:#93c5fd}
+    .muted{color:#94a3b8;font-size:12px}
+    .hidden{display:none !important} /* blindado contra inline */
+
+    .pw-wrap{position:relative}
+    .pw-wrap input{padding-right:44px}
+    .eye{
+      position:absolute; right:10px; top:50%; transform:translateY(-50%);
+      width:34px; height:34px; border-radius:10px;
+      border:1px solid rgba(79,209,197,.25);
+      background:rgba(0,0,0,.18);
+      display:grid; place-items:center; cursor:pointer; user-select:none;
+      font-size:16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <h1 id="title">Financeiro • Admin</h1>
+
+      <!-- 2ª camada (menu) - SOME no login -->
+      <div id="navTabs" class="tabs hidden">
+        <button class="btn2" id="tabReceber" type="button">Contas a receber</button>
+        <button class="btn2" id="tabCupom" type="button">Cupom</button>
+        <button class="btn2" id="tabPagar" type="button">Contas a pagar</button>
+        <button class="btn2" id="btnLogout" type="button">Sair</button>
+      </div>
+    </div>
+
+    <!-- 1ª camada (login) -->
+    <div class="card" id="loginCard">
+      <div class="muted">Acesso restrito. Use <b>senha master</b> OU <b>e-mail/senha admin</b> (ou os dois). Tudo fica só nesta sessão.</div>
+
+      <label>E-mail (admin)</label>
+      <input id="loginEmail" type="email" autocomplete="username" placeholder="adm@3g-brasil.com" />
+
+      <label>Senha (admin)</label>
+      <div class="pw-wrap">
+        <input id="pwAdmin" type="password" autocomplete="current-password" />
+        <div class="eye" id="eyeAdmin" title="Mostrar/ocultar">👁️</div>
+      </div>
+
+      <label>Senha master (opcional)</label>
+      <div class="pw-wrap">
+        <input id="pwMaster" type="password" autocomplete="off" placeholder="(opcional)" />
+        <div class="eye" id="eyeMaster" title="Mostrar/ocultar">👁️</div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:10px;">
+        <button id="btnLogin" type="button">Entrar</button>
+      </div>
+
+      <div id="loginMsg"></div>
+    </div>
+
+    <!-- 2ª camada (conteúdo) - TUDO começa escondido -->
+    <div class="card hidden" id="cupomCard" style="margin-top:14px;">
+      <div class="muted">Regras atuais: 5% por 1 mês ou 10% por 6 meses.</div>
+      <div id="msg"></div>
+
+      <div class="row" style="margin-top:10px;">
+        <div>
+          <label>Regra</label>
+          <select id="rule">
+            <option value="5|1">5% por 1 mês</option>
+            <option value="10|6">10% por 6 meses</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Max uses</label>
+          <input id="maxUses" type="number" min="1" value="1" />
+        </div>
+
+        <div>
+          <label>Ativos apenas</label>
+          <select id="activeOnly">
+            <option value="1" selected>Sim</option>
+            <option value="0">Não</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Observação</label>
+          <input id="note" placeholder="ex.: campanha janeiro / vendedor X" />
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:10px;">
+        <button id="btnCreate" type="button">Gerar cupom</button>
+        <button class="btn2" id="btnRefresh" type="button">Atualizar lista</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th><th>%</th><th>Meses</th><th>Usos</th><th>Status</th><th>Nota</th><th>Criado</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="7" class="muted">Sem dados ainda.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card hidden" id="receberCard" style="margin-top:14px;">
+      <div class="muted">Contas a receber (em breve): lista de assinaturas, status (pago/atraso), plano e detalhes.</div>
+    </div>
+
+    <div class="card hidden" id="pagarCard" style="margin-top:14px;">
+      <div class="muted">Contas a pagar (depois): você vai me dizer o que entra aqui.</div>
+    </div>
+  </div>
+
+<script>
+  const API = "";
+
+  const KEY_EMAIL   = "financeiro_login_email";
+  const KEY_ADMINPW = "financeiro_admin_pw";
+  const KEY_MASTER  = "financeiro_master_pw";
+
+  const $ = (id) => document.getElementById(id);
+
+  function setMsg(ok, text) {
+    const el = $("msg");
+    if (!el) return;
+    if (!text) { el.innerHTML = ""; return; }
+    el.innerHTML = `<div class="msg ${ok ? "ok" : "err"}">${text}</div>`;
+  }
+
+  function setLoginMsg(ok, text) {
+    const el = $("loginMsg");
+    if (!el) return;
+    if (!text) { el.innerHTML = ""; return; }
+    el.innerHTML = `<div class="msg ${ok ? "ok" : "err"}">${text}</div>`;
+  }
+
+  function toggleEye(btnId, inputId){
+    const b = $(btnId), i = $(inputId);
+    if (!b || !i) return;
+    b.onclick = () => { i.type = (i.type === "password") ? "text" : "password"; };
+  }
+  toggleEye("eyeAdmin", "pwAdmin");
+  toggleEye("eyeMaster", "pwMaster");
+
+  function getEmail(){ return sessionStorage.getItem(KEY_EMAIL) || ""; }
+  function getAdminPw(){ return sessionStorage.getItem(KEY_ADMINPW) || ""; }
+  function getMaster(){ return sessionStorage.getItem(KEY_MASTER) || ""; }
+
+  function hideAllTabs() {
+    $("cupomCard").classList.add("hidden");
+    $("receberCard").classList.add("hidden");
+    $("pagarCard").classList.add("hidden");
+  }
+
+  function setLoggedIn(on) {
+    $("loginCard").classList.toggle("hidden", on);
+    $("navTabs").classList.toggle("hidden", !on);
+
+    if (!on) {
+      hideAllTabs();
+    }
+  }
+
+  function showTab(name) {
+    hideAllTabs();
+    if (name === "receber") $("receberCard").classList.remove("hidden");
+    if (name === "cupom") $("cupomCard").classList.remove("hidden");
+    if (name === "pagar") $("pagarCard").classList.remove("hidden");
+  }
+
+  async function apiPost(path, body) {
+    const r = await fetch(API + path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const txt = await r.text();
+    let j = {};
+    try { j = JSON.parse(txt); } catch(e) { j = { ok:false, raw: txt }; }
+    return { status: r.status, json: j };
+  }
+
+  function authPayload(extra) {
+    const payload = { ...(extra || {}) };
+
+    const email = getEmail();
+    const adminPw = getAdminPw();
+    const master = getMaster();
+
+    if (master) payload.master_password = master;
+    if (email) payload.login_email = email;
+    if (adminPw) payload.login_password = adminPw;
+
+    return payload;
+  }
+
+  async function refreshList() {
+    const activeOnly = $("activeOnly").value !== "0";
+    const payload = authPayload({ limit: 50, active_only: activeOnly });
+
+    const res = await apiPost("/api/financeiro/coupons/admin/list", payload);
+    if (!res.json || res.json.ok === false) {
+      setMsg(false, `Falhou ao listar: HTTP ${res.status} • ${JSON.stringify(res.json)}`);
+      return;
+    }
+
+    const list = res.json.items || res.json.coupons || [];
+    const tbody = $("tbody");
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td colspan="7" class="muted">Sem cupons (ou filtro active_only).</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.map(c => `
+      <tr>
+        <td><code>${c.code || ""}</code></td>
+        <td>${c.percent ?? ""}</td>
+        <td>${c.duration_months ?? ""}</td>
+        <td>${(c.used_count ?? "")}/${(c.max_uses ?? "")}</td>
+        <td>${c.active ? "Ativo" : "Inativo"}</td>
+        <td>${c.note || ""}</td>
+        <td>${c.created_at_utc || ""}</td>
+      </tr>
+    `).join("");
+    setMsg(true, "Lista atualizada.");
+  }
+
+  async function createCoupon() {
+    const [percent, months] = $("rule").value.split("|").map(x => parseInt(x, 10));
+    const maxUses = parseInt($("maxUses").value || "1", 10);
+    const note = ($("note").value || "").trim() || null;
+
+    const payload = authPayload({ percent, duration_months: months, max_uses: maxUses, note });
+
+    const res = await apiPost("/api/financeiro/coupons/admin/create", payload);
+    if (!res.json || res.json.ok === false) {
+      setMsg(false, `Falhou ao criar: HTTP ${res.status} • ${JSON.stringify(res.json)}`);
+      return;
+    }
+    setMsg(true, `Cupom criado: ${res.json.code || "(ver lista)"} ✅`);
+    await refreshList();
+  }
+
+  $("btnLogin").onclick = async () => {
+    const email = ($("loginEmail").value || "").trim();
+    const adminPw = ($("pwAdmin").value || "").trim();
+    const master = ($("pwMaster").value || "").trim();
+
+    if (!email && !master) { setLoginMsg(false, "Informe e-mail (admin) ou use a senha master."); return; }
+    if (email && !adminPw && !master) { setLoginMsg(false, "Informe a senha do admin (ou use a senha master)."); return; }
+    if (!adminPw && !master) { setLoginMsg(false, "Informe senha do admin e/ou senha master."); return; }
+
+    if (email) sessionStorage.setItem(KEY_EMAIL, email);
+    if (adminPw) sessionStorage.setItem(KEY_ADMINPW, adminPw);
+    if (master) sessionStorage.setItem(KEY_MASTER, master);
+
+    setLoginMsg(true, "Ok. Carregando...");
+    setLoggedIn(true);
+    showTab("cupom");
+    await refreshList();
+  };
+
+  $("btnLogout").onclick = () => {
+    sessionStorage.removeItem(KEY_EMAIL);
+    sessionStorage.removeItem(KEY_ADMINPW);
+    sessionStorage.removeItem(KEY_MASTER);
+
+    $("pwAdmin").value = "";
+    $("pwMaster").value = "";
+    $("loginEmail").value = "";
+
+    setMsg(false, "");
+    setLoginMsg(false, "");
+    setLoggedIn(false);
+  };
+
+  $("btnRefresh").onclick = refreshList;
+  $("btnCreate").onclick = createCoupon;
+
+  $("tabReceber").onclick = () => showTab("receber");
+  $("tabCupom").onclick = () => showTab("cupom");
+  $("tabPagar").onclick = () => showTab("pagar");
+
+  // init: só login
+  setLoggedIn(false);
+
+  // auto-login
+  if (getMaster() || (getEmail() && getAdminPw())) {
+    setLoggedIn(true);
+    showTab("cupom");
+    refreshList();
+  }
+</script>
+</body>
+</html>
