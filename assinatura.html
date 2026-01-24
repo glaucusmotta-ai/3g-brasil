@@ -230,8 +230,8 @@
     }
 
     function parseCentavosFromPlano(plano) {
-      // Ex.: "R$ 18,90/pessoa (R$ 75,60/mês)" => pega [18,90] e [75,60]
-      var re = /R\$\s*([0-9]{1,3}(?:\.[0-9]{3})*),([0-9]{2})/g;
+      // aceita "R$ 32,90" e "R$ 32.90"
+      var re = /R\$\s*([0-9]{1,3}(?:\.[0-9]{3})*)(?:,|\.)([0-9]{2})/g;
       var vals = [];
       var m;
 
@@ -244,7 +244,7 @@
       if (!vals.length) return 0;
 
       // Se for "por pessoa" e tiver total entre parênteses, usa o ÚLTIMO valor (total)
-      var isFamiliaPorPessoa = plano.toLowerCase().indexOf("pessoa") >= 0;
+      var isFamiliaPorPessoa = String(plano || "").toLowerCase().indexOf("pessoa") >= 0;
       if (isFamiliaPorPessoa && vals.length >= 2) return vals[vals.length - 1];
 
       return vals[0];
@@ -289,6 +289,15 @@
       sumTotalEl.textContent = currentValorCentavos ? brlFromCentavos(total) : "—";
     }
 
+    // botão só libera com campos obrigatórios (vendedor é opcional) + plano com valor
+    function setCanSubmit() {
+      if (!submitBtn || !form) return;
+      var ok = form.checkValidity() && !!currentValorCentavos;
+      submitBtn.disabled = !ok;
+      submitBtn.style.opacity = ok ? "1" : ".6";
+      submitBtn.style.cursor = ok ? "pointer" : "not-allowed";
+    }
+
     // ---------- Lê plano da query string ----------
     (function initPlano() {
       var params = new URLSearchParams(window.location.search);
@@ -300,7 +309,14 @@
       currentValorCentavos = parseCentavosFromPlano(plano);
       currentDescontoCentavos = 0;
       updateSummary();
+      setCanSubmit();
     })();
+
+    // Atualiza botão conforme o usuário preenche
+    ["card-name","card-email","card-phone"].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.addEventListener("input", setCanSubmit);
+    });
 
     // ---------- Seller ----------
     if (sellerInput) {
@@ -308,6 +324,7 @@
         var v = normalizeCode(sellerInput.value);
         sellerInput.value = v;
         if (sellerFeedback) sellerFeedback.textContent = v ? "Código do vendedor registrado." : "";
+        setCanSubmit();
       });
     }
 
@@ -316,10 +333,12 @@
 
     function previewCoupon() {
       var code = couponInput ? normalizeCode(couponInput.value) : "";
+
       if (!code) {
         currentDescontoCentavos = 0;
         if (couponFeedback) couponFeedback.textContent = "";
         updateSummary();
+        setCanSubmit();
         return;
       }
 
@@ -327,39 +346,7 @@
 
       fetch(apiUrl("/api/assinaturas/site/preview"), {
         method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({
-          plano: currentPlano,
-          valor_periodo_centavos: currentValorCentavos,
-          coupon_code: code
-        })
-      })
-      .then(function(resp) {
-        if (!resp.ok) throw new Error("HTTP " + resp.status);
-        return resp.json();
-      })
-      .then(function(data) {
-        if (!data || data.ok !== true) {
-          currentDescontoCentavos = 0;
-          if (couponFeedback) couponFeedback.textContent = "Cupom inválido.";
-          updateSummary();
-          return;
-        }
-        currentDescontoCentavos = Number(data.desconto_centavos || 0);
-        if (couponFeedback) couponFeedback.textContent = currentDescontoCentavos > 0 ? "Cupom aplicado." : "Cupom válido (sem desconto).";
-        updateSummary();
-      })
-      .catch(function() {
-        currentDescontoCentavos = 0;
-        updateSummary();
-        if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele será validado no checkout.";
-      });
-    }
-
-      if (couponFeedback) couponFeedback.textContent = "Validando cupom...";
-      fetch(apiUrl("/api/assinaturas/site/preview"), {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           plano: currentPlano,
           periodicidade: inferPeriodicidade(currentPlano),
@@ -367,33 +354,25 @@
           coupon_code: code
         })
       })
-      .then(function(resp) {
+      .then(function(resp){
         if (!resp.ok) throw new Error("HTTP " + resp.status);
         return resp.json();
       })
-      .then(function(data) {
-        // Preview do backend sempre retorna ok:true quando dados estão corretos;
-        // cupom inválido => desconto_centavos 0 e coupon_code null
-        if (!data || data.ok !== true) {
-          currentDescontoCentavos = 0;
-          if (couponFeedback) couponFeedback.textContent = "Não foi possível validar o cupom agora.";
-          updateSummary();
-          return;
-        }
-
-        currentDescontoCentavos = Number(data.desconto_centavos || 0);
+      .then(function(data){
+        currentDescontoCentavos = Number((data && data.desconto_centavos) || 0);
         updateSummary();
 
         if (couponFeedback) {
-          if (data.coupon_code) couponFeedback.textContent = "Cupom aplicado.";
+          if (data && data.coupon_code) couponFeedback.textContent = "Cupom aplicado.";
           else couponFeedback.textContent = "Cupom inválido (sem desconto).";
         }
+        setCanSubmit();
       })
-      .catch(function(err) {
-        // Se der erro (rede/CORS/transiente), não trava o usuário: valida na finalização
+      .catch(function(){
         currentDescontoCentavos = 0;
         updateSummary();
         if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele será validado na finalização.";
+        setCanSubmit();
       });
     }
 
@@ -402,6 +381,7 @@
         couponInput.value = normalizeCode(couponInput.value);
         clearTimeout(_couponTimer);
         _couponTimer = setTimeout(previewCoupon, 250);
+        setCanSubmit();
       });
     }
 
@@ -416,17 +396,22 @@
       form.addEventListener("submit", function(e) {
         e.preventDefault();
 
+        // obrigatórios: nome/email/telefone (HTML required) + plano com valor
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        if (!currentValorCentavos) {
+          alert("Plano inválido/sem valor. Volte e selecione um plano novamente.");
+          return;
+        }
+
         var nome = (document.getElementById("card-name").value || "").trim();
         var email = (document.getElementById("card-email").value || "").trim();
         var phone = (document.getElementById("card-phone").value || "").trim();
 
         var sellerCode = normalizeCode(document.getElementById("seller-code").value || "");
         var couponCode = normalizeCode(document.getElementById("coupon-code").value || "");
-
-        if (!nome || !email || !phone || !currentPlano || !currentValorCentavos) {
-          alert("Por favor, confira nome, e-mail, telefone e plano antes de continuar.");
-          return;
-        }
 
         var periodicidade = inferPeriodicidade(currentPlano);
 
@@ -437,10 +422,8 @@
           user_email: email,
           plano: currentPlano,
 
-          // essencial p/ preview e cálculo real do desconto
+          // essencial p/ cálculo real do desconto
           valor_periodo_centavos: currentValorCentavos,
-
-          // opcional (não precisa duplicar valor)
           valor_mensal_centavos: null,
 
           periodicidade: periodicidade,
@@ -489,9 +472,13 @@
             submitBtn.disabled = false;
             submitBtn.textContent = "Confirmar assinatura";
           }
+          setCanSubmit();
         });
       });
     }
+
+    // estado inicial do botão
+    setCanSubmit();
   </script>
 </body>
 </html>
