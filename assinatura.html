@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Finalizar assinatura — Anjo da Guarda | 3G Brasil</title>
   <meta name="description" content="Finalização da assinatura do aplicativo Anjo da Guarda da 3G Brasil.">
-  <link rel="stylesheet" href="assets/site.css?v=3">
+  <link rel="stylesheet" href="assets/site.css?v=4">
 
   <style>
     main.container{
@@ -130,7 +130,7 @@
           Plano selecionado: <strong id="selected-plan-card">—</strong>
         </p>
 
-        <form class="card-form card-form-page" id="form-assinatura" novalidate>
+        <form class="card-form card-form-page" id="form-assinatura" onsubmit="return false;">
           <label>
             Nome completo
             <input type="text" id="card-name" autocomplete="name" required>
@@ -180,7 +180,7 @@
 
           <div class="terms-actions">
             <button type="button" class="btn-outline" id="card-cancel-btn">Cancelar</button>
-            <button type="submit" class="btn-link" id="card-submit-btn">Ir para pagamento</button>
+            <button type="submit" class="btn-link" id="card-submit-btn">Confirmar assinatura</button>
           </div>
         </form>
       </div>
@@ -205,10 +205,22 @@
   </footer>
 
   <script>
-    // ---------- API base (produção + fallback local) ----------
-    var API_BASE_URL = "https://anjo-track.3g-brasil.com";
+    // ============================
+    // API base (SEM usar anjo-track)
+    // ============================
+    // Produção: subdomínio do "Financeiro" (separado do mapa)
+    var API_BASE_URL = "https://financeiro.3g-brasil.com";
+
+    // Local dev (financeiro_main rodando na sua máquina)
     if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
-      API_BASE_URL = "http://127.0.0.1:8000";
+      API_BASE_URL = "http://127.0.0.1:8010";
+    }
+
+    function apiUrl(path) {
+      var base = (API_BASE_URL || "").replace(/\/+$/, "");
+      var p = (path || "");
+      if (!p.startsWith("/")) p = "/" + p;
+      return base + p;
     }
 
     // ---------- Helpers ----------
@@ -235,7 +247,6 @@
       var isFamiliaPorPessoa = plano.toLowerCase().indexOf("pessoa") >= 0;
       if (isFamiliaPorPessoa && vals.length >= 2) return vals[vals.length - 1];
 
-      // Caso geral: primeiro valor
       return vals[0];
     }
 
@@ -243,6 +254,12 @@
       s = (s || "").trim().toUpperCase();
       s = s.replace(/\s+/g, "");
       return s;
+    }
+
+    function inferPeriodicidade(plano) {
+      var txt = String(plano || "").toLowerCase();
+      if (txt.indexOf("anual") >= 0 || txt.indexOf("/ano") >= 0 || txt.indexOf(" ano") >= 0) return "anual";
+      return "mensal";
     }
 
     // ---------- UI refs ----------
@@ -277,6 +294,7 @@
       var params = new URLSearchParams(window.location.search);
       var plano = params.get("plano") || "—";
       currentPlano = plano;
+
       if (selectedPlanEl) selectedPlanEl.textContent = plano;
 
       currentValorCentavos = parseCentavosFromPlano(plano);
@@ -293,7 +311,9 @@
       });
     }
 
-    // ---------- Cupom (preview opcional) ----------
+    // ---------- Coupon preview (REAL, via /api/assinaturas/site/preview) ----------
+    var _couponTimer = null;
+
     function previewCoupon() {
       var code = couponInput ? normalizeCode(couponInput.value) : "";
       if (!code) {
@@ -303,16 +323,15 @@
         return;
       }
 
-      // mensagem neutra
-      if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele será validado no checkout.";
+      if (couponFeedback) couponFeedback.textContent = "Validando cupom...";
 
-      fetch(API_BASE_URL + "/api/coupons/preview", {
+      fetch(apiUrl("/api/assinaturas/site/preview"), {
         method: "POST",
         headers: {"Content-Type":"application/json"},
         body: JSON.stringify({
-          coupon_code: code,
           plano: currentPlano,
-          valor_centavos: currentValorCentavos
+          valor_periodo_centavos: currentValorCentavos,
+          coupon_code: code
         })
       })
       .then(function(resp) {
@@ -322,33 +341,67 @@
       .then(function(data) {
         if (!data || data.ok !== true) {
           currentDescontoCentavos = 0;
-          if (couponFeedback) {
-            couponFeedback.textContent = (data && data.reason)
-              ? ("Cupom inválido: " + data.reason)
-              : "Cupom inválido.";
-          }
+          if (couponFeedback) couponFeedback.textContent = "Cupom inválido.";
+          updateSummary();
+          return;
+        }
+        currentDescontoCentavos = Number(data.desconto_centavos || 0);
+        if (couponFeedback) couponFeedback.textContent = currentDescontoCentavos > 0 ? "Cupom aplicado." : "Cupom válido (sem desconto).";
+        updateSummary();
+      })
+      .catch(function() {
+        currentDescontoCentavos = 0;
+        updateSummary();
+        if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele será validado no checkout.";
+      });
+    }
+
+      if (couponFeedback) couponFeedback.textContent = "Validando cupom...";
+      fetch(apiUrl("/api/assinaturas/site/preview"), {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          plano: currentPlano,
+          periodicidade: inferPeriodicidade(currentPlano),
+          valor_periodo_centavos: currentValorCentavos,
+          coupon_code: code
+        })
+      })
+      .then(function(resp) {
+        if (!resp.ok) throw new Error("HTTP " + resp.status);
+        return resp.json();
+      })
+      .then(function(data) {
+        // Preview do backend sempre retorna ok:true quando dados estão corretos;
+        // cupom inválido => desconto_centavos 0 e coupon_code null
+        if (!data || data.ok !== true) {
+          currentDescontoCentavos = 0;
+          if (couponFeedback) couponFeedback.textContent = "Não foi possível validar o cupom agora.";
           updateSummary();
           return;
         }
 
         currentDescontoCentavos = Number(data.desconto_centavos || 0);
-        if (currentDescontoCentavos < 0) currentDescontoCentavos = 0;
-        if (currentDescontoCentavos > currentValorCentavos) currentDescontoCentavos = currentValorCentavos;
-
-        if (couponFeedback) couponFeedback.textContent = "Cupom aplicado.";
         updateSummary();
+
+        if (couponFeedback) {
+          if (data.coupon_code) couponFeedback.textContent = "Cupom aplicado.";
+          else couponFeedback.textContent = "Cupom inválido (sem desconto).";
+        }
       })
-      .catch(function() {
-        // se não existe preview, mantém desconto 0 e valida só no submit
+      .catch(function(err) {
+        // Se der erro (rede/CORS/transiente), não trava o usuário: valida na finalização
         currentDescontoCentavos = 0;
         updateSummary();
+        if (couponFeedback) couponFeedback.textContent = "Cupom registrado. Ele será validado na finalização.";
       });
     }
 
     if (couponInput) {
       couponInput.addEventListener("input", function() {
         couponInput.value = normalizeCode(couponInput.value);
-        previewCoupon();
+        clearTimeout(_couponTimer);
+        _couponTimer = setTimeout(previewCoupon, 250);
       });
     }
 
@@ -375,20 +428,24 @@
           return;
         }
 
+        var periodicidade = inferPeriodicidade(currentPlano);
+
+        // Payload compatível com routes_assinaturas_site.py (Financeiro)
         var payload = {
           nome: nome,
           telefone: phone,
           user_email: email,
           plano: currentPlano,
 
-          // compatibilidade com backend atual
-          valor_mensal_centavos: currentValorCentavos,
+          // essencial p/ preview e cálculo real do desconto
+          valor_periodo_centavos: currentValorCentavos,
 
-          vendedor_codigo: sellerCode,
+          // opcional (não precisa duplicar valor)
+          valor_mensal_centavos: null,
 
-          // envia nos dois formatos para não quebrar o backend enquanto você decide o padrão final
-          cupom_codigo: couponCode,
-          coupon_code: couponCode
+          periodicidade: periodicidade,
+          vendedor_codigo: (sellerCode || null),
+          coupon_code: (couponCode || null)
         };
 
         if (submitBtn) {
@@ -396,7 +453,7 @@
           submitBtn.textContent = "Aguarde...";
         }
 
-        fetch(API_BASE_URL + "/api/assinaturas/site", {
+        fetch(apiUrl("/api/assinaturas/site"), {
           method: "POST",
           headers: {"Content-Type":"application/json"},
           body: JSON.stringify(payload)
@@ -411,10 +468,16 @@
             return;
           }
 
-          var msg = "Assinatura registrada!";
-          if (data && data.client_code) msg += "\n\nSeu código do cliente: " + data.client_code;
-          alert(msg);
+          if (data && data.blocked === true) {
+            var msgB = (data.reason || "Conclusão bloqueada.");
+            if (data.codigo_cliente) msgB += "\n\nCódigo do cliente: " + data.codigo_cliente;
+            alert(msgB);
+            return;
+          }
 
+          var msg = "Assinatura registrada!";
+          if (data && data.codigo_cliente) msg += "\n\nSeu código do cliente: " + data.codigo_cliente;
+          alert(msg);
           window.location.href = "/";
         })
         .catch(function(err){
@@ -424,7 +487,7 @@
         .finally(function(){
           if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.textContent = "Ir para pagamento";
+            submitBtn.textContent = "Confirmar assinatura";
           }
         });
       });
