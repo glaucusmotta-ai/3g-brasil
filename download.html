@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>3G Brasil • Download (Beta)</title>
+
+  <!-- se já existir no seu site -->
+  <link rel="stylesheet" href="assets/site.css" />
+
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;background:#0b132b;color:#e5e7eb}
+    .wrap{max-width:760px;margin:40px auto;padding:0 16px}
+    .card{background:#111a33;border:1px solid #223058;border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    h1{margin:0 0 6px;font-size:20px}
+    p{margin:0 0 14px;opacity:.92;line-height:1.4}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    input{flex:1;min-width:240px;background:#0c1633;border:1px solid #223058;color:#e5e7eb;border-radius:12px;padding:12px 12px;font-size:14px}
+    button{background:#2563eb;border:0;color:#fff;border-radius:12px;padding:12px 14px;font-weight:600;cursor:pointer}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    .msg{margin-top:12px;padding:12px;border-radius:12px;border:1px solid #223058;background:#0c1633}
+    .muted{opacity:.8;font-size:13px}
+    a{color:#93c5fd}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Baixar app (Beta)</h1>
+      <p>Informe seu <b>código do cliente</b> para gerar um link de download seguro.</p>
+
+      <div class="row">
+        <input id="codigo" type="text" placeholder="Ex.: 2026XXXX..." autocomplete="off" />
+        <button id="btn">Gerar link e baixar</button>
+      </div>
+
+      <div id="out" class="msg" style="display:none"></div>
+
+      <p class="muted" style="margin-top:14px">
+        Dica: você também pode abrir esta página assim:
+        <br/>
+        <span class="muted">/download.html?codigo_cliente=SEU_CODIGO</span>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      function show(msg){
+        var el = document.getElementById("out");
+        el.style.display = "block";
+        el.textContent = msg;
+      }
+
+      // Produção usa o subdomínio do Financeiro.
+      // Localhost cai no 127.0.0.1:8010 (para seus testes).
+      var API_BASE =
+        (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+        ? "http://127.0.0.1:8010"
+        : "https://financeiro.3g-brasil.com";
+
+      function apiUrl(path){
+        return API_BASE.replace(/\/+$/,"") + "/" + String(path||"").replace(/^\/+/,"");
+      }
+
+      async function gerarEbaixar(codigo){
+        codigo = (codigo || "").trim();
+        if(!codigo){
+          show("Informe o código do cliente.");
+          return;
+        }
+
+        var btn = document.getElementById("btn");
+        btn.disabled = true;
+        btn.textContent = "Aguarde...";
+
+        try{
+          var url = apiUrl("/api/financeiro/app/download-link") + "?codigo_cliente=" + encodeURIComponent(codigo);
+          var resp = await fetch(url, { method: "GET", headers: { "Accept":"application/json" } });
+          var data = null;
+          try { data = await resp.json(); } catch(e){}
+
+          if(!resp.ok || !data || data.ok !== true || !data.download_url){
+            var msg = (data && (data.message || data.detail)) ? (data.message || data.detail) : ("HTTP " + resp.status);
+            show("Não foi possível gerar o link: " + msg);
+            return;
+          }
+
+          // Redireciona para /download/app?token=... (o backend valida e redireciona pro APK)
+          window.location.href = data.download_url;
+        }catch(err){
+          console.error(err);
+          show("Erro ao gerar o link. Tente novamente.");
+        }finally{
+          btn.disabled = false;
+          btn.textContent = "Gerar link e baixar";
+        }
+      }
+
+      // auto pelo querystring
+      var params = new URLSearchParams(window.location.search);
+      var qc = (params.get("codigo_cliente") || "").trim();
+      if(qc){
+        document.getElementById("codigo").value = qc;
+        gerarEbaixar(qc);
+      }
+
+      document.getElementById("btn").addEventListener("click", function(){
+        gerarEbaixar(document.getElementById("codigo").value);
+      });
+
+      document.getElementById("codigo").addEventListener("keydown", function(e){
+        if(e.key === "Enter"){
+          gerarEbaixar(document.getElementById("codigo").value);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
