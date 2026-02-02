@@ -27,11 +27,12 @@
   <div class="wrap">
     <div class="card">
       <h1>Baixar app (Beta)</h1>
-      <p>Informe seu <b>código do cliente</b> para gerar um link de download seguro.</p>
+
+      <p id="intro">Informe seu <b>código do cliente</b> para gerar um link de download seguro.</p>
 
       <div class="row">
         <input id="codigo" type="text" placeholder="Ex.: 2026XXXX..." autocomplete="off" />
-        <button id="btn">Gerar link e baixar</button>
+        <button id="btn" type="button">Gerar link e baixar</button>
       </div>
 
       <div id="out" class="msg" style="display:none"></div>
@@ -39,7 +40,7 @@
       <p class="muted" style="margin-top:14px">
         Dica: você também pode abrir esta página assim:
         <br/>
-        <span class="muted">/download.html?codigo_cliente=SEU_CODIGO</span>
+        <span class="muted">/download.html?c=SEU_CODIGO</span>
       </p>
     </div>
   </div>
@@ -50,6 +51,12 @@
         var el = document.getElementById("out");
         el.style.display = "block";
         el.textContent = msg;
+      }
+
+      function setBusy(isBusy){
+        var btn = document.getElementById("btn");
+        btn.disabled = !!isBusy;
+        btn.textContent = isBusy ? "Aguarde..." : "Gerar link e baixar";
       }
 
       // Produção usa o subdomínio do Financeiro.
@@ -70,38 +77,45 @@
           return;
         }
 
-        var btn = document.getElementById("btn");
-        btn.disabled = true;
-        btn.textContent = "Aguarde...";
+        setBusy(true);
 
         try{
           var url = apiUrl("/api/financeiro/app/download-link") + "?codigo_cliente=" + encodeURIComponent(codigo);
           var resp = await fetch(url, { method: "GET", headers: { "Accept":"application/json" } });
+
           var data = null;
           try { data = await resp.json(); } catch(e){}
 
           if(!resp.ok || !data || data.ok !== true || !data.download_url){
-            var msg = (data && (data.message || data.detail)) ? (data.message || data.detail) : ("HTTP " + resp.status);
+            var msg = (data && (data.message || data.detail))
+              ? (data.message || data.detail)
+              : ("HTTP " + resp.status);
             show("Não foi possível gerar o link: " + msg);
             return;
           }
 
           // Redireciona para /download/app?token=... (o backend valida e redireciona pro APK)
-          window.location.href = data.download_url;
+          window.location.href = new URL(data.download_url, API_BASE).toString();
         }catch(err){
           console.error(err);
           show("Erro ao gerar o link. Tente novamente.");
         }finally{
-          btn.disabled = false;
-          btn.textContent = "Gerar link e baixar";
+          setBusy(false);
         }
       }
 
-      // auto pelo querystring
+      // Auto pelo querystring
       var params = new URLSearchParams(window.location.search);
-      var qc = (params.get("codigo_cliente") || "").trim();
+      var qc = (params.get("c") || params.get("codigo_cliente") || "").trim();
+
       if(qc){
-        document.getElementById("codigo").value = qc;
+        // Quando veio por link do e-mail, não precisa “pedir” o código — já dispara automático
+        var intro = document.getElementById("intro");
+        if(intro) intro.textContent = "Aguarde… estamos preparando seu download.";
+
+        var inp = document.getElementById("codigo");
+        if(inp) inp.value = qc;
+
         gerarEbaixar(qc);
       }
 
