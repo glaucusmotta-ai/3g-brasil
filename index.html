@@ -9,57 +9,6 @@
 
   <!-- IMPORTANTE: caminho relativo pro CSS quando abrir local -->
   <link rel="stylesheet" href="assets/site.css?v=4">
-
-  <!-- Estilos auxiliares dos botões / layout de ações -->
-  <style>
-    button.btn-link,
-    a.btn-link {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 10px 18px;
-      border-radius: 999px;
-      background: #0b132b;
-      color: #e8eaed;
-      text-decoration: none;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-    }
-
-    button.btn-link:hover,
-    a.btn-link:hover {
-      opacity: .9;
-    }
-
-    .terms-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .terms-actions button {
-      flex: 1;
-      margin: 0;
-      padding: 12px 16px;
-      min-height: 48px;
-    }
-
-    button.btn-outline {
-      background: #fff;
-      color: #111;
-      border: 1px solid #d1d5db;
-    }
-
-    button.btn-outline:hover {
-      background: #f3f4f6;
-    }
-
-    /* Botões desabilitados (iOS em breve) */
-    button[disabled] {
-      opacity: .6;
-      cursor: not-allowed;
-    }
-  </style>
 </head>
 <body>
 
@@ -72,7 +21,6 @@
       <a href="#3gbrasil">3G Brasil</a>
       <a href="#produtos">Produtos</a>
       <a href="#contato">Contato</a>
-      <a href="/cancelar.html">Cancelar assinatura</a>
     </nav>
   </header>
 
@@ -357,7 +305,7 @@
           E-mail: <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a>
         </p>
         <p class="card-note" style="margin:0;">
-          Para cancelamento de assinatura, use o link <strong>“Cancelar assinatura”</strong> no menu.
+          Para cancelamento de assinatura, use o link <strong>“Cancelar assinatura”</strong> no final da página.
         </p>
       </div>
     </section>
@@ -366,16 +314,23 @@
   <footer>
     <div class="container">
       <div class="footer-wrap">
+
+        <div class="footer-cancel">
+          <a href="/cancelar.html">Cancelar assinatura</a>
+        </div>
+
         <div class="support">
           <p class="footer-support-title">Canais oficiais de suporte</p>
           <p class="footer-support-info">
             <a href="mailto:comercial@3g-brasil.com">comercial@3g-brasil.com</a>
           </p>
         </div>
+
         <div class="legal">
           <p class="footer-legal">CNPJ: 30.589.513/0001-40</p>
           <p class="footer-copy">© 2025 3G Brasil — 3g-brasil.com</p>
         </div>
+
       </div>
     </div>
   </footer>
@@ -500,3 +455,4 @@
 
 </body>
 </html>
+
