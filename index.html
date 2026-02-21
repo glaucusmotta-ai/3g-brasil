@@ -66,12 +66,28 @@
         </ul>
 
         <a href="javascript:void(0)"
-           onclick="openOsModal()"
+           onclick="openComparativoModal()"
            style="color:#2563eb; cursor:pointer; font-weight:600; text-decoration:underline;">
           Quero adquirir o Anjo da Guarda
         </a>
       </div>
     </section>
+
+    <!-- Popup de comparativo (Freemium vs Essencial) -->
+    <div id="comparativo-modal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 style="margin:0;">Plano Freemium vs Plano Essencial</h3>
+          <button type="button" class="modal-close" aria-label="Fechar">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <div id="comparativo-slot"></div>
+         
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Popup de SISTEMA OPERACIONAL -->
     <div id="os-modal" class="modal" aria-hidden="true">
@@ -125,7 +141,7 @@
               </div>
               <ul class="plan-features">
                 <li>SOS por PIN e/ou áudio</li>
-                <li>Disparo para WhatsApp / Telegram / E-mail</li>
+                <li>Disparo para WhatsApp / Telegram / E-mail / SMS</li>
                 <li>Link do mapa para destinatários quando houver internet</li>
               </ul>
             </div>
@@ -144,32 +160,6 @@
             </div>
 
             <!-- LINHA 2 -->
-            <div class="plan-item" data-plan="Premium Individual — R$ 32,90/mês">
-              <div class="plan-row">
-                <span class="plan-name">Premium Individual</span>
-                <span class="plan-price">R$ 32,90/mês</span>
-              </div>
-              <ul class="plan-features">
-                <li>Tudo do Essencial</li>
-                <li>SMS via operadora (sem internet)</li>
-                <li>Central/Localiza 24/7 (suporte por telefone + acompanhamento no mapa quando possível)</li>
-              </ul>
-            </div>
-
-            <div class="plan-item" data-plan="Premium Familiar — R$ 28,90/pessoa (R$ 115,60/mês)">
-              <div class="plan-row">
-                <span class="plan-name">Premium Familiar</span>
-                <span class="plan-price">
-                  R$ 28,90/pessoa
-                  <small>(R$ 115,60/mês)</small>
-                </span>
-              </div>
-              <ul class="plan-features">
-                <li>Premium para até 4 membros (inclui SMS sem internet + Central/Localiza 24/7)</li>
-              </ul>
-            </div>
-
-            <!-- LINHA 3 -->
             <div class="plan-item" data-plan="Essencial Individual — R$ 240,00/ano">
               <div class="plan-row">
                 <span class="plan-name">Essencial Individual</span>
@@ -190,30 +180,6 @@
               </div>
               <ul class="plan-features">
                 <li>Mesmas coberturas do Essencial Familiar mensal (economia no anual)</li>
-              </ul>
-            </div>
-
-            <!-- LINHA 4 -->
-            <div class="plan-item" data-plan="Premium Individual — R$ 370,00/ano">
-              <div class="plan-row">
-                <span class="plan-name">Premium Individual</span>
-                <span class="plan-price">R$ 370,00/ano</span>
-              </div>
-              <ul class="plan-features">
-                <li>Mesmas coberturas do Premium mensal (economia no anual)</li>
-              </ul>
-            </div>
-
-            <div class="plan-item" data-plan="Premium Familiar — R$ 312,00/ano (total)">
-              <div class="plan-row">
-                <span class="plan-name">Premium Familiar</span>
-                <span class="plan-price">
-                  R$ 312,00/ano
-                  <small>(total)</small>
-                </span>
-              </div>
-              <ul class="plan-features">
-                <li>Mesmas coberturas do Premium Familiar mensal (economia no anual)</li>
               </ul>
             </div>
           </div>
@@ -352,18 +318,34 @@
       modal.style.display = 'flex';
       modal.setAttribute('aria-hidden', 'false');
     }
+  </script>
 
+  <script>
+    function openComparativoModal() {
+      var modal = document.getElementById('comparativo-modal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+    }
+  </script>
+
+  <script>
     (function () {
+      var comparativoModal = document.getElementById('comparativo-modal');
       var osModal    = document.getElementById('os-modal');
       var planModal  = document.getElementById('plan-modal');
       var termsModal = document.getElementById('terms-modal');
 
+      var cmpClose   = comparativoModal ? comparativoModal.querySelector('.modal-close') : null;
       var osClose    = osModal ? osModal.querySelector('.modal-close') : null;
       var planClose  = planModal ? planModal.querySelector('.modal-close') : null;
       var termsClose = termsModal ? termsModal.querySelector('.modal-close') : null;
 
       var osAndroidBtn = document.getElementById('os-android-btn');
       var osIosBtn     = document.getElementById('os-ios-btn');
+
+      var cmpFreeBtn = document.getElementById('cmp-free-btn');
+      var cmpEssencialBtn = document.getElementById('cmp-essencial-btn');
 
       var planItems   = document.querySelectorAll('.plan-item');
       var selectedDom = document.getElementById('selected-plan');
@@ -383,10 +365,16 @@
         modal.setAttribute('aria-hidden', 'true');
       }
 
+      if (cmpClose) cmpClose.addEventListener('click', function () { hideModal(comparativoModal); });
       if (osClose) osClose.addEventListener('click', function () { hideModal(osModal); });
       if (planClose) planClose.addEventListener('click', function () { hideModal(planModal); });
       if (termsClose) termsClose.addEventListener('click', function () { hideModal(termsModal); });
 
+      if (comparativoModal) {
+        comparativoModal.addEventListener('click', function (e) {
+          if (e.target === comparativoModal) hideModal(comparativoModal);
+        });
+      }
       if (osModal) {
         osModal.addEventListener('click', function (e) {
           if (e.target === osModal) hideModal(osModal);
@@ -405,11 +393,25 @@
 
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
+          if (comparativoModal && comparativoModal.style.display === 'flex') hideModal(comparativoModal);
           if (osModal && osModal.style.display === 'flex') hideModal(osModal);
           if (planModal && planModal.style.display === 'flex') hideModal(planModal);
           if (termsModal && termsModal.style.display === 'flex') hideModal(termsModal);
         }
       });
+
+      if (cmpFreeBtn) {
+        cmpFreeBtn.addEventListener('click', function () {
+          window.location.href = 'freemium.html';
+        });
+      }
+
+      if (cmpEssencialBtn) {
+        cmpEssencialBtn.addEventListener('click', function () {
+          hideModal(comparativoModal);
+          showModal(osModal);
+        });
+      }
 
       if (osAndroidBtn) {
         osAndroidBtn.addEventListener('click', function () {
@@ -453,6 +455,33 @@
     })();
   </script>
 
+  <script>
+  (function () {
+    var slot = document.getElementById('comparativo-slot');
+    if (!slot) return;
+
+    fetch('comparativo.html', { cache: 'no-store' })
+      .then(function (r) { return r.text(); })
+      .then(function (html) { slot.innerHTML = html; })
+      .catch(function () {});
+  })();
+  </script>
+
+  <script>
+    // Função global chamada pelo comparativo.html
+    function escolherEssencial() {
+      // fecha modal do comparativo, se estiver aberto
+      var cmp = document.getElementById('comparativo-modal');
+      if (cmp) {
+        cmp.style.display = 'none';
+        cmp.setAttribute('aria-hidden', 'true');
+      }
+
+      // abre o fluxo normal (SO -> Planos -> Termos)
+      if (typeof openOsModal === 'function') openOsModal();
+      return false; // impede navegação
+    }
+  </script>
+
 </body>
 </html>
-
