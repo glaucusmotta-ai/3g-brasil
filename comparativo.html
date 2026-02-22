@@ -88,16 +88,19 @@
           </td>
 
           <td style="text-align:center; padding:10px 6px; border-top:1px solid rgba(0,0,0,.08);">
-            <a href="javascript:void(0)" id="cmp-go-free"
-               style="text-decoration:none;">
-              Ativar Freemium
-            </a>
+           <a id="cmp-go-free"
+              href="freemium.html"
+              style="display:block; width:100%; box-sizing:border-box; text-align:center; font-size:.85rem; font-weight:600; text-decoration:none; opacity:.65; padding:7px 8px;">
+             Ativar Freemium
+          </a>
           </td>
 
           <td style="text-align:center; padding:10px 6px; border-top:1px solid rgba(0,0,0,.08);">
-            <a href="javascript:void(0)" id="cmp-go-essencial"
-               style="display:inline-block; font-size:.95rem; font-weight:900; text-decoration:none; padding:8px 12px; border-radius:10px; border:1px solid rgba(0,0,0,.20);">
-              Escolher Essencial
+            <a id="cmp-go-essencial"
+               href="#"
+               onclick="var cmp=document.getElementById('comparativo-modal'); if(cmp){cmp.style.display='none'; cmp.setAttribute('aria-hidden','true');} if(typeof openOsModal==='function'){openOsModal();} return false;"
+            style="display:inline-block; font-size:.95rem; font-weight:900; text-decoration:none; padding:8px 12px; border-radius:10px; border:1px solid rgba(0,0,0,.20);">
+            Escolher Essencial
             </a>
           </td>
         </tr>
