@@ -84,9 +84,24 @@
           var resp = await fetch(url, { method: "GET", headers: { "Accept":"application/json" } });
 
           var data = null;
-          try { data = await resp.json(); } catch(e){}
+          var ct = (resp.headers.get("content-type") || "").toLowerCase();
 
-          if(!resp.ok || !data || data.ok !== true || !data.download_url){
+          if (ct.includes("application/json")) {
+            try { data = await resp.json(); } catch(e) { data = null; }
+          } else {
+            // veio HTML/texto (proxy/Cloudflare/etc). Mostra um pedaço pra diagnosticar.
+            var txt = "";
+            try { txt = await resp.text(); } catch(e) {}
+            show("Resposta inesperada do servidor (não é JSON). HTTP " + resp.status + "\n" + (txt || "").slice(0, 160));
+            return;
+          }
+
+          var dl = data && (data.download_url || data.url || data.downloadUrl);
+
+          // se o backend explicitamente disse ok=false, respeita
+          var okFlag = (data && typeof data.ok !== "undefined") ? data.ok : null;
+
+          if (!resp.ok || !data || okFlag === false || !dl) {
             var msg = (data && (data.message || data.detail))
               ? (data.message || data.detail)
               : ("HTTP " + resp.status);
@@ -95,7 +110,7 @@
           }
 
           // Redireciona para /download/app?token=... (o backend valida e redireciona pro APK)
-          window.location.href = new URL(data.download_url, API_BASE).toString();
+          window.location.href = new URL(dl, API_BASE).toString();
         }catch(err){
           console.error(err);
           show("Erro ao gerar o link. Tente novamente.");
