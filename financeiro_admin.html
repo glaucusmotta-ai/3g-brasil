@@ -3,31 +3,48 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Financeiro • Admin</title>
+
+  <!-- anti-cache no browser -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <!-- carimbo p/ provar qual HTML está no ar -->
+  <meta name="x-build" content="FINANCEIRO_HTML_ACCORDION_2026-02-08_01" />
+
+  <title>3G-Brasil • Financeiro Admin</title>
+
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#0b132b;color:#e5e7eb;margin:0}
-    .wrap{max-width:980px;margin:36px auto;padding:0 16px}
+    .wrap{max-width:1100px;margin:36px auto;padding:0 16px}
     .card{background:#111a33;border:1px solid #223058;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
     h1{margin:0 0 10px;font-size:20px}
     label{display:block;margin:10px 0 6px;color:#cbd5e1;font-size:13px}
     input,select{width:100%;padding:10px;border-radius:12px;border:1px solid #2a3a68;background:#0f1730;color:#e5e7eb;box-sizing:border-box}
     button{padding:10px 14px;border-radius:12px;border:0;background:#4fd1c5;color:#06101d;font-weight:700;cursor:pointer}
     .btn2{background:#334155;color:#e5e7eb}
-    .row{display:grid;grid-template-columns:1fr 1fr 1fr 2fr;gap:10px}
+    .row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 2fr;gap:10px}
     .top{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
     .tabs{display:flex;gap:8px;flex-wrap:wrap}
     .msg{margin:10px 0;padding:10px;border-radius:12px}
     .ok{background:#0b3a2f;border:1px solid #1f8a75;color:#bbf7d0}
     .err{background:#3b0f1b;border:1px solid #8b1d3a;color:#fecdd3}
+    .warn{background:#3a2a0b;border:1px solid #f59e0b;color:#fde68a}
+
     table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
     th,td{border-bottom:1px solid #223058;padding:10px;text-align:left;vertical-align:top}
     th{color:#cbd5e1;font-weight:700}
     code{color:#93c5fd}
+
     .muted{color:#94a3b8;font-size:12px}
-    .hidden{display:none !important} /* blindado contra inline */
+    .hidden{display:none !important}
+    .pill{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid #223058;background:#0f1730;color:#cbd5e1;font-size:12px}
+    .grid2{display:grid;grid-template-columns:1fr;gap:14px}
+    @media (max-width:900px){ .grid2{grid-template-columns:1fr} }
+    @media (max-width:980px){ .row{grid-template-columns:1fr 1fr} }
 
     .pw-wrap{position:relative}
-    .pw-wrap input{padding-right:44px}
+    .pw-wrap input{padding-right:48px}
     .eye{
       position:absolute; right:10px; top:50%; transform:translateY(-50%);
       width:34px; height:34px; border-radius:10px;
@@ -35,15 +52,82 @@
       background:rgba(0,0,0,.18);
       display:grid; place-items:center; cursor:pointer; user-select:none;
       font-size:16px;
+      z-index:3;
     }
+
+    .mini-btn{padding:6px 10px;border-radius:10px;font-size:12px}
+    .copy{background:#1f2a44;color:#e5e7eb;border:1px solid #223058}
+    .tag{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;border:1px solid #223058;background:#0f1730;color:#cbd5e1;font-size:11px}
+    .tag-warn{border-color:#f59e0b;color:#fde68a}
+
+    /* Botão colapsável */
+    .month-btn{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid #223058;
+      background:#0f1730;
+      color:#cbd5e1;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .month-btn:hover{ border-color:#4fd1c5; }
+    .month-btn .left{display:flex;gap:10px;align-items:center}
+    .month-btn .count{color:#94a3b8;font-weight:700}
+    .month-btn .chev{opacity:.85}
+    .grp-hidden{ display:none !important; }
+
+    /* ====== RECEBER ====== */
+    .tbl-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+    .tbl-receber{
+      min-width: 1040px;
+      table-layout: fixed;
+    }
+    .tbl-receber th, .tbl-receber td{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .tbl-receber td.col-code,
+    .tbl-receber td.col-email{
+      white-space:normal;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+
+    .tbl-receber td.col-created{
+      white-space:normal;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+
+    .tbl-receber .w-code{width:170px}
+    .tbl-receber .w-email{width:240px}
+    .tbl-receber .w-plano{width:210px}
+    .tbl-receber .w-total{width:110px}
+    .tbl-receber .w-status{width:110px}
+    .tbl-receber .w-cupom{width:220px}
+    .tbl-receber .w-criado{width:180px}
+
+    tr[data-level="1"] td{padding-left:18px}
+    tr[data-level="2"] td{padding-left:34px}
+    tr[data-level="3"] td{padding-left:50px}
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="top">
-      <h1 id="title">Financeiro • Admin</h1>
+      <h1 id="title">
+        3G-Brasil • Admin
+        <span class="pill">FINANCEIRO_HTML_ACCORDION_2026-02-08_01</span>
+      </h1>
 
-      <!-- 2ª camada (menu) - SOME no login -->
       <div id="navTabs" class="tabs hidden">
         <button class="btn2" id="tabReceber" type="button">Contas a receber</button>
         <button class="btn2" id="tabCupom" type="button">Cupom</button>
@@ -52,10 +136,8 @@
       </div>
     </div>
 
-    <!-- 1ª camada (login) -->
+    <!-- Login -->
     <div class="card" id="loginCard">
-      <div class="muted">Acesso restrito. Use <b>senha master</b> OU <b>e-mail/senha admin</b> (ou os dois). Tudo fica só nesta sessão.</div>
-
       <label>E-mail (admin)</label>
       <input id="loginEmail" type="email" autocomplete="username" placeholder="adm@3g-brasil.com" />
 
@@ -65,36 +147,47 @@
         <div class="eye" id="eyeAdmin" title="Mostrar/ocultar">👁️</div>
       </div>
 
-      <label>Senha master (opcional)</label>
-      <div class="pw-wrap">
-        <input id="pwMaster" type="password" autocomplete="off" placeholder="(opcional)" />
-        <div class="eye" id="eyeMaster" title="Mostrar/ocultar">👁️</div>
-      </div>
-
-      <div style="margin-top:12px;display:flex;gap:10px;">
+      <div style="margin-top:12px;display:flex;gap:14px;align-items:center;">
         <button id="btnLogin" type="button">Entrar</button>
+        <a id="forgotLink" href="#" class="muted" style="text-decoration:underline;">Esqueci minha senha</a>
       </div>
 
       <div id="loginMsg"></div>
     </div>
 
-    <!-- 2ª camada (conteúdo) - TUDO começa escondido -->
+    <!-- CUPOM -->
     <div class="card hidden" id="cupomCard" style="margin-top:14px;">
-      <div class="muted">Regras atuais: 5% por 1 mês ou 10% por 6 meses.</div>
+      <div class="muted">Cupons (regras atuais + seeds). <span class="pill">Dica: clique em “Copiar”</span></div>
+
       <div id="msg"></div>
+      <div id="expiryWarn" class="msg warn hidden"></div>
 
       <div class="row" style="margin-top:10px;">
         <div>
           <label>Regra</label>
           <select id="rule">
-            <option value="5|1">5% por 1 mês</option>
-            <option value="10|6">10% por 6 meses</option>
+            <option value="5|1">5%</option>
+            <option value="10|6">10%</option>
+            <option value="35|1">35% (beta 100 primeiros)</option>
+            <option value="100|1200">100% (especial)</option>
           </select>
         </div>
 
         <div>
           <label>Max uses</label>
-          <input id="maxUses" type="number" min="1" value="1" />
+          <select id="maxUses" disabled>
+            <option value="1" selected>1 (uso único)</option>
+          </select>
+          <div class="muted">Uso único: usou, morre. Para novo uso, gere outro cupom.</div>
+        </div>
+
+        <div>
+          <label>Validade (meses) <span class="muted">(máx. 12)</span></label>
+          <select id="validadeMeses">
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+            <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+            <option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12" selected>12</option>
+          </select>
         </div>
 
         <div>
@@ -111,7 +204,16 @@
         </div>
       </div>
 
-      <div style="margin-top:12px;display:flex;gap:10px;">
+      <div style="margin-top:12px;max-width:420px;">
+        <label>Senha master (cupom)</label>
+        <div class="pw-wrap">
+          <input id="pwMaster" type="password" placeholder="Digite a senha master" />
+          <div class="eye" id="eyeMaster" title="Mostrar/ocultar">👁️</div>
+        </div>
+        <div class="muted">Usada apenas para listar/criar cupons.</div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
         <button id="btnCreate" type="button">Gerar cupom</button>
         <button class="btn2" id="btnRefresh" type="button">Atualizar lista</button>
       </div>
@@ -119,49 +221,94 @@
       <table>
         <thead>
           <tr>
-            <th>Código</th><th>%</th><th>Meses</th><th>Usos</th><th>Status</th><th>Nota</th><th>Criado</th>
+            <th>Código</th><th>%</th><th>Meses</th><th>Usos</th><th>Status</th><th>Nota</th><th>Criado por</th><th>Criado</th><th></th>
           </tr>
         </thead>
         <tbody id="tbody">
-          <tr><td colspan="7" class="muted">Sem dados ainda.</td></tr>
+          <tr><td colspan="9" class="muted">Sem dados ainda.</td></tr>
         </tbody>
       </table>
+
+      <div class="muted" style="margin-top:10px;">
+        * Quando o backend passar a enviar <code>expires_at</code>, este painel vai avisar automaticamente quando faltar 15 dias para vencer.
+      </div>
     </div>
 
+    <!-- RECEBER -->
     <div class="card hidden" id="receberCard" style="margin-top:14px;">
-      <div class="muted">Contas a receber (em breve): lista de assinaturas, status (pago/atraso), plano e detalhes.</div>
+      <div class="top" style="margin:0 0 8px;">
+        <div class="muted">Pagos e Abertos (não pagos) — vindo do financeiro.db</div>
+        <button class="btn2" id="btnReceberRefresh" type="button">Atualizar</button>
+      </div>
+
+      <div class="tabs" style="margin:10px 0 6px;">
+        <button class="btn2" id="btnProdutoAnjo" type="button">Anjo da Guarda</button>
+        <button class="btn2" id="btnProdutoGuardiao" type="button">Guardião</button>
+      </div>
+
+      <div id="receberMsg"></div>
+
+      <div class="tbl-wrap">
+        <table class="tbl-receber">
+          <colgroup>
+            <col class="w-code" />
+            <col class="w-email" />
+            <col class="w-plano" />
+            <col class="w-total" />
+            <col class="w-status" />
+            <col class="w-cupom" />
+            <col class="w-criado" />
+          </colgroup>          
+          <tbody id="tbodyReceberAll">
+            <tr><td colspan="7" class="muted">Selecione um produto.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
+    <!-- PAGAR -->
     <div class="card hidden" id="pagarCard" style="margin-top:14px;">
       <div class="muted">Contas a pagar (depois): você vai me dizer o que entra aqui.</div>
     </div>
   </div>
 
 <script>
-  const API = "";
+(() => {
+  const API = ""; // mesma origem
+  const BUILD = "FINANCEIRO_HTML_ACCORDION_2026-02-08_01";
+  let produtoAtivo = "";
 
   const KEY_EMAIL   = "financeiro_login_email";
   const KEY_ADMINPW = "financeiro_admin_pw";
   const KEY_MASTER  = "financeiro_master_pw";
 
-  const $ = (id) => document.getElementById(id);
+  const el = (id) => document.getElementById(id);
 
-  function setMsg(ok, text) {
-    const el = $("msg");
-    if (!el) return;
-    if (!text) { el.innerHTML = ""; return; }
-    el.innerHTML = `<div class="msg ${ok ? "ok" : "err"}">${text}</div>`;
+  function getMaster(){ return sessionStorage.getItem(KEY_MASTER) || ""; }
+  function setMaster(v){ if (v) sessionStorage.setItem(KEY_MASTER, v); }
+
+  sessionStorage.removeItem(KEY_MASTER);
+  if (el("pwMaster")) el("pwMaster").value = "";
+
+  function safeHide(id) { const e = el(id); if (e) e.classList.add("hidden"); }
+  function safeShow(id) { const e = el(id); if (e) e.classList.remove("hidden"); }
+
+  function setBoxMsg(boxId, cls, text) {
+    const e = el(boxId);
+    if (!e) return;
+    if (!text) { e.innerHTML = ""; e.classList.add("hidden"); return; }
+    e.classList.remove("hidden");
+    e.className = "msg " + cls;
+    e.innerHTML = text;
   }
 
-  function setLoginMsg(ok, text) {
-    const el = $("loginMsg");
-    if (!el) return;
-    if (!text) { el.innerHTML = ""; return; }
-    el.innerHTML = `<div class="msg ${ok ? "ok" : "err"}">${text}</div>`;
-  }
+  const setMsg        = (ok, t) => setBoxMsg("msg", ok ? "ok" : "err", t || "");
+  const setLoginMsg   = (ok, t) => setBoxMsg("loginMsg", ok ? "ok" : "err", t || "");
+  const setReceberMsg = (ok, t) => setBoxMsg("receberMsg", ok ? "ok" : "err", t || "");
+  const setWarn       = (t)     => setBoxMsg("expiryWarn", "warn", t || "");
 
   function toggleEye(btnId, inputId){
-    const b = $(btnId), i = $(inputId);
+    const b = el(btnId), i = el(inputId);
     if (!b || !i) return;
     b.onclick = () => { i.type = (i.type === "password") ? "text" : "password"; };
   }
@@ -170,35 +317,34 @@
 
   function getEmail(){ return sessionStorage.getItem(KEY_EMAIL) || ""; }
   function getAdminPw(){ return sessionStorage.getItem(KEY_ADMINPW) || ""; }
-  function getMaster(){ return sessionStorage.getItem(KEY_MASTER) || ""; }
 
   function hideAllTabs() {
-    $("cupomCard").classList.add("hidden");
-    $("receberCard").classList.add("hidden");
-    $("pagarCard").classList.add("hidden");
+    safeHide("cupomCard");
+    safeHide("receberCard");
+    safeHide("pagarCard");
   }
 
   function setLoggedIn(on) {
-    $("loginCard").classList.toggle("hidden", on);
-    $("navTabs").classList.toggle("hidden", !on);
-
-    if (!on) {
-      hideAllTabs();
-    }
+    const loginCard = el("loginCard");
+    const navTabs = el("navTabs");
+    if (loginCard) loginCard.classList.toggle("hidden", on);
+    if (navTabs) navTabs.classList.toggle("hidden", !on);
+    if (!on) hideAllTabs();
   }
 
   function showTab(name) {
     hideAllTabs();
-    if (name === "receber") $("receberCard").classList.remove("hidden");
-    if (name === "cupom") $("cupomCard").classList.remove("hidden");
-    if (name === "pagar") $("pagarCard").classList.remove("hidden");
+    if (name === "receber") safeShow("receberCard");
+    if (name === "cupom") safeShow("cupomCard");
+    if (name === "pagar") safeShow("pagarCard");
   }
 
   async function apiPost(path, body) {
     const r = await fetch(API + path, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+      body: JSON.stringify(body || {}),
+      cache: "no-store",
     });
     const txt = await r.text();
     let j = {};
@@ -211,18 +357,70 @@
 
     const email = getEmail();
     const adminPw = getAdminPw();
-    const master = getMaster();
-
-    if (master) payload.master_password = master;
     if (email) payload.login_email = email;
     if (adminPw) payload.login_password = adminPw;
 
+    const master = (el("pwMaster")?.value || getMaster() || "").trim();
+    if (master) {
+      payload.master_password = master;
+      setMaster(master);
+    }
     return payload;
   }
 
+  function getMasterFromUI() {
+    const ui = (el("pwMaster")?.value || "").trim();
+    const cached = (getMaster() || "").trim();
+    return ui || cached;
+  }
+
+  function parseDate(s) {
+    if (!s) return null;
+    const t = Date.parse(s);
+    if (!isFinite(t)) return null;
+    return new Date(t);
+  }
+
+  function formatLocalDateTime(iso) {
+    const d = parseDate(iso);
+    if (!d) return (iso || "");
+    return d.toLocaleString("pt-BR", {
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit"
+    });
+  }
+
+  function daysLeft(iso) {
+    const d = parseDate(iso);
+    if (!d) return null;
+    const ms = d.getTime() - Date.now();
+    return Math.ceil(ms / (1000 * 60 * 60 * 24));
+  }
+
+  function showExpiryWarning(list) {
+    const soon = [];
+    (list || []).forEach(c => {
+      const d = daysLeft(c.expires_at);
+      if (d !== null && d >= 0 && d <= 15 && c.active) soon.push({ code: c.code, days: d });
+    });
+
+    if (!soon.length) { setWarn(""); return; }
+    soon.sort((a,b) => a.days - b.days);
+    const top = soon.slice(0, 4).map(x => `<code>${x.code}</code> (${x.days}d)`).join(", ");
+    const extra = soon.length > 4 ? ` + ${soon.length - 4} outros` : "";
+    setWarn(`<b>Atenção:</b> cupons perto de vencer (≤ 15 dias): ${top}${extra}. Revalide se necessário.`);
+  }
+
   async function refreshList() {
-    const activeOnly = $("activeOnly").value !== "0";
-    const payload = authPayload({ limit: 50, active_only: activeOnly });
+    setMsg(false, "");
+    setWarn("");
+
+    const master = getMasterFromUI();
+    if (!master) { setMsg(false, "Informe a senha master (campo acima) para listar cupons."); el("pwMaster")?.focus(); return; }
+    setMaster(master);
+
+    const activeOnly = (el("activeOnly")?.value || "1") !== "0";
+    const payload = authPayload({ limit: 200, active_only: activeOnly, master_password: master });
 
     const res = await apiPost("/api/financeiro/coupons/admin/list", payload);
     if (!res.json || res.json.ok === false) {
@@ -231,91 +429,453 @@
     }
 
     const list = res.json.items || res.json.coupons || [];
-    const tbody = $("tbody");
+    const tbody = el("tbody");
+    if (!tbody) return;
+
     if (!list.length) {
-      tbody.innerHTML = `<tr><td colspan="7" class="muted">Sem cupons (ou filtro active_only).</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" class="muted">Sem cupons (ou filtro active_only).</td></tr>`;
+      setMsg(true, "Lista vazia.");
       return;
     }
 
-    tbody.innerHTML = list.map(c => `
-      <tr>
-        <td><code>${c.code || ""}</code></td>
-        <td>${c.percent ?? ""}</td>
-        <td>${c.duration_months ?? ""}</td>
-        <td>${(c.used_count ?? "")}/${(c.max_uses ?? "")}</td>
-        <td>${c.active ? "Ativo" : "Inativo"}</td>
-        <td>${c.note || ""}</td>
-        <td>${c.created_at_utc || ""}</td>
-      </tr>
-    `).join("");
+    tbody.innerHTML = list.map(c => {
+      const months = (c.duration_months === 1200) ? "∞" : (c.duration_months ?? "");
+      const createdRaw = c.created_at_utc || c.created_at || "";
+      const created = formatLocalDateTime(createdRaw);
+      const note = c.note || "";
+      const code = c.code || "";
+      const status = c.active ? "Ativo" : "Inativo";
+
+      const createdBy = c.created_by || c.created_by_email || c.created_by_name || c.created_by_login || "";
+
+      const dl = daysLeft(c.expires_at);
+      const expTag = (dl !== null && dl >= 0 && dl <= 15)
+        ? `<span class="tag tag-warn">vence em ${dl}d</span>`
+        : "";
+
+      return `
+        <tr>
+          <td><code>${code}</code></td>
+          <td>${c.percent ?? ""}</td>
+          <td>${months}</td>
+          <td>${(c.used_count ?? "")}/${(c.max_uses ?? "")}</td>
+          <td>${status}${expTag}</td>
+          <td>${note}</td>
+          <td>${createdBy}</td>
+          <td>${created}</td>
+          <td><button class="mini-btn copy" type="button" data-copy="${code}">Copiar</button></td>
+        </tr>
+      `;
+    }).join("");
+
+    tbody.querySelectorAll("button[data-copy]").forEach(btn => {
+      btn.onclick = async () => {
+        const code = btn.getAttribute("data-copy") || "";
+        try { await navigator.clipboard.writeText(code); setMsg(true, `Copiado: ${code}`); }
+        catch(e) { setMsg(false, "Não consegui copiar automaticamente. Selecione e copie manualmente."); }
+      };
+    });
+
+    showExpiryWarning(list);
     setMsg(true, "Lista atualizada.");
   }
 
   async function createCoupon() {
-    const [percent, months] = $("rule").value.split("|").map(x => parseInt(x, 10));
-    const maxUses = parseInt($("maxUses").value || "1", 10);
-    const note = ($("note").value || "").trim() || null;
+    setMsg(false, "");
+    setWarn("");
 
-    const payload = authPayload({ percent, duration_months: months, max_uses: maxUses, note });
+    const master = getMasterFromUI();
+    if (!master) { setMsg(false, "Informe a senha master (campo acima)."); el("pwMaster")?.focus(); return; }
+    setMaster(master);
 
-    const res = await apiPost("/api/financeiro/coupons/admin/create", payload);
+    const [percent, months] = (el("rule")?.value || "5|1").split("|").map(x => parseInt(x, 10));
+    const maxUses = 1;
+    const validadeMeses = parseInt(el("validadeMeses")?.value || "12", 10);
+    const note = (el("note")?.value || "").trim() || null;
+
+    const payloadNew = authPayload({
+      master_password: master,
+      percent,
+      duration_months: months,
+      max_uses: isNaN(maxUses) ? 1 : maxUses,
+      validade_meses: isNaN(validadeMeses) ? 12 : Math.max(1, Math.min(validadeMeses, 12)),
+      note
+    });
+
+    let res = await apiPost("/api/financeiro/coupons/admin/create", payloadNew);
+    if (res.status === 422 || (res.json && res.json.detail)) {
+      const payloadOld = { ...payloadNew };
+      delete payloadOld.validade_meses;
+      res = await apiPost("/api/financeiro/coupons/admin/create", payloadOld);
+    }
+
     if (!res.json || res.json.ok === false) {
       setMsg(false, `Falhou ao criar: HTTP ${res.status} • ${JSON.stringify(res.json)}`);
       return;
     }
+
     setMsg(true, `Cupom criado: ${res.json.code || "(ver lista)"} ✅`);
     await refreshList();
   }
 
-  $("btnLogin").onclick = async () => {
-    const email = ($("loginEmail").value || "").trim();
-    const adminPw = ($("pwAdmin").value || "").trim();
-    const master = ($("pwMaster").value || "").trim();
+  function centsToBRL(c) {
+    const v = (parseInt(c || 0, 10) / 100.0);
+    return v.toLocaleString("pt-BR", { style:"currency", currency:"BRL" });
+  }
 
-    if (!email && !master) { setLoginMsg(false, "Informe e-mail (admin) ou use a senha master."); return; }
-    if (email && !adminPw && !master) { setLoginMsg(false, "Informe a senha do admin (ou use a senha master)."); return; }
-    if (!adminPw && !master) { setLoginMsg(false, "Informe senha do admin e/ou senha master."); return; }
+  function yearKeyFromCreated(r) {
+    const raw = (r?.created_at_utc || r?.created_at || "").trim();
+    const d = parseDate(raw);
+    if (!d) return "Sem data";
+    return String(d.getFullYear());
+  }
 
-    if (email) sessionStorage.setItem(KEY_EMAIL, email);
-    if (adminPw) sessionStorage.setItem(KEY_ADMINPW, adminPw);
-    if (master) sessionStorage.setItem(KEY_MASTER, master);
+  function monthNumFromCreated(r) {
+    const raw = (r?.created_at_utc || r?.created_at || "").trim();
+    const d = parseDate(raw);
+    if (!d) return "00";
+    return String(d.getMonth() + 1).padStart(2, "0");
+  }
 
-    setLoginMsg(true, "Ok. Carregando...");
-    setLoggedIn(true);
-    showTab("cupom");
-    await refreshList();
+  function sortYearKeysDesc(keys) {
+    return keys.sort((a,b) => {
+      if (a === "Sem data") return 1;
+      if (b === "Sem data") return -1;
+      return (a < b) ? 1 : (a > b ? -1 : 0);
+    });
+  }
+
+  function sortMonthNumsDesc(keys) {
+    return keys.sort((a,b) => {
+      if (a === "00") return 1;
+      if (b === "00") return -1;
+      return (a < b) ? 1 : (a > b ? -1 : 0);
+    });
+  }
+
+  function mkId(s){ return String(s).replace(/[^a-zA-Z0-9_:-]/g, "_"); }
+
+  function filtrarPorProduto(items, produto) {
+    const p = String(produto || "").trim().toLowerCase();
+    if (!p) return [];
+    return (items || []).filter(x => String(x.produto || "").trim().toLowerCase() === p);
+  }
+
+  function btnRow(label, count, gid, level, expanded=true){
+    const chev = expanded ? "▾" : "▸";
+    return `
+      <tr data-level="${level}">
+        <td colspan="7">
+          <button type="button" class="month-btn" data-toggle="${gid}" aria-expanded="${expanded ? "true":"false"}">
+            <span class="left">
+              <span>${label}</span>
+              <span class="count">(${count})</span>
+            </span>
+            <span class="chev">${chev}</span>
+          </button>
+        </td>
+      </tr>
+    `;
+  }
+
+  function dataRow(r, gid, level, hidden){
+    const status = (r.status || "").toLowerCase();
+    const hcls = hidden ? " grp-hidden" : "";
+    return `
+      <tr data-group="${gid}" data-level="${level}" class="${hcls.trim()}">
+        <td class="col-code"><code>${r.codigo_cliente || ""}</code></td>
+        <td class="col-email">${r.email || ""}</td>
+        <td>${r.plano || ""}</td>
+        <td>${centsToBRL(r.total_centavos)}</td>
+        <td>${status || ""}</td>
+        <td>${r.coupon_code || ""}</td>
+        <td class="col-created">${formatLocalDateTime(r.created_at_utc || r.created_at || "")}</td>
+      </tr>
+    `;
+  }
+
+  function headerRow(gid, level, hidden){
+    const hcls = hidden ? " grp-hidden" : "";
+    return `
+      <tr data-group="${gid}" data-level="${level}" class="${hcls.trim()}">
+        <td><b>Código</b></td>
+        <td><b>Email</b></td>
+        <td><b>Plano</b></td>
+        <td><b>Total</b></td>
+        <td><b>Status</b></td>
+        <td><b>Cupom</b></td>
+        <td><b>Criado</b></td>
+      </tr>
+    `;
+  }
+
+  async function refreshReceber() {
+    if (!produtoAtivo) {
+      const tb0 = el("tbodyReceberAll");
+      if (tb0) {
+        tb0.innerHTML = `<tr><td colspan="7" class="muted">Selecione um produto.</td></tr>`;
+      }
+      setReceberMsg(true, "Selecione Anjo da Guarda ou Guardião.");
+      return;
+    }
+
+    setReceberMsg(true, "Carregando...");
+    const payload = authPayload({ limit: 500 });
+
+    const res = await apiPost("/api/financeiro/assinaturas/admin/list", payload);
+    if (!res.json || res.json.ok === false) {
+      setReceberMsg(false, `Falhou ao listar: HTTP ${res.status} • ${JSON.stringify(res.json)}`);
+      return;
+    }
+
+    const itemsRaw = res.json.items || [];
+    const items = filtrarPorProduto(itemsRaw, produtoAtivo);
+
+    const paidCashAll = items.filter(x => {
+      const s = (x.status || "").toLowerCase();
+      const t = parseInt(x.total_centavos || 0, 10) || 0;
+      return s === "paid" && t > 0;
+    });
+
+    const paidFreeAll = items.filter(x => {
+      const s = (x.status || "").toLowerCase();
+      const t = parseInt(x.total_centavos || 0, 10) || 0;
+      return s === "paid" && t === 0;
+    });
+
+    const openAll = items.filter(x => {
+      const s = (x.status || "").toLowerCase();
+      return s === "created" || s === "checkout";
+    });
+
+    const byYear = new Map();
+    function ensurePack(y, m) {
+      if (!byYear.has(y)) byYear.set(y, new Map());
+      const byMonth = byYear.get(y);
+      if (!byMonth.has(m)) byMonth.set(m, { paid: [], free: [], open: [] });
+      return byMonth.get(m);
+    }
+
+    paidCashAll.forEach(r => { const y = yearKeyFromCreated(r); const m = monthNumFromCreated(r); ensurePack(y, m).paid.push(r); });
+    paidFreeAll.forEach(r => { const y = yearKeyFromCreated(r); const m = monthNumFromCreated(r); ensurePack(y, m).free.push(r); });
+    openAll.forEach(r => { const y = yearKeyFromCreated(r); const m = monthNumFromCreated(r); ensurePack(y, m).open.push(r); });
+
+    const tb = el("tbodyReceberAll");
+    if (!tb) return;
+
+    const years = sortYearKeysDesc(Array.from(byYear.keys()));
+    if (!years.length) {
+      const nomeProduto = produtoAtivo === "guardiao" ? "Guardião" : "Anjo da Guarda";
+      tb.innerHTML = `<tr><td colspan="7" class="muted">Sem dados para ${nomeProduto}.</td></tr>`;
+      setReceberMsg(true, `Nenhum registro encontrado para ${nomeProduto}.`);
+      return;
+    }
+
+    let html = "";
+
+    years.forEach((y, yIdx) => {
+      const yGid = mkId(`y_${produtoAtivo}_${y}_${yIdx}`);
+      const byMonth = byYear.get(y) || new Map();
+      const totalYear = Array.from(byMonth.values()).reduce((acc, p) => acc + (p.paid.length + p.free.length + p.open.length), 0);
+
+      html += btnRow(`${y}`, totalYear, yGid, 0, true);
+
+      const months = sortMonthNumsDesc(Array.from(byMonth.keys()));
+      months.forEach((m, mIdx) => {
+        const mGid = mkId(`${yGid}__m_${m}_${mIdx}`);
+        const pack = byMonth.get(m) || { paid: [], free: [], open: [] };
+        const totalMonth = (pack.paid.length + pack.free.length + pack.open.length);
+
+        html += `
+          <tr data-group="${yGid}" data-level="1">
+            <td colspan="7">
+              <button type="button" class="month-btn" data-toggle="${mGid}" aria-expanded="true">
+                <span class="left">
+                  <span>${y}-${m}</span>
+                  <span class="count">(${totalMonth})</span>
+                </span>
+                <span class="chev">▾</span>
+              </button>
+            </td>
+          </tr>
+        `;
+
+        const paidGid = mkId(`${mGid}__paid`);
+        html += `
+          <tr data-group="${mGid}" data-level="2">
+            <td colspan="7">
+              <button type="button" class="month-btn" data-toggle="${paidGid}" aria-expanded="false">
+                <span class="left">
+                  <span>Clientes Pagantes</span>
+                  <span class="count">(${pack.paid.length})</span>
+                </span>
+                <span class="chev">▸</span>
+              </button>
+            </td>
+          </tr>
+        `;
+        html += headerRow(paidGid, 3, true);
+        html += (pack.paid || []).map(r => dataRow(r, paidGid, 3, true)).join("");
+
+        const openGid = mkId(`${mGid}__open`);
+        html += `
+          <tr data-group="${mGid}" data-level="2">
+            <td colspan="7">
+              <button type="button" class="month-btn" data-toggle="${openGid}" aria-expanded="false">
+                <span class="left">
+                  <span>Clientes Não Pagantes</span>
+                  <span class="count">(${pack.open.length})</span>
+                </span>
+                <span class="chev">▸</span>
+              </button>
+            </td>
+          </tr>
+        `;
+        html += headerRow(openGid, 3, true);
+        html += (pack.open || []).map(r => dataRow(r, openGid, 3, true)).join("");
+      });
+    });
+
+    tb.innerHTML = html || `<tr><td colspan="7" class="muted">Sem dados.</td></tr>`;
+
+    const nomeProduto = produtoAtivo === "guardiao" ? "Guardião" : "Anjo da Guarda";
+    setReceberMsg(true, `Atualizado: ${nomeProduto}.`);
+  }
+
+  async function validateLogin(email, pw) {
+    return await apiPost("/api/financeiro/assinaturas/admin/list", {
+      login_email: email,
+      login_password: pw,
+      limit: 1
+    });
+  }
+
+  const forgotLink = el("forgotLink");
+  if (forgotLink) forgotLink.onclick = (e) => {
+    e.preventDefault();
+    setLoginMsg(false, "Fluxo 'Esqueci minha senha' ainda não está ligado.");
   };
 
-  $("btnLogout").onclick = () => {
+  const btnLogin = el("btnLogin");
+  if (btnLogin) btnLogin.onclick = async () => {
+    setLoginMsg(false, "");
+    setMsg(false, "");
+    setWarn("");
+    setReceberMsg(false, "");
+
+    const email = (el("loginEmail")?.value || "").trim();
+    const pw = (el("pwAdmin")?.value || "").trim();
+
+    if (!email) { setLoginMsg(false, "Informe o e-mail (admin)."); return; }
+    if (!pw) { setLoginMsg(false, "Informe a senha do admin."); return; }
+
+    setLoginMsg(true, "Validando credenciais...");
+
+    const res = await validateLogin(email, pw);
+    if (res.status !== 200 || !res.json || res.json.ok !== true) {
+      const msg = (res.json && (res.json.message || res.json.detail)) ? (res.json.message || res.json.detail) : `HTTP ${res.status}`;
+      setLoginMsg(false, `Login recusado: ${msg}`);
+      return;
+    }
+
+    sessionStorage.setItem(KEY_EMAIL, email);
+    sessionStorage.setItem(KEY_ADMINPW, pw);
+
+    setLoggedIn(true);
+    hideAllTabs();
+    setLoginMsg(true, `Ok (${BUILD}). Selecione uma opção no menu.`);
+  };
+
+  const btnLogout = el("btnLogout");
+  if (btnLogout) btnLogout.onclick = () => {
     sessionStorage.removeItem(KEY_EMAIL);
     sessionStorage.removeItem(KEY_ADMINPW);
     sessionStorage.removeItem(KEY_MASTER);
 
-    $("pwAdmin").value = "";
-    $("pwMaster").value = "";
-    $("loginEmail").value = "";
+    if (el("pwAdmin")) el("pwAdmin").value = "";
+    if (el("loginEmail")) el("loginEmail").value = "";
+    if (el("pwMaster")) el("pwMaster").value = "";
+
+    produtoAtivo = "";
 
     setMsg(false, "");
+    setWarn("");
     setLoginMsg(false, "");
+    setReceberMsg(false, "");
     setLoggedIn(false);
   };
 
-  $("btnRefresh").onclick = refreshList;
-  $("btnCreate").onclick = createCoupon;
+  const btnRefresh = el("btnRefresh");
+  if (btnRefresh) btnRefresh.onclick = refreshList;
 
-  $("tabReceber").onclick = () => showTab("receber");
-  $("tabCupom").onclick = () => showTab("cupom");
-  $("tabPagar").onclick = () => showTab("pagar");
+  const btnCreate = el("btnCreate");
+  if (btnCreate) btnCreate.onclick = createCoupon;
 
-  // init: só login
+  const btnReceberRefresh = el("btnReceberRefresh");
+  if (btnReceberRefresh) btnReceberRefresh.onclick = refreshReceber;
+
+  const btnProdutoAnjo = el("btnProdutoAnjo");
+  if (btnProdutoAnjo) {
+    btnProdutoAnjo.onclick = () => {
+      produtoAtivo = "anjo_da_guarda";
+      refreshReceber();
+    };
+  }
+
+  const btnProdutoGuardiao = el("btnProdutoGuardiao");
+  if (btnProdutoGuardiao) {
+    btnProdutoGuardiao.onclick = () => {
+      produtoAtivo = "guardiao";
+      refreshReceber();
+    };
+  }
+
+  const tabReceber = el("tabReceber");
+  if (tabReceber) {
+    tabReceber.onclick = () => {
+      showTab("receber");
+      const tb = el("tbodyReceberAll");
+      if (tb && !produtoAtivo) {
+        tb.innerHTML = `<tr><td colspan="7" class="muted">Selecione um produto.</td></tr>`;
+      }
+      setReceberMsg(true, produtoAtivo ? "Produto selecionado." : "Selecione Anjo da Guarda ou Guardião.");
+    };
+  }
+
+  const tabCupom = el("tabCupom");
+  if (tabCupom) tabCupom.onclick = () => {
+    showTab("cupom");
+    setMsg(false, "Informe a senha master e clique em “Atualizar lista”.");
+    setWarn("");
+  };
+
+  const tabPagar = el("tabPagar");
+  if (tabPagar) tabPagar.onclick = () => showTab("pagar");
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("button.month-btn[data-toggle]");
+    if (!btn) return;
+
+    const gid = btn.getAttribute("data-toggle") || "";
+    const expanded = btn.getAttribute("aria-expanded") === "true";
+    const nextExpanded = !expanded;
+
+    btn.setAttribute("aria-expanded", nextExpanded ? "true" : "false");
+    const chev = btn.querySelector(".chev");
+    if (chev) chev.textContent = nextExpanded ? "▾" : "▸";
+
+    document.querySelectorAll(`tr[data-group^="${gid}"]`).forEach(tr => {
+      tr.classList.toggle("grp-hidden", !nextExpanded);
+    });
+  });
+
   setLoggedIn(false);
 
-  // auto-login
-  if (getMaster() || (getEmail() && getAdminPw())) {
-    setLoggedIn(true);
-    showTab("cupom");
-    refreshList();
-  }
+  const savedEmail = getEmail();
+  if (savedEmail && el("loginEmail")) el("loginEmail").value = savedEmail;
+})();
 </script>
 </body>
 </html>
+
+
