@@ -558,8 +558,13 @@
   function filtrarPorProduto(items, produto) {
     const p = String(produto || "").trim().toLowerCase();
     if (!p) return [];
-    return (items || []).filter(x => String(x.produto || "").trim().toLowerCase() === p);
-  }
+    return (items || []).filter(x => {
+      const xp = String(x.produto || "").trim().toLowerCase();
+      if (p === "anjo_da_guarda") {
+        return xp === "" || xp === "anjo_da_guarda";
+      }
+      return xp === p;
+    });
 
   function btnRow(label, count, gid, level, expanded=true){
     const chev = expanded ? "▾" : "▸";
@@ -628,7 +633,7 @@
       return;
     }
 
-    const itemsRaw = res.json.items || [];
+    const itemsRaw = Array.isArray(res.json) ? res.json : (res.json.items || []);
     const items = filtrarPorProduto(itemsRaw, produtoAtivo);
 
     const paidCashAll = items.filter(x => {
@@ -676,7 +681,7 @@
     years.forEach((y, yIdx) => {
       const yGid = mkId(`y_${produtoAtivo}_${y}_${yIdx}`);
       const byMonth = byYear.get(y) || new Map();
-      const totalYear = Array.from(byMonth.values()).reduce((acc, p) => acc + (p.paid.length + p.free.length + p.open.length), 0);
+      const totalYear = Array.from(byMonth.values()).reduce((acc, p) => acc + ((p?.paid || []).length + (p?.free || []).length + (p?.open || []).length), 0);
 
       html += btnRow(`${y}`, totalYear, yGid, 0, true);
 
