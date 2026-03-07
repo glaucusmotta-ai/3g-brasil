@@ -428,7 +428,7 @@
       return;
     }
 
-    const list = res.json.items || res.json.coupons || [];
+    const list = res.json.items || res.json.coupons || res.json || [];
     const tbody = el("tbody");
     if (!tbody) return;
 
