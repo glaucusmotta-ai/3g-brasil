@@ -204,7 +204,7 @@
   </footer>
 
   <script>
-    var API_BASE_URL = "https://financeiro.3g-brasil.com";
+    var API_BASE_URL = "https://api.3g-brasil.com";
 
     if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
       API_BASE_URL = "http://127.0.0.1:8010";
@@ -336,8 +336,12 @@
           body: JSON.stringify(payload)
         })
         .then(function(resp){
-          if (!resp.ok) throw new Error("HTTP " + resp.status);
-          return resp.json();
+          return resp.json().then(function(data){
+            if (!resp.ok) {
+              throw new Error((data && data.detail) ? data.detail : ("HTTP " + resp.status));
+            }
+            return data;
+          });
         })
         .then(function(data){
           if (data && data.checkout_url) {
@@ -359,7 +363,7 @@
         })
         .catch(function(err){
           console.error("Erro ao registrar assinatura:", err);
-          alert("Não foi possível iniciar a assinatura agora. Tente novamente em alguns instantes.");
+          alert("Erro ao iniciar assinatura: " + (err.message || "falha desconhecida"));
         })
         .finally(function(){
           if (submitBtn) {
